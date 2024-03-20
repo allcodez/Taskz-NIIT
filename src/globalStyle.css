@@ -1,0 +1,17 @@
+/* Define your global styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Define global colors */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+}
