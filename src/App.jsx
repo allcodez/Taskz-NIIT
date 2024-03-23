@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Form from './page/Form/Form';
+import Slider from './components/slider/Slider';
+
 
 function App() {
   return (

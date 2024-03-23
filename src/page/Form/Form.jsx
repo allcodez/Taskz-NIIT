@@ -1,61 +1,126 @@
-import React, { useState } from 'react'
-import './form.css'
-import Login from '../../components/Login'
-import Signup from '../../components/Signup'
+import React, { useState } from 'react';
+import './form.css'; // Import CSS file if you have one
+import google from '../../asstes/images/google.png';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import Slider from '../../components/slider/Slider';
 
 export default function Form() {
-    const [isSignUpMode, setIsSignUpMode] = useState(false);
+    const [rigthSlider, setRightSlider] = useState(false);
+    const [animeSlider, setAnimeSlider] = useState(false);
 
-    const handleSignUpClick = () => {
-        setIsSignUpMode(true);
-        console.log('SignUp Clicked')
+    const handleLoginHereClick = () => {
+        setAnimeSlider(true)
+        setTimeout(() => {
+            setRightSlider(true);
+            console.log('login');
+        }, 500); // 5000 milliseconds = 5 seconds
     };
 
-    const handleSignInClick = () => {
-        setIsSignUpMode(false);
-        console.log('Login Clicked')
-
-    };
+    const SignupHereClick = ()=>{
+        setAnimeSlider(false)
+        setTimeout(()=>{
+            setRightSlider(false);
+        }, 500)
+        console.log('signup')
+    }
 
     return (
         <>
-            <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
-                <div className="forms-container">
-                    <div className="signin-signup">
-                        <Login handleSignInClick={handleSignInClick} />
-                        <Signup handleSignUpClick={handleSignUpClick} />
+            <div className='form-container'>
+                {/* SignUp Form */}
+                <div className='form'>
+                    <div className='form-content'>
+                        <div>
+                            <h2>Get Started with Star Taskz</h2>
+                            <p>Manage you task more effeciently</p>
+                        </div>
+                        <div className='main-form'>
+                            <form action="" className='input-fields'>
+                                <div className='input'>
+                                    <p>Name</p>
+                                    <input type="text" placeholder='Full Name' />
+                                </div>
+                                <div className='input'>
+                                    <p>Email</p>
+                                    <input type="email" placeholder='Email' />
+                                </div>
+                                <div className='input'>
+                                    <p>Password</p>
+                                    <input type="password" placeholder='Password' />
+                                </div>
+                                <input type="submit" value="Create Account" />
+                            </form>
+                            <div className='option'>
+                                <hr /> <p>or register with</p> <hr />
+                            </div>
+                            <button>
+                                <img src={google} alt="" />
+                                <p>Sign up with Google</p>
+                            </button>
+                        </div>
+                        <div className='have-acct'>
+                            <p>Already have an account?</p>
+                            <button onClick={handleLoginHereClick}>
+                                <p>Login Here</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div className="panels-container">
-                    <div className="panel left-panel">
-                        <div className="content">
-                            <h3>New here ?</h3>
-                            <p>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-                                ex ratione. Aliquid!
-                            </p>
-                            <button className="btn transparent" id="sign-up-btn">
-                                Sign up
+                {/* Login Form */}
+                <div className='form'>
+                    <div className='form-content'>
+                        <div>
+                            <h2>Login to Star Taskz</h2>
+                            <p>Don't you have some pending taskz?</p>
+                        </div>
+                        <div className='main-form'>
+                            <form action="" className='input-fields'>
+                                <div className='input'>
+                                    <p>Email</p>
+                                    <input type="email" placeholder='Email' />
+                                </div>
+                                <div className='input'>
+                                    <p>Password</p>
+                                    <input type="password" placeholder='Password' />
+                                </div>
+                                <input type="submit" value="Create Account" />
+                            </form>
+                            <div className='option'>
+                                <hr /> <p>or login with</p> <hr />
+                            </div>
+                            <button>
+                                <img src={google} alt="" />
+                                <p>Sign in with Google</p>
                             </button>
                         </div>
-                        <img src="img/log.svg" className="image" alt="" />
-                    </div>
-                    <div className="panel right-panel">
-                        <div className="content">
-                            <h3>One of us ?</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                                laboriosam ad deleniti.
-                            </p>
-                            <button className="btn transparent" id="sign-in-btn">
-                                Sign in
+                        <div className='have-acct'>
+                            <p>Are you new?</p>
+                            <button onClick={SignupHereClick}>
+                                <p>Create Account</p>
                             </button>
                         </div>
-                        <img src="img/register.svg" className="image" alt="" />
                     </div>
                 </div>
+                <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
+                </div>
+                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
+                    <Slider />
+                </div>
             </div>
+
         </>
-    )
+    );
 }
+
+
+{/* <GoogleLogin
+    onSuccess={credentialResponse => {
+        const decoded = jwtDecode(credentialResponse?.credential);
+        console.log(decoded);
+    }}
+    onError={() => {
+        console.log('Login Failed');
+    }}
+/>; */}
