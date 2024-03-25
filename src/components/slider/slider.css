@@ -12,7 +12,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #ce0000;
+  background: black;
 
   /* Center slide text vertically */
   display: flex;
@@ -25,4 +25,42 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.custom-slide{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 2rem 2rem 2rem;
+}
+
+.custom-slide p{
+  text-align: left;
+  /* font-weight: bold; */
+  color: white; 
+}
+
+.slide1{
+  background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(/src/asstes/images/jess-bailey-94Ld_MtIUf0-unsplash.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.slide2{
+  background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(../../asstes/images/pexels-vlada-karpovich-4050344.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.slide3{
+  background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(../../asstes/images/pexels-anete-lusina-5239795.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.slide4{
+  background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(../../asstes/images/pexels-armin-rimoldi-5553053.jpg);
+  background-size: cover;
+  background-position: center;
 }

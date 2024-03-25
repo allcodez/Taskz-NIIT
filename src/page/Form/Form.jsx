@@ -14,14 +14,14 @@ export default function Form() {
         setTimeout(() => {
             setRightSlider(true);
             console.log('login');
-        }, 500); // 5000 milliseconds = 5 seconds
+        }, 700); // 5000 milliseconds = 5 seconds
     };
 
-    const SignupHereClick = ()=>{
+    const SignupHereClick = () => {
         setAnimeSlider(false)
-        setTimeout(()=>{
+        setTimeout(() => {
             setRightSlider(false);
-        }, 500)
+        }, 700)
         console.log('signup')
     }
 
@@ -29,7 +29,7 @@ export default function Form() {
         <>
             <div className='form-container'>
                 {/* SignUp Form */}
-                <div className='form'>
+                <div className='signup-form form'>
                     <div className='form-content'>
                         <div>
                             <h2>Get Started with Star Taskz</h2>
@@ -69,7 +69,7 @@ export default function Form() {
                 </div>
 
                 {/* Login Form */}
-                <div className='form'>
+                <div className='login-form form'>
                     <div className='form-content'>
                         <div>
                             <h2>Login to Star Taskz</h2>
@@ -110,6 +110,11 @@ export default function Form() {
                 </div>
             </div>
 
+            {/* 1000PX Screen size */}
+
+            <div className=''>
+
+            </div>
         </>
     );
 }
@@ -124,3 +129,13 @@ export default function Form() {
         console.log('Login Failed');
     }}
 />; */}
+
+
+
+
+
+
+
+
+
+

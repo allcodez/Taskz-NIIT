@@ -1,0 +1,130 @@
+Unused form login
+
+import React, { useState, useEffect } from 'react';
+import './form.css'; // Import CSS file if you have one
+import google from '../../asstes/images/google.png';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import Slider from '../../components/slider/Slider';
+
+export default function Form() {
+    const [rightSlider, setRightSlider] = useState(false);
+    const [animeSlider, setAnimeSlider] = useState(false);
+    const [showSignupForm, setShowSignupForm] = useState(true); // Initially show the signup form
+    const [showLoginForm, setshowLoginForm] = useState(true); // Initially show the signup form
+
+    const handleLoginHereClick = () => {
+        setAnimeSlider(true);
+        setTimeout(() => {
+            setRightSlider(true);
+            setShowSignupForm(false); // Hide the signup form after 700ms
+            setshowLoginForm(true)
+            console.log('login');
+        }, 700);
+    };
+
+    const SignupHereClick = () => {
+        setAnimeSlider(false);
+        setTimeout(() => {
+            setRightSlider(false);
+            setShowSignupForm(true); // Show the signup form after 700ms
+            setshowLoginForm(false)
+        }, 700);
+        console.log('signup');
+    };
+
+    useEffect(()=>{
+        setShowSignupForm(true);
+        setshowLoginForm(false);
+    })
+
+    return (
+        <>
+            <div className='form-container'>
+                {/* SignUp Form */}
+                {showSignupForm && ( // Only render the signup form if showSignupForm state is true
+                    <div className='signup-form form'>
+                        <div className='form-content'>
+                            <div>
+                                <h2>Get Started with Star Taskz</h2>
+                                <p>Manage you task more efficiently</p>
+                            </div>
+                            <div className='main-form'>
+                                <form action="" className='input-fields'>
+                                    <div className='input'>
+                                        <p>Name</p>
+                                        <input type="text" placeholder='Full Name' />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Email</p>
+                                        <input type="email" placeholder='Email' />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Password</p>
+                                        <input type="password" placeholder='Password' />
+                                    </div>
+                                    <input type="submit" value="Create Account" />
+                                </form>
+                                <div className='option'>
+                                    <hr /> <p>or register with</p> <hr />
+                                </div>
+                                <button>
+                                    <img src={google} alt="" />
+                                    <p>Sign up with Google</p>
+                                </button>
+                            </div>
+                            <div className='have-acct'>
+                                <p>Already have an account?</p>
+                                <button onClick={handleLoginHereClick}>
+                                    <p>Login Here</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Login Form */}
+                {showLoginForm && ( <div className='login-form form'>
+                    <div className='form-content'>
+                        <div>
+                            <h2>Login to Star Taskz</h2>
+                            <p>Don't you have some pending taskz?</p>
+                        </div>
+                        <div className='main-form'>
+                            <form action="" className='input-fields'>
+                                <div className='input'>
+                                    <p>Email</p>
+                                    <input type="email" placeholder='Email' />
+                                </div>
+                                <div className='input'>
+                                    <p>Password</p>
+                                    <input type="password" placeholder='Password' />
+                                </div>
+                                <input type="submit" value="Create Account" />
+                            </form>
+                            <div className='option'>
+                                <hr /> <p>or login with</p> <hr />
+                            </div>
+                            <button>
+                                <img src={google} alt="" />
+                                <p>Sign in with Google</p>
+                            </button>
+                        </div>
+                        <div className='have-acct'>
+                            <p>Are you new?</p>
+                            <button onClick={SignupHereClick}>
+                                <p>Create Account</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                )}
+                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
+                </div>
+                <div className={`slider-container ${rightSlider ? 'left' : 'right'}`}>
+                    <Slider />
+                </div> */}
+            </div>
+        </>
+    );
+}
