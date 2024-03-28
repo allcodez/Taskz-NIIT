@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-export default function App() {
+export default function App({hideProp, sliderContent}) {
   return (
     <>
       <Swiper
@@ -22,34 +22,34 @@ export default function App() {
           delay: 2500,
           disableOnInteraction: false,
         }}
-        pagination={{
-          clickable: true,
-        }}
+        // pagination={{
+        //   clickable: true,
+        // }}
         // navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
         <SwiperSlide>
-          <div className='custom-slide slide1'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
+          <div className={`custom-slide slide1 ${hideProp}`}>
+            <p className={`${sliderContent}`}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className='custom-slide slide2'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
+          <div className={`custom-slide slide2 ${hideProp}`}>
+            <p className={`${sliderContent}`}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className='custom-slide slide3'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
+          <div className={`custom-slide slide3 ${hideProp}`}>
+            <p className={`${sliderContent}`}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className='custom-slide slide4'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
+          <div className={`custom-slide slide4 ${hideProp}`}>
+            <p className={`${sliderContent}`}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis suscipit incidunt repudiandae possimus voluptas aliquid.</p>
           </div>
         </SwiperSlide>
       </Swiper>
