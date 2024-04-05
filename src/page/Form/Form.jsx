@@ -4,6 +4,7 @@ import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
+import {useNavigate} from 'react-router-dom';
 
 export default function Form() {
     const [rigthSlider, setRightSlider] = useState(false);
@@ -15,6 +16,46 @@ export default function Form() {
     const [showSignupForm, setShowSignupForm] = useState(true);
     const [showLoginForm, setShowLoginForm] = useState(window.innerWidth > 1000);
     const [hideSlider, setHideSlider] = useState(false)
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+
+    const handleSignup = async () => {
+        navigate('/star-taskz'); // Replace '/main-page' with your desired route
+
+        // Create an object with form data
+        // const formData = {
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     dateOfBirth: dateOfBirth,
+        //     email: email,
+        //     password: password
+        // };
+
+        // try {
+        //     // Make an API call to your backend server
+        //     const response = await fetch('your_api_endpoint', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(formData)
+        //     });
+
+        //     if (response.ok) {
+        //         // If the API call is successful, navigate to the main page
+        //         history.push('/main-page'); // Replace '/main-page' with your desired route
+        //     } else {
+        //         // Handle error if API call fails
+        //         console.error('Error:', response.statusText);
+        //     }
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
+    };
 
     const handleLoginHereClick = () => {
         setAnimeSlider(true)
@@ -87,6 +128,27 @@ export default function Form() {
         }
     };
 
+    function handleFirstNameChange(event) {
+        setFirstName(event.target.value);
+    }
+
+    function handleLastNameChange(event) {
+        setLastName(event.target.value);
+    }
+
+    function handleEmailChange(event) {
+        setEmail(event.target.value);
+    }
+
+    function handleDateOfBirthChange(event) {
+        setDateOfBirth(event.target.value);
+    }
+
+    function handlePasswordChange(event) {
+        setPassword(event.target.value);
+        // setIsPasswordTooShort(event.target.value.length >= 1 && event.target.value.length < 8);
+    }
+
     useEffect(() => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -111,16 +173,20 @@ export default function Form() {
                                     <form action="" className='input-fields'>
                                         <div className='input'>
                                             <p>First Name</p>
-                                            <input type="text" placeholder='Full Name' />
+                                            <input type="text" placeholder='First Name' value={firstName}
+                                                onChange={handleFirstNameChange}
+                                                autoComplete="firstname" />
                                         </div>
                                         <div className='input'>
                                             <p>Last Name</p>
-                                            <input type="text" placeholder='Last Name' />
+                                            <input type="text" placeholder='Last Name' value={lastName}
+                                                onChange={handleLastNameChange}
+                                                autoComplete="lastname" />
                                         </div>
 
                                         <button onClick={handleNext}>
                                             Next
-                                            <i class="fa-solid fa-arrow-right"></i>
+                                            <i className="fa-solid fa-arrow-right"></i>
                                         </button>
                                         {/* <input type="submit" value="Next" /> */}
                                     </form>
@@ -129,19 +195,22 @@ export default function Form() {
                                 {showData2 && (
                                     <form action="" className='input-fields'>
                                         <div onClick={handleBack} className='button'>
-                                            <i class="fa-solid fa-arrow-left"></i>
+                                            <i className="fa-solid fa-arrow-left"></i>
                                         </div>
                                         <div className='input'>
                                             <p>Email</p>
-                                            <input type="email" placeholder='Email' />
+                                            <input type="email" placeholder='Email' value={email}
+                                                onChange={handleEmailChange}
+                                                autoComplete="email" />
                                         </div>
                                         <div className='input'>
                                             <p>Date of Birth</p>
-                                            <input type="date" placeholder='Confirm Password' />
+                                            <input type="date" placeholder='Date of Birth' value={dateOfBirth}
+                                                onChange={handleDateOfBirthChange} />
                                         </div>
                                         <button onClick={handleNext2}>
                                             Next
-                                            <i class="fa-solid fa-arrow-right"></i>
+                                            <i className="fa-solid fa-arrow-right"></i>
                                         </button>
                                     </form>
                                 )}
@@ -149,26 +218,37 @@ export default function Form() {
                                 {showData3 && (
                                     <form action="" className='input-fields'>
                                         <div onClick={handleBack2} className='button'>
-                                            <i class="fa-solid fa-arrow-left"></i>
+                                            <i className="fa-solid fa-arrow-left"></i>
                                         </div>
                                         <div className='input'>
                                             <p>Password</p>
-                                            <input type="password" placeholder='Password' />
+                                            <input type="password" placeholder='Password' value={password}
+                                                onChange={handlePasswordChange}
+                                                autoComplete="password" />
                                         </div>
                                         <div className='input'>
                                             <p>Confirm Password</p>
                                             <input type="password" placeholder='Confirm Password' />
                                         </div>
-                                        <input type="submit" value="Create Account" />
+                                        <input onClick={handleSignup} type="submit" value="Create Account" />
                                     </form>
                                 )}
                                 <div className='option'>
                                     <hr /> <p>or register with</p> <hr />
                                 </div>
-                                <button>
-                                    <img src={google} alt="" />
-                                    <p>Sign up with Google</p>
-                                </button>
+                                <div className='google-button'>
+                                    <GoogleLogin
+                                        onSuccess={credentialResponse => {
+                                            const decoded = jwtDecode(credentialResponse?.credential);
+                                            console.log(decoded);
+                                        }}
+                                        onError={() => {
+                                            console.log('Login Failed');
+                                        }}
+                                    />
+                                    {/* <img src={google} alt="" />
+                                    <p>Sign up with Google</p> */}
+                                </div>
                             </div>
 
                             <div className='have-acct'>
@@ -204,10 +284,19 @@ export default function Form() {
                                 <div className='option'>
                                     <hr /> <p>or login with</p> <hr />
                                 </div>
-                                <button>
-                                    <img src={google} alt="" />
-                                    <p>Sign in with Google</p>
-                                </button>
+                                <div className='google-button'>
+                                    <GoogleLogin
+                                        onSuccess={credentialResponse => {
+                                            const decoded = jwtDecode(credentialResponse?.credential);
+                                            console.log(decoded);
+                                        }}
+                                        onError={() => {
+                                            console.log('Login Failed');
+                                        }}
+                                    />
+                                    {/* <img src={google} alt="" />
+                                    <p>Sign up with Google</p> */}
+                                </div>
                             </div>
                             <div className='have-acct'>
                                 <p>Are you new?</p>
@@ -222,7 +311,7 @@ export default function Form() {
                 </div>
                 <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
                     <Slider hideProp={`${hideSlider ? 'hide' : 'visible'}`}
-                            sliderContent={`${hideSlider ? 'hide' : 'visible'}`}
+                        sliderContent={`${hideSlider ? 'hide' : 'visible'}`}
                     />
                 </div>
             </div>
@@ -237,12 +326,3 @@ export default function Form() {
 }
 
 
-{/* <GoogleLogin
-    onSuccess={credentialResponse => {
-        const decoded = jwtDecode(credentialResponse?.credential);
-        console.log(decoded);
-    }}
-    onError={() => {
-        console.log('Login Failed');
-    }}
-/>; */}
