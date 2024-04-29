@@ -1,0 +1,74 @@
+.calendar {
+    /* width: 300px; */
+    /* border: 1px solid #ccc; */
+    /* border-radius: 5px; */
+    padding: 10px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.navigation button{
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.navigation button img{
+    width: 20px;
+    filter: var(--invert-default)
+}
+
+.current-month {
+    font-weight: bold;
+    color: var(--text-default);
+
+}
+
+.days-of-week {
+    display: flex;
+}
+
+.day-of-week {
+    flex: 1;
+    text-align: center;
+    color: var(--text-light2);
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+    text-align: center;
+    padding: 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    /* border: 1px solid #eee; */
+}
+
+.empty {
+    visibility: hidden;
+}
+
+.current-date {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.other-month {
+    color: var(--text-light);
+}
