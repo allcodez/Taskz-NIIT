@@ -128,3 +128,17 @@ export default function Form() {
         </>
     );
 }
+
+
+
+
+=========================================================
+
+{menuLinks.map((link, index) => (
+    <li className="nav-link" key={index} onClick={() => setIsSidebarClosed(false)}>
+        <a href="#">
+            {/* <i className={`bx ${link.icon} icon`}></i> */}
+            <span className="text nav-text">{link.text}</span>
+        </a>
+    </li>
+))}
