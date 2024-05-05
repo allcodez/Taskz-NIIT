@@ -127,7 +127,7 @@ body.dark {
     justify-content: center;
     background-color: var(--sidebar-color);
     width: 610px;
-    margin-top: 40px;
+    margin-top: 40wnpmpx;
     margin-bottom: 40px;
     border-radius: 10px;
     padding: 20px 0;
@@ -136,6 +136,7 @@ body.dark {
   .modal{
     width: 550px;
     padding: 20px;
+    color: var(--text-default);
   }
 
 .icon-row{
@@ -164,6 +165,7 @@ body.dark {
 .start{
     margin-top: -10px;
     font-size: 13px;
+    color: var(--text-default);
 }
 
 .delete{
