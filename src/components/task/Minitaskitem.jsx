@@ -6,15 +6,15 @@ import { MdClose, MdDeleteForever } from "react-icons/md";
 import Popup from 'reactjs-popup';
 import Calendar from '../calendar/Calendar';
 
-export default function Minitaskitem({ taskTitle, time, category, month, day }) {
+export default function Minitaskitem({ task }) {
 
   return (
     <Popup
       trigger={(
         <div className='container'>
           <div className="title">
-            <p>{taskTitle}Wash the school</p>
-            <div className='time'>{time}10:00</div>
+            <p>{task.taskTitle}</p>
+            <div className='time'>{task.time}</div>
           </div>
           <div>
             <div className="lowerCont">
@@ -24,7 +24,7 @@ export default function Minitaskitem({ taskTitle, time, category, month, day }) 
                 <CiClock2 className='timer-icon none' />
               </div> 
               <div className="category">
-                <p><span className='ash'>#</span>{category}Work</p>
+                <p><span className='ash'>#</span>{task.category}</p>
               </div>
             </div>
           </div>
@@ -42,13 +42,13 @@ export default function Minitaskitem({ taskTitle, time, category, month, day }) 
               <div className="icon-row">
                 <div className="categ">
                   <span className='ash'>#</span>
-                  <p>{category}work</p>
+                  <p>{task.category}</p>
                 </div>
                 <div className="options">
                   <div className='calendar'>
                     <Popup 
                     trigger={
-                    <p className='start' onClick={close}>Start: {month}May {day}4</p>}
+                    <p className='start' onClick={close}>Start: May 4</p>}
                     // nested
                     closeOnDocumentClick >
                       {close => (   
@@ -71,7 +71,7 @@ export default function Minitaskitem({ taskTitle, time, category, month, day }) 
                       )}
                     </Popup>
                   </div>
-                  <p className='delete'>Delete task <MdDeleteForever /></p>
+                  <p className='delete' >Delete task <MdDeleteForever /></p>
                   <MdClose onClick={close} className='closer'/>
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default function Minitaskitem({ taskTitle, time, category, month, day }) 
                 <div className="planRow">
                   <div className="taskInfo">
                   <GrStatusGood />
-                  {taskTitle}Wash the school
+                  {task.taskTitle}
                   </div>
                   <div className="taskDurations">
                     <CiPlay1 />
