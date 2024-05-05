@@ -1,0 +1,77 @@
+/* .dropdown_content{
+    display: none; */
+
+/* } */
+.Dropdown{
+    background-color: aquamarine;
+    /* width: ; */
+}
+.dropdown_name:hover{
+    color: green;
+}
+.dropdown_content{
+    position: absolute;
+    background-color: var(--sidebar-color);
+    width: 90%;
+    height: 440px;
+    /* left: 22.5px; */
+    right: 10px;
+    /* padding: 10px; */
+    /* box-shadow: 2px 2px black; */
+    margin-top: 5px;
+    /* border: 1px solid black; */
+    /* overflow-y: scroll; */
+}
+.workspace{
+    height: fit-content;
+}
+
+.Workspace .dropdown_header{
+    margin-top: 10px;
+    align-items: center;
+justify-content: space-between;
+    display: flex;
+    padding: 10px;
+}
+.line{
+    height: 1px;
+    width: 7rem;
+    /* border: 1px solid black; */
+}
+
+.Workspace li {
+        height: 30px;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+        /* border: 1px solid black; */
+        padding: 10px;
+    }
+
+    .Workspace li:hover{
+        background-color: var(--primary-color);
+    }
+    
+/* Style the scrollbar track */
+.dropdown_content::-webkit-scrollbar-track {
+	background-color: var(--scroll-bg);
+
+}
+
+.dropdown_content::-webkit-scrollbar {
+	width: 8px;
+	background-color: var(--scroll-bg);
+	border-radius: 100px;
+}
+
+/* Style the scrollbar thumb */
+.dropdown_content::-webkit-scrollbar-thumb {
+	background-color: var(--scroll-bar);
+	/* border-radius: 100px; */
+}
+
+/* Style the scrollbar thumb on hover */
+.dropdown_content::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
