@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function useFetch(url) {
+const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url);
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+
+        fetch(url, { signal })
+            .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to fetch for that resource');
+                    throw Error('Could not fetch the data for that resource');
                 }
-                const fetchedData = await response.json();
-                setData(fetchedData);
+                return response.json();
+            })
+            .then(data => {
+                setData(data);
                 setIsPending(false);
                 setError(null);
-            } catch (err) {
-                setIsPending(false);
-                setError(err.message);
-            }
-        };
+            })
+            .catch(err => {
+                if (err.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    setError(err.message);
+                    setIsPending(false);
+                }
+            });
 
-        fetchData();
-
-        return () => {
-            // Cleanup function (optional)
-        };
+        // Cleanup function to abort fetch on component unmount
+        return () => abortController.abort();
     }, [url]);
 
     return { data, isPending, error };
-}
+};
+
+export default useFetch;
