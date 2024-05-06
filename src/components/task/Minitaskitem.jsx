@@ -30,14 +30,13 @@ export default function Minitaskitem({ task }) {
           </div>
         </div>
       )}
-      // position="right center"
       modal
       nested
       closeOnDocumentClick
     >
       {close => (
-        <div className='darkBg'>
-          <div className="centered">
+        <div className='darkBg' onClick={close}>
+          <div className="centered" onClick={(e) => e.stopPropagation()}>
             <div className="modal">
               <div className="icon-row">
                 <div className="categ">
@@ -49,7 +48,6 @@ export default function Minitaskitem({ task }) {
                     <Popup 
                     trigger={
                     <p className='start' onClick={close}>Start: May 4</p>}
-                    // nested
                     closeOnDocumentClick >
                       {close => (   
                         <div className="Content">
@@ -62,7 +60,6 @@ export default function Minitaskitem({ task }) {
                     <Popup 
                     trigger={
                     <p onClick={close} className='due'>Due</p>}
-                    // nested
                     closeOnDocumentClick >
                       {close => (   
                         <div className="Content">
@@ -83,7 +80,6 @@ export default function Minitaskitem({ task }) {
                   </div>
                   <div className="taskDurations">
                     <CiPlay1 />
-                    
                   </div>
                 </div>
               </div>
