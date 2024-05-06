@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
 import Dropdown from '../dropdown/Dropdown';
+import Dropdown from '../dropdown/Dropdown';
 
 import { FaHashtag } from "react-icons/fa6"; 
 
