@@ -47,7 +47,7 @@ function Calendar() {
         // Dates from previous month
         const previousMonthDays = [];
         const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        // const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
         // const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
         // for (let i = startingDay - 1; i >= 0; i--) {
         //     previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
@@ -115,35 +115,42 @@ function Calendar() {
             try {
                 const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
                 const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
-
+        
                 const weatherDataForMonth = {};
-
+        
                 for (let i = 0; i < daysInCurrentMonth; i++) {
                     const date = new Date(firstDayOfCurrentMonth);
                     date.setDate(date.getDate() + i);
-
+        
+                    // Check if the date is from the current month
+                    const isCurrentMonth = date.getMonth() === currentMonth;
+        
                     // Retrieve latitude and longitude from local storage
                     const latitude = parseFloat(localStorage.getItem('latitude'));
                     const longitude = parseFloat(localStorage.getItem('longitude'));
-
-                    const apiKey = '55a2443648a1fec91d831eb470f33fd0';
-                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
-
-                    const response = await fetch(apiUrl);
-                    if (response.ok) {
-                        const data = await response.json();
-                        weatherDataForMonth[date.toDateString()] = data;
-                        console.log('Calendar', data)
-                    } else {
-                        console.error('Error fetching weather data:', response.statusText);
+        
+                    // Fetch weather data only for dates in the current month
+                    if (isCurrentMonth) {
+                        const apiKey = '55a2443648a1fec91d831eb470f33fd0';
+                        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
+        
+                        const response = await fetch(apiUrl);
+                        if (response.ok) {
+                            const data = await response.json();
+                            weatherDataForMonth[date.toDateString()] = data;
+                            console.log('Calendar', data)
+                        } else {
+                            console.error('Error fetching weather data:', response.statusText);
+                        }
                     }
                 }
-
+        
                 setWeatherData(weatherDataForMonth);
             } catch (error) {
                 console.error('Error fetching weather data:', error);
             }
         };
+        
 
         navigator.geolocation.getCurrentPosition(
             (position) => {

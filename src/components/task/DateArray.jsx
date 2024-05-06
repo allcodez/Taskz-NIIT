@@ -1,11 +1,15 @@
 // DateArray.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFetch from './useFetch';
 import './dateArray.css';
 import DailyTaskList from './DailyTaskList';
 
 export default function DateArray() {
-    const { data: dates, isPending, error } = useFetch('http://localhost:9000/dates');
+    const { data: dates, isPending, error } = useFetch('http://localhost:7000/dates');
+
+    useEffect(() => {
+        console.log('error', error);
+    }, [dates]);
 
     return (
         <div className="dateArray">

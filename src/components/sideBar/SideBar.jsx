@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
-import Dropdown from '../dropdown/Dropdown';
 import Category from '../categories/Category';
-import { FaHashtag } from "react-icons/fa6"
+import Dropdown from '../dropdown/Dropdown';
+import { FaHashtag } from "react-icons/fa6"; 
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -70,6 +70,12 @@ export default function SideBar() {
             </div>
 
             <div className="bottom-content">
+                <li className=" sidebar-bottom">
+                    <a href="#">
+                        <i className='bx bx-log-out icon'></i>
+                        <span className="text nav-text">Logout</span>
+                    </a>
+                </li>
                 <li className=" sidebar-bottom">
                     <a href="#">
                         <i className='bx bx-log-out icon'></i>
