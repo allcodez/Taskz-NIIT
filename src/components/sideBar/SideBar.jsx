@@ -4,6 +4,9 @@ import Calendar from '../calendar/Calendar';
 import Category from '../categories/Category';
 
 import Dropdown from '../dropdown/Dropdown';
+import Dropdown from '../dropdown/Dropdown';
+import Category from '../categories/Category';
+import { FaHashtag } from "react-icons/fa6"; 
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
