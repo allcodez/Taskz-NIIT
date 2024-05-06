@@ -8,18 +8,6 @@ export default function SideBar() {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [showCalendar, setShowCalendar] = useState(true);
 
-    const menuLinks = [
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-    ];
-
     const categoriesData = [
         {
             name: 'Work',

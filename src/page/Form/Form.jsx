@@ -4,7 +4,7 @@ import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
     const [rigthSlider, setRightSlider] = useState(false);
@@ -24,7 +24,47 @@ export default function Form() {
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
 
     const handleSignup = async () => {
-        navigate('/star-taskz'); // Replace '/main-page' with your desired route
+        // Get user location before creating account
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
+                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+        
+                // Save latitude and longitude to local storage
+                localStorage.setItem('latitude', latitude.toString());
+                localStorage.setItem('longitude', longitude.toString());
+        
+                // Make a GET request to OpenWeatherMap API
+                const apiKey = '55a2443648a1fec91d831eb470f33fd0';
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+        
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const weatherData = await response.json();
+                        console.log('Weather data:', weatherData);
+                        // You can now use the weather data as needed, such as displaying it on the UI
+                    } else {
+                        console.error('Error fetching weather data:', response.statusText);
+                        // Handle error fetching weather data
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                    // Handle error fetching weather data
+                }
+        
+                // Rest of your signup logic (creating account with form data)
+                // ...
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                alert('Unable to get your location. Please allow location access for this feature.');
+            }
+        );
+        
+        navigate('/star-taskz');
 
         // Create an object with form data
         // const formData = {
@@ -230,6 +270,7 @@ export default function Form() {
                                             <p>Confirm Password</p>
                                             <input type="password" placeholder='Confirm Password' />
                                         </div>
+                                        {/* Create account button */}
                                         <input onClick={handleSignup} type="submit" value="Create Account" />
                                     </form>
                                 )}

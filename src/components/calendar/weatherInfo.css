@@ -1,0 +1,17 @@
+.weather-info{
+    position: absolute;
+    background: brown;
+    padding: 3px;
+    border-radius: 100%;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* bottom: -60%; */
+}
+
+.weather-info img{
+    width: 90%;
+}
