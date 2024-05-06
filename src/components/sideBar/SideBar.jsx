@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
+import { FaHashtag } from "react-icons/fa6"; 
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
