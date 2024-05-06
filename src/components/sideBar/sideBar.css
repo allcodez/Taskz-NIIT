@@ -30,11 +30,11 @@ body {
 
 /* ===== Reusable code - Here ===== */
 .sidebar li {
-	height: 50px;
+	height: 45px;
 	list-style: none;
 	display: flex;
 	align-items: center;
-	margin-top: 10px;
+	/* margin-top: 10px; */
 }
 
 .sidebar header .image,
@@ -166,6 +166,7 @@ body.dark .sidebar header .toggle {
 	align-items: center;
 	height: 100%;
 	width: 100%;
+	padding-left: 45px;
 	/* border-radius: 6px; */
 	text-decoration: none;
 	transition: var(--tran-03);
@@ -193,6 +194,15 @@ body.dark .sidebar li a:hover .text {
 	/* overflow-y: scroll; */
 }
 
+.sidebar-bottom{
+	height: 50px !important;
+    margin-top: 5px !important;
+}
+
+.sidebar-bottom a{
+	padding-left: 0 !important;
+}
+
 /* Style the scrollbar track */
 .menu-content::-webkit-scrollbar-track {
 	background-color: var(--scroll-bg);
@@ -214,6 +224,18 @@ body.dark .sidebar li a:hover .text {
 /* Style the scrollbar thumb on hover */
 .menu-content::-webkit-scrollbar-thumb:hover {
 	background-color: #555;
+}
+
+.menu-title{
+	display: flex;
+	align-items: center;
+	/* justify-content: space-between; */
+	margin-top: 20px;
+	gap: 10px;
+}
+
+.menu-title hr{
+	flex-grow: 0.2;
 }
 
 .mode {

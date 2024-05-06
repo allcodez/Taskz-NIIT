@@ -2,22 +2,23 @@ import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
 import Dropdown from '../dropdown/Dropdown';
+import Category from '../categories/Category';
+import { FaHashtag } from "react-icons/fa6"; 
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [showCalendar, setShowCalendar] = useState(true);
 
-    const menuLinks = [
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
-        { icon: 'bx-bell', text: 'Notifications' },
+    const categoriesData = [
+        {
+            name: 'Work',
+            items: ['Item 1', 'Item 2', 'Item 3']
+        },
+        {
+            name: 'Personal',
+            items: ['Item A', 'Item B', 'Item C']
+        }
     ];
 
     const toggleSidebar = () => {
@@ -54,27 +55,28 @@ export default function SideBar() {
                     {showCalendar && (
                         <Calendar />
                     )}
+
+                    {/* Categories */}
                     <ul className="menu-links">
-                        {menuLinks.map((link, index) => (
-                            <li className="nav-link" key={index} onClick={() => setIsSidebarClosed(false)}>
-                                <a href="#">
-                                    <i className={`bx ${link.icon} icon`}></i>
-                                    <span className="text nav-text">{link.text}</span>
-                                </a>
-                            </li>
+                        <div className="menu-title">
+                            <hr />
+                            CATEGORIES
+                        </div>
+                        {categoriesData.map((category, index) => (
+                            <Category key={index} category={category} />
                         ))}
                     </ul>
                 </div>
             </div>
 
             <div className="bottom-content">
-                <li className="">
+                <li className=" sidebar-bottom">
                     <a href="#">
                         <i className='bx bx-log-out icon'></i>
                         <span className="text nav-text">Logout</span>
                     </a>
                 </li>
-                <li className="mode" onClick={toggleDarkMode}>
+                <li className="mode sidebar-bottom" onClick={toggleDarkMode}>
                     <div className="sun-moon">
                         <i className={`bx bx-moon icon ${isDarkMode ? 'moon' : 'sun'}`}></i>
                         <i className={`bx bx-sun icon ${isDarkMode ? 'sun' : 'moon'}`}></i>
