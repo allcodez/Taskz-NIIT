@@ -74,11 +74,11 @@ body.dark {
 
 .popup-content{
     margin-top: 50px;
-    
 }
 
 .iconRow{
     display: flex;
+    justify-content: space-between;
 }
 
 textArea{
