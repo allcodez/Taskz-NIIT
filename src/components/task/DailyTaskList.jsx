@@ -4,7 +4,7 @@ import DailyList from './DailyList';
 import useFetch from './useFetch';
 
 export default function DailyTaskList( { day } ) {
-    const {data: tasks, isPending, error}= useFetch('http://localhost:8000/tasks')
+    const {data: tasks, isPending, error}= useFetch('http://localhost:8001/tasks')
 
 
     return (

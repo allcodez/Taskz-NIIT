@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
 import Category from '../categories/Category';
-import { FaHashtag } from "react-icons/fa6"; 
+
 import Dropdown from '../dropdown/Dropdown';
 
 export default function SideBar() {
@@ -40,7 +40,7 @@ export default function SideBar() {
                     </span>
                     <div className="text logo-text">
                         {/* <span className="name">Star Taskz</span> */}
-                        <Dropdown/>
+                        <Dropdown />
                     </div>
                 </div>
                 <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i>
@@ -70,6 +70,12 @@ export default function SideBar() {
             </div>
 
             <div className="bottom-content">
+                <li className=" sidebar-bottom">
+                    <a href="#">
+                        <i className='bx bx-log-out icon'></i>
+                        <span className="text nav-text">Logout</span>
+                    </a>
+                </li>
                 <li className=" sidebar-bottom">
                     <a href="#">
                         <i className='bx bx-log-out icon'></i>

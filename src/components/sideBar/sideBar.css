@@ -25,7 +25,7 @@ body {
 }
 
 .sidebar.close {
-	width: 66px;
+	width: 3px;
 }
 
 /* ===== Reusable code - Here ===== */
@@ -232,10 +232,12 @@ body.dark .sidebar li a:hover .text {
 	/* justify-content: space-between; */
 	margin-top: 20px;
 	gap: 10px;
+	color: var(--text-color)
 }
 
 .menu-title hr{
 	flex-grow: 0.2;
+	color: var(--text-color)
 }
 
 .mode {
