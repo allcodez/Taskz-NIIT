@@ -51,10 +51,14 @@
         margin-top: 5px;
         /* border: 1px solid black; */
         padding: 10px;
+        /* margin-right: 20px !important; */
         
     }
     .Workspace li a{
         color: var(--text-color);
+        justify-content: left;
+        padding-left: 0 !important;
+
     }
 
     .Workspace li:hover{
