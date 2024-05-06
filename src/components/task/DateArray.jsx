@@ -5,7 +5,7 @@ import './dateArray.css';
 import DailyTaskList from './DailyTaskList';
 
 export default function DateArray() {
-    const { data: dates, isPending, error } = useFetch('http://localhost:9000/dates');
+    const { data: dates, isPending, error } = useFetch('http://localhost:5000/dates');
 
     return (
         <div className="dateArray">
