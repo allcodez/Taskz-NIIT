@@ -167,6 +167,7 @@ body.dark {
     margin-top: -10px;
     font-size: 13px;
     color: var(--text-default);
+    display:flex;
 }
 
 .delete{
@@ -178,6 +179,7 @@ body.dark {
 .due{
     font-size: 13px;
     color: var(--text-light2);
+    display:flex;
 }
 
 .closer{
@@ -187,7 +189,17 @@ body.dark {
     color: var(--text-light2);
 }
 
+.dates{
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border: none;
+    outline: none; 
 
+}
 
 
 

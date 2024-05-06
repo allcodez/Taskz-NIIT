@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './minitaskitem.css';
 import { GrStatusGood } from "react-icons/gr";
 import { CiCalendarDate, CiClock2, CiPlay1 } from "react-icons/ci";
 import { MdClose, MdDeleteForever } from "react-icons/md";
 import Popup from 'reactjs-popup';
-import Calendar from '../calendar/Calendar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Minitaskitem({ task }) {
+  const [selectedDate, setSelectedDate] = useState(null);
 
   return (
     <Popup
@@ -45,28 +47,26 @@ export default function Minitaskitem({ task }) {
                 </div>
                 <div className="options">
                   <div className='calendar'>
-                    <Popup 
-                    trigger={
-                    <p className='start' onClick={close}>Start: May 4</p>}
-                    closeOnDocumentClick >
-                      {close => (   
-                        <div className="Content">
-                         <Calendar className="calendarDate"/>
-                        </div>
-                      )}
-                    </Popup>
+                    <p className='start'>Start:</p>
+                    <DatePicker
+                      selected={selectedDate}
+                      onChange={date => setSelectedDate(date)}
+                      dateFormat="MMMM d"
+                      placeholderText="Select a date"
+                      className='dates'
+                      showPopperArrow={false}
+                    />
                   </div>
                   <div className='due'>
-                    <Popup 
-                    trigger={
-                    <p onClick={close} className='due'>Due</p>}
-                    closeOnDocumentClick >
-                      {close => (   
-                        <div className="Content">
-                         <Calendar className="dueDate"/>
-                        </div>
-                      )}
-                    </Popup>
+                    <p>Due:</p>
+                    <DatePicker
+                      selected={selectedDate}
+                      onChange={date => setSelectedDate(date)}
+                      dateFormat="MMMM d"
+                      placeholderText="Select a date"
+                      className='dates'
+                      showPopperArrow={false}
+                    />
                   </div>
                   <p className='delete' >Delete task <MdDeleteForever /></p>
                   <MdClose onClick={close} className='closer'/>
@@ -75,8 +75,8 @@ export default function Minitaskitem({ task }) {
               <div className="taskArea">
                 <div className="planRow">
                   <div className="taskInfo">
-                  <GrStatusGood />
-                  {task.taskTitle}
+                    <GrStatusGood />
+                    {task.taskTitle}
                   </div>
                   <div className="taskDurations">
                     <CiPlay1 />
