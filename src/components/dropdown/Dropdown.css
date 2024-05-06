@@ -3,24 +3,28 @@
 
 /* } */
 .Dropdown{
-    background-color: aquamarine;
+ cursor: pointer;
     /* width: ; */
 }
 .dropdown_name:hover{
-    color: green;
+    color:  var(--primary-color)
 }
 .dropdown_content{
     position: absolute;
+    z-index: 1;
     background-color: var(--sidebar-color);
     width: 90%;
     height: 440px;
     /* left: 22.5px; */
     right: 10px;
-    /* padding: 10px; */
+    padding: px;
     /* box-shadow: 2px 2px black; */
     margin-top: 5px;
     /* border: 1px solid black; */
     /* overflow-y: scroll; */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: var(--trans-03);
 }
 .workspace{
     height: fit-content;
@@ -28,16 +32,16 @@
 
 .Workspace .dropdown_header{
     margin-top: 10px;
-    align-items: center;
-justify-content: space-between;
-    display: flex;
+    /* align-self: center; */
+/* justify-content: space-between; */
+    /* display: grid; */
     padding: 10px;
+    border-bottom: groove 1px  var(--body-color) ;
+    width: 90%;
+    /* border-style: groove; */
 }
-.line{
-    height: 1px;
-    width: 7rem;
-    /* border: 1px solid black; */
-}
+
+
 
 .Workspace li {
         height: 30px;
@@ -47,6 +51,10 @@ justify-content: space-between;
         margin-top: 5px;
         /* border: 1px solid black; */
         padding: 10px;
+        
+    }
+    .Workspace li a{
+        color: var(--text-color);
     }
 
     .Workspace li:hover{
@@ -56,6 +64,7 @@ justify-content: space-between;
 /* Style the scrollbar track */
 .dropdown_content::-webkit-scrollbar-track {
 	background-color: var(--scroll-bg);
+    
 
 }
 
