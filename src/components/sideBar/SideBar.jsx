@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
-import { FaHashtag } from "react-icons/fa6"; 
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -38,7 +37,8 @@ export default function SideBar() {
                         {/* <img src="logo.png" alt=""> */}
                     </span>
                     <div className="text logo-text">
-                        <span className="name">Star Taskz</span>
+                        {/* <span className="name">Star Taskz</span> */}
+                        {/* <Dropdown/> */}
                     </div>
                 </div>
                 <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i>

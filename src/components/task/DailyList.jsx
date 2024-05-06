@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Minitaskitem from './Minitaskitem';
 import './dailyList.css';
 import Popup from 'reactjs-popup';
+import { FaRegClock } from "react-icons/fa6";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -26,7 +27,7 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                 trigger={
                     <div className="add">
                         <p><span>+</span>Add task</p>
-                        <div className="time">{totalTime}</div>
+                        <div className="time">{totalTime}--:--</div>
                     </div>}
                 className='popup'
                 closeOnDocumentClick={false}
@@ -38,21 +39,25 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>
                                     <div className="iconRow">
-                                        <div onClick={handleDateClick} className='date'>{startDate ? startDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) : 'Start'}</div>
+                                        <div onClick={handleDateClick} className='date'> Start:{startDate ? startDate.toLocaleDateString(undefined, { text:'Start:', month: 'long', day: 'numeric' }) : ''}</div>
                                         {showCalendar && (
                                             <DatePicker
+                                            className='absolute'
                                                 selected={startDate}
                                                 onChange={date => handleDateSelect(date)}
                                                 inline
                                             />
                                         )}
+                                        <div className="rightIcons">
                                         <select name="" id="">
-                                            <option value=""></option>
+                                            <FaRegClock />
+                                            <option value="0" disabled>--:--</option>
                                         </select>
                                         <select name="" id="">
                                             <option value=""></option>
                                         </select>
                                         <button>+</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
