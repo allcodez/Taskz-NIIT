@@ -9,7 +9,7 @@ export default function Main() {
     return(
         <>
             <div>
-                {/* <SideBar/> */}
+                <SideBar/>
                 {/* <DailyTaskList/> */}
                 <DateArray />
             </div>

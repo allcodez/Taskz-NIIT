@@ -1,7 +1,6 @@
-// DateArray.jsx
 import React from 'react';
 import './dateArray.css';
-import DailyTaskList from './Daily/DailyTaskList';
+import DailyTaskList from './DailyTaskList';
 import Calendar from '../calendar/Calendar'; // Import Calendar
 
 export default function DateArray() {
@@ -20,6 +19,7 @@ function DayList({ days }) {
             {days.map((day, index) => (
                 <div key={index}>
                     <p>{day.date.toLocaleDateString()} - {day.day}</p> {/* Render date as a string */}
+                    {/* You can pass `day` directly since it already contains the necessary properties */}
                     <DailyTaskList day={day} />
                 </div>
             ))}
