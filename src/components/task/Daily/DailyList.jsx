@@ -39,24 +39,24 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>
                                     <div className="iconRow">
-                                        <div onClick={handleDateClick} className='date'> Start:{startDate ? startDate.toLocaleDateString(undefined, { text:'Start:', month: 'long', day: 'numeric' }) : ''}</div>
+                                        <div onClick={handleDateClick} className='date'> Start:{startDate ? startDate.toLocaleDateString(undefined, { text: 'Start:', month: 'long', day: 'numeric' }) : ''}</div>
                                         {showCalendar && (
                                             <DatePicker
-                                            className='absolute'
+                                                className='absolute'
                                                 selected={startDate}
                                                 onChange={date => handleDateSelect(date)}
                                                 inline
                                             />
                                         )}
                                         <div className="rightIcons">
-                                        <select name="" id="">
-                                            <FaRegClock />
-                                            <option value="0" disabled>--:--</option>
-                                        </select>
-                                        <select name="" id="">
-                                            <option value=""></option>
-                                        </select>
-                                        <button>+</button>
+                                            <select name="" id="">
+                                                <FaRegClock />
+                                                <option value="0" disabled>--:--</option>
+                                            </select>
+                                            <select name="" id="">
+                                                <option value=""></option>
+                                            </select>
+                                            <button>+</button>
                                         </div>
                                     </div>
                                 </form>
@@ -67,10 +67,10 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
             </Popup>
             {tasks.map(task => (
                 <Minitaskitem
-                    // key={task.id}
+                    key={task.id} // Ensure each component has a unique key
                     task={task}
                 />
-            ))}
+            ))}     
         </div>
     );
 }

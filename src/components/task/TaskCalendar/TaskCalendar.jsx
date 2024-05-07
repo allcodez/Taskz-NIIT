@@ -131,6 +131,8 @@ function TaskCalendar() {
     }, [currentMonth, currentYear, weatherDataFetched, mounted]);
 
     return renderCalendar();
+
+    
 }
 
 export default TaskCalendar;
