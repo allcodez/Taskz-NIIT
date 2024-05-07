@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './sideBar.css';
 import Calendar from '../calendar/Calendar';
-import Dropdown from '../dropdown/Dropdown';
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
