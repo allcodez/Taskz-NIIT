@@ -19,7 +19,7 @@ function DayList({ days }) {
         <div className="dayList">
             {days.map((day, index) => (
                 <div key={index}>
-                    <p>{day.date.toLocaleDateString()} - {day.day}</p> {/* Render date as a string */}
+                    <p>{day.date.toLocaleDateString()} - {day.date.toLocaleDateString(undefined, { weekday: 'long' })}</p> {/* Render date as a string */}
                     <DailyTaskList day={day} />
                 </div>
             ))}
