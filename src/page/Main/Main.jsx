@@ -10,8 +10,8 @@ export default function Main() {
         <>
             <div>
                 <SideBar/>
-                <DateArray />
-                {/* <TaskContainer/> */}
+                <DailyTaskList/>
+                {/* <DateArray /> */}
             </div>
 
         </>

@@ -67,7 +67,7 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
             </Popup>
             {tasks.map(task => (
                 <Minitaskitem
-                    key={task.id}
+                    // key={task.id}
                     task={task}
                 />
             ))}
