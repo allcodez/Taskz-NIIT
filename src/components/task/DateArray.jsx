@@ -5,7 +5,7 @@ import './dateArray.css';
 import DailyTaskList from './DailyTaskList';
 
 export default function DateArray() {
-    const { data: dates, isPending, error } = useFetch('http://localhost:7000/dates');
+    const { data: dates, isPending, error } = useFetch('https://5000-monospace-taskz-niit-1714042149044.cluster-y34ecccqenfhcuavp7vbnxv7zk.cloudworkstations.dev/dates');
 
     useEffect(() => {
         console.log('error', error);

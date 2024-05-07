@@ -17,7 +17,7 @@ body {
 	top: 0;
 	left: 0;
 	height: 100%;
-	width: 215px;
+	width: 250px;
 	padding: 10px 0px;
 	background: var(--sidebar-color);
 	transition: var(--tran-05);
@@ -25,7 +25,7 @@ body {
 }
 
 .sidebar.close {
-	width: 3px;
+	transform: translateX(-247px);
 }
 
 /* ===== Reusable code - Here ===== */
@@ -187,7 +187,7 @@ body.dark .sidebar li a:hover .text {
 }
 
 .sidebar .menu-bar {
-	height: calc(100% - 202px);
+	height: calc(100% - 200px);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -340,4 +340,10 @@ body.dark .switch::before {
 
 body.dark .home .text {
 	color: var(--text-color);
+}
+
+.bottom-weather{
+	color: var(--text-color);
+	font-size: smaller;
+	font-weight: var(--text-bold);
 }
