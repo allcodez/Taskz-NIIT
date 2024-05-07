@@ -37,7 +37,7 @@ export default function SideBar() {
                     </span>
                     <div className="text logo-text">
                         {/* <span className="name">Star Taskz</span> */}
-                        <Dropdown/>
+                        {/* <Dropdown/> */}
                     </div>
                 </div>
                 <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i>
@@ -59,9 +59,9 @@ export default function SideBar() {
                             <hr />
                             CATEGORIES
                         </div>
-                        {categoriesData.map((category, index) => (
-                            // <Category key={index} category={category} />
-                        ))}
+                        {/* {categoriesData.map((category, index) => (
+                            <Category key={index} category={category} />
+                        ))} */}
                     </ul>
                 </div>
             </div>
