@@ -40,7 +40,7 @@ export default function SideBar() {
                     </span>
                     <div className="text logo-text">
                         {/* <span className="name">Star Taskz</span> */}
-                        {/* <Dropdown/> */}
+                        <Dropdown/>
                     </div>
                 </div>
                 <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i>
