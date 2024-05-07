@@ -14,7 +14,7 @@ export default function Main() {
             <div>
                 <SideBar/>
                 <DateArray />
-                {/* <TaskContainer/> */}
+                <TaskContainer/>
             </div>
 
         </>
