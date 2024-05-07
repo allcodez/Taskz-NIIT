@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Minitaskitem from './Minitaskitem';
+import Minitaskitem from '../Modal/TaskModal';
 import './dailyList.css';
 import Popup from 'reactjs-popup';
 import { FaRegClock } from "react-icons/fa6";

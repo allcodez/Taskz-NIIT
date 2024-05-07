@@ -1,9 +1,9 @@
 // Calendar.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import './calendar.css';
-import arrowLeft from '../../asstes/icons/arrowLeft.svg';
-import arrowRight from '../../asstes/icons/arrowRight.svg';
-import WeatherInfo from './WeatherInfo';
+// import './calendar.css';
+import arrowLeft from '../../../asstes/icons/arrowLeft.svg';
+import arrowRight from '../../../asstes/icons/arrowRight.svg';
+import WeatherInfo from '../../../components/calendar/WeatherInfo';
 
 const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const monthNames = [
@@ -11,7 +11,7 @@ const monthNames = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-function Calendar() {
+function TaskCalendar() {
     const isMounted = useRef(false);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -130,30 +130,7 @@ function Calendar() {
         }
     }, [currentMonth, currentYear, weatherDataFetched, mounted]);
 
-    // return renderCalendar();
-    return (
-        <div className="calendar">
-            <div className="navigation">
-                <button onClick={prevMonth}>
-                    <img src={arrowLeft} alt="Previous Month" />
-                </button>
-                <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
-                <button onClick={nextMonth}>
-                    <img src={arrowRight} alt="Next Month" />
-                </button>
-            </div>
-            <div className="days-of-week">
-                {daysOfWeek.map((day, index) => (
-                    <div key={`day-${index}`} className="day-of-week">
-                        {day}
-                    </div>
-                ))}
-            </div>
-            <div className="dates">
-                {renderCalendar()}
-            </div>
-        </div>
-    );
+    return renderCalendar();
 }
 
-export default Calendar;
+export default TaskCalendar;

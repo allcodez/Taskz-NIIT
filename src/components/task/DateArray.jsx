@@ -1,17 +1,15 @@
 // DateArray.jsx
-import React, { useEffect } from 'react';
-import useFetch from './useFetch';
+import React from 'react';
 import './dateArray.css';
-import DailyTaskList from './DailyTaskList';
+import DailyTaskList from './Daily/DailyTaskList';
+import TaskCalendar from '../task/TaskCalendar/TaskCalendar'; // Import Calendar
 
 export default function DateArray() {
-    const { data: dates, isPending, error } = useFetch('http://localhost:5000/dates');
-
+    const dates = TaskCalendar(); // Call Calendar function to get dates
+    
     return (
         <div className="dateArray">
-            {error && <div>{error}</div>}
-            {isPending && <div>Loading...</div>}
-            {dates && <DayList days={dates} />}
+            <DayList days={dates} />
         </div>
     );
 }
@@ -21,7 +19,7 @@ function DayList({ days }) {
         <div className="dayList">
             {days.map((day, index) => (
                 <div key={index}>
-                    {/* <p>{day.day}</p> */}
+                    <p>{day.date.toLocaleDateString()} - {day.day}</p> {/* Render date as a string */}
                     <DailyTaskList day={day} />
                 </div>
             ))}

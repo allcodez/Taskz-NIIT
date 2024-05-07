@@ -30,7 +30,7 @@ export default function Form() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
         
                 // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());

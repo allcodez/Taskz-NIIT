@@ -18,8 +18,9 @@
 	--text-default: #000000; 
 	--scroll-bg: transparent;
 	--scroll-bar: #9f9f9f;
+    --task-bg: #fff;
+    --time-bg: #eef0f0;
 	--invert-default: invert(0);
-	--text-bold: bold;
  
 	/* ====== Transition ====== */
 	--tran-03: all 0.2s ease;
@@ -40,10 +41,12 @@ body.dark {
 	--text-default: #ffffff;
 	--scroll-bg: transparent;
 	--scroll-bar: #3a3b3c;
+    --task-bg: #2c2c2c;
+    --time-bg: #4b4b4b;
 	--invert-default: invert(1);
-	--text-bold: lighter;
 
 }
+
 
 ::selection {
 	background-color: var(--primary-color);
