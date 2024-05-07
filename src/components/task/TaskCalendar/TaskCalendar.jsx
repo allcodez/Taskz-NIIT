@@ -13,13 +13,32 @@ const monthNames = [
 
 function TaskCalendar() {
     const isMounted = useRef(false);
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    // const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+    // const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [weatherData, setWeatherData] = useState({});
     const [hoveredDate, setHoveredDate] = useState(null);
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [selectedWeatherInfo, setSelectedWeatherInfo] = useState('');
     const [mounted, setMounted] = useState(false);
+
+    const daysInMonth = (month, year) => {
+        return new Date(year, month + 1, 0).getDate();
+    };
+
+    const firstDayOfMonth = (month, year) => {
+        return new Date(year, month, 1).getDay();
+    };
+
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    
+    // const daysInMonth = (month, year) => {
+    //     return new Date(year, month + 1, 0).getDate();
+    // };
+
+    // const firstDayOfMonth = (month, year) => {
+    //     return new Date(year, month, 1).getDay();
+    // };
 
     const prevMonth = () => {
         setCurrentMonth(prevMonth => (prevMonth === 0 ? 11 : prevMonth - 1));
@@ -31,20 +50,14 @@ function TaskCalendar() {
         setCurrentYear(nextYear => (currentMonth === 11 ? nextYear + 1 : nextYear));
     };
 
-    const daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
-    };
-
-    const firstDayOfMonth = (month, year) => {
-        return new Date(year, month, 1).getDay();
-    };
 
     const renderCalendar = () => {
         const totalDays = daysInMonth(currentMonth, currentYear);
         const startingDay = firstDayOfMonth(currentMonth, currentYear);
+        const calendarArray = [];
+
         const today = new Date();
 
-        const calendarArray = [];
 
         // Dates from previous month
         const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
@@ -57,10 +70,12 @@ function TaskCalendar() {
         }
 
         // Dates from current month
+        // Dates from current month
         for (let i = 1; i <= totalDays; i++) {
             const currentDate = new Date(currentYear, currentMonth, i);
-            calendarArray.push({ date: currentDate, day: i, isCurrentMonth: true });
+            calendarArray.push({ date: currentDate, day: i });
         }
+
 
         // Dates from next month
         const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
@@ -131,6 +146,8 @@ function TaskCalendar() {
     }, [currentMonth, currentYear, weatherDataFetched, mounted]);
 
     return renderCalendar();
+
+    
 }
 
 export default TaskCalendar;

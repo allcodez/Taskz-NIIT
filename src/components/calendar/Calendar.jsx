@@ -1,9 +1,9 @@
-// Calendar.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import './calendar.css';
 import arrowLeft from '../../asstes/icons/arrowLeft.svg';
 import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
+// import { useCalendarContext } from '../../../hooks/CalendarContext';
 
 const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const monthNames = [
@@ -11,24 +11,29 @@ const monthNames = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-function Calendar() {
+export default function Calendar() {
     const isMounted = useRef(false);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    const [currentDate, setCurrentDate] = useState(new Date().getDate());
     const [weatherData, setWeatherData] = useState({});
     const [hoveredDate, setHoveredDate] = useState(null);
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [selectedWeatherInfo, setSelectedWeatherInfo] = useState('');
     const [mounted, setMounted] = useState(false);
+    // const { calendarData, setCalendarData } = useCalendarContext();
+    // const { providerCurrentDay, providerCurrentDate, providerWeatherIcon, providerWeatherInfo } = calendarData;
 
     const prevMonth = () => {
         setCurrentMonth(prevMonth => (prevMonth === 0 ? 11 : prevMonth - 1));
         setCurrentYear(prevYear => (currentMonth === 0 ? prevYear - 1 : prevYear));
+        setCurrentDate(new Date().getDate()); // Reset current date when changing month
     };
 
     const nextMonth = () => {
         setCurrentMonth(nextMonth => (nextMonth === 11 ? 0 : nextMonth + 1));
         setCurrentYear(nextYear => (currentMonth === 11 ? nextYear + 1 : nextYear));
+        setCurrentDate(new Date().getDate()); // Reset current date when changing month
     };
 
     const daysInMonth = (month, year) => {
@@ -43,35 +48,72 @@ function Calendar() {
         const totalDays = daysInMonth(currentMonth, currentYear);
         const startingDay = firstDayOfMonth(currentMonth, currentYear);
         const today = new Date();
-
-        const calendarArray = [];
+        const currentMonthYear = today.getFullYear() === currentYear && today.getMonth() === currentMonth;
 
         // Dates from previous month
+        const previousMonthDays = [];
         const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-        const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
-        for (let i = startingDay - 1; i >= 0; i--) {
-            const date = daysInPreviousMonth - i;
-            const currentDate = new Date(previousMonthYear, previousMonth, date);
-            calendarArray.push({ date: currentDate, day: date, isCurrentMonth: false });
-        }
+        // const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        // const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
+        // for (let i = startingDay - 1; i >= 0; i--) {
+        //     previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
+        // }
 
         // Dates from current month
-        for (let i = 1; i <= totalDays; i++) {
-            const currentDate = new Date(currentYear, currentMonth, i);
-            calendarArray.push({ date: currentDate, day: i, isCurrentMonth: true });
-        }
+        const currentMonthDays = Array.from({ length: totalDays }, (_, index) => ({
+            day: index + 1,
+            isCurrentMonth: true
+        }));
 
         // Dates from next month
+        const nextMonthDays = [];
         const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
         const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-        const remainingDays = 7 - (calendarArray.length % 7);
-        for (let i = 1; i <= remainingDays; i++) {
-            const currentDate = new Date(nextMonthYear, nextMonth, i);
-            calendarArray.push({ date: currentDate, day: i, isCurrentMonth: false });
-        }
+        // const remainingDays = 7 - (previousMonthDays.length + currentMonthDays.length) % 7;
+        // for (let i = 1; i <= remainingDays; i++) {
+        //     nextMonthDays.push({ day: i, isCurrentMonth: false });
+        // }
 
-        return calendarArray;
+        const allDays = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
+
+        return allDays.map((day, index) => {
+            const classNames = ["day"];
+            if (!day.isCurrentMonth) {
+                classNames.push("other-month");
+            } else if (currentMonthYear && day.day === today.getDate()) {
+                classNames.push("current-date");
+            }
+
+            const currentDate = new Date(currentYear, currentMonth, day.day);
+            const dateString = currentDate.toDateString();
+            const weatherInfo = weatherData[dateString] && weatherData[dateString].weather.length > 0
+                ? weatherData[dateString].weather[0].main
+                : '';
+
+            const handleMouseEnter = () => {
+                setHoveredDate(new Date(currentDate));
+                setSelectedWeatherInfo(weatherInfo);
+            };
+
+            const handleMouseLeave = () => {
+                setHoveredDate(null);
+                setSelectedWeatherInfo('');
+            };
+
+            return (
+                <div
+                    key={`day-${index}`}
+                    className={classNames.join(" ")}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    {day.day}
+                    {hoveredDate && hoveredDate.toDateString() === currentDate.toDateString() && (
+                        <WeatherInfo weatherInfo={selectedWeatherInfo} />
+                    )}
+                </div>
+            );
+        });
     };
 
     useEffect(() => {
@@ -130,30 +172,28 @@ function Calendar() {
         }
     }, [currentMonth, currentYear, weatherDataFetched, mounted]);
 
-    return renderCalendar();
-    // return (
-    //     <div className="calendar">
-    //         <div className="navigation">
-    //             <button onClick={prevMonth}>
-    //                 <img src={arrowLeft} alt="Previous Month" />
-    //             </button>
-    //             <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
-    //             <button onClick={nextMonth}>
-    //                 <img src={arrowRight} alt="Next Month" />
-    //             </button>
-    //         </div>
-    //         <div className="days-of-week">
-    //             {daysOfWeek.map((day, index) => (
-    //                 <div key={`day-${index}`} className="day-of-week">
-    //                     {day}
-    //                 </div>
-    //             ))}
-    //         </div>
-    //         <div className="dates">
-    //             {renderCalendar()}
-    //         </div>
-    //     </div>
-    // );
-}
 
-export default Calendar;
+    return (
+        <div className="calendar">
+            <div className="navigation">
+                <button onClick={prevMonth}>
+                    <img src={arrowLeft} />
+                </button>
+                <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
+                <button onClick={nextMonth}>
+                    <img src={arrowRight} />
+                </button>
+            </div>
+            <div className="days-of-week">
+                {daysOfWeek.map((day, index) => (
+                    <div key={`day-${index}`} className="day-of-week">
+                        {day}
+                    </div>
+                ))}
+            </div>
+            <div className="dates">
+                {renderCalendar()}
+            </div>
+        </div>
+    );
+}
