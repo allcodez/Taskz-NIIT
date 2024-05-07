@@ -5,12 +5,15 @@ import DailyTaskList from '../../components/task/DailyTaskList';
 import DateArray from '../../components/task/DateArray';
 
 export default function Main() {
+    const data = {
+        currentDay
+    }
     return(
         <>
             <div>
                 <SideBar/>
                 {/* <DailyTaskList/> */}
-                <DateArray />
+                <DateArray  />
             </div>
 
         </>
