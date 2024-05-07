@@ -130,3 +130,6 @@ yarn-error.log*
 
 #package.json
 .package.json
+
+hooks
+_task
