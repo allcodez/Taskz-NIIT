@@ -2,10 +2,10 @@
 import React from 'react';
 import './dateArray.css';
 import DailyTaskList from './Daily/DailyTaskList';
-import TaskCalendar from '../task/TaskCalendar/TaskCalendar'; // Import Calendar
+import Calendar from '../calendar/Calendar'; // Import Calendar
 
 export default function DateArray() {
-    const dates = TaskCalendar(); // Call Calendar function to get dates
+    const dates = Calendar(); // Call Calendar function to get dates
     
     return (
         <div className="dateArray">
