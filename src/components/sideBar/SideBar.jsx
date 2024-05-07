@@ -59,9 +59,9 @@ export default function SideBar() {
                             <hr />
                             CATEGORIES
                         </div>
-                        {/* {categoriesData.map((category, index) => (
+                        {categoriesData.map((category, index) => (
                             // <Category key={index} category={category} />
-                        ))} */}
+                        ))}
                     </ul>
                 </div>
             </div>
