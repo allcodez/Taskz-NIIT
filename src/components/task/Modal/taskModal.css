@@ -94,6 +94,9 @@
     width: 550px;
     padding: 20px;
     color: var(--text-default);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .modalI .icon-line{
@@ -161,6 +164,7 @@
     width: 60px;
     padding-left: 2px;
     margin-top: -3px;
+    background-color: transparent;
 }
 
 .taskArea .planRow{
@@ -187,6 +191,7 @@
     appearance: none;
     outline: none;
     width: 90px;
+    background-color: transparent;
 }
 
 .taskDurations select option{
@@ -202,6 +207,12 @@
 
 .ticker:hover{
     color: var(--primary-color);
+}
+
+.tickerTitle{
+    font-weight: 500;
+    font-size: 25px;
+    margin-top: 10px;
 }
 
 

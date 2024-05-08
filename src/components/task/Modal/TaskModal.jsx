@@ -22,7 +22,9 @@ export default function TaskModal({ task }) {
 					<div>
 						<div className="lowerCont">
 							<div className="iconsCont">
-								<GrStatusGood className='tick-icon' />
+								<GrStatusGood className='tick-icon' onClick={() => {
+									
+								}}/>
 								<CiCalendarDate className='calender-icon none' />
 								<CiClock2 className='timer-icon none' />
 							</div>
