@@ -4,7 +4,7 @@ import DailyList from './DailyList';
 import useFetch from '../../../../hooks/useFetch';
 import './dailyList.css'
 
-export default function DailyTaskList({ day }) {
+export default function DailyTaskList({ day, date }) {
     // const {data: tasks, isPending, error}= useFetch('http://localhost:4000/tasks')
     // const [data, setData] = useState(null);
     // const [isPending, setIsPending] = useState(true);
@@ -76,8 +76,9 @@ export default function DailyTaskList({ day }) {
         <div className="dailyList">
             {/* {error && <div>{ error}</div>} */}
             {/* {isPending && <div>Loading ...</div>} */}
+            <h2>{day}</h2> {/* Render the dayTitle */}
+            <p className="dailyList-date">{date}</p>
             {tasks && <DailyList tasks={tasks} />}
-            dayTitle={day.day}
             {/* {tasks &&<DailyList tasks={tasks.filter((blog) => blog.category === 'work')} dayTitle='Work Category'/>} */}
         </div>
     );

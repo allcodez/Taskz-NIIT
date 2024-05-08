@@ -21,6 +21,7 @@
     --task-bg: #fff;
     --time-bg: #eef0f0;
 	--invert-default: invert(0);
+	--sidebar-shadow: #0000000d;
  
 	/* ====== Transition ====== */
 	--tran-03: all 0.2s ease;
@@ -38,13 +39,14 @@ body.dark {
 	--text-color: #f5f5f5;
 	--text-light: #676767;
 	--text-light2: #989898;
+	--text-light3: #c6c6c6;
 	--text-default: #ffffff;
 	--scroll-bg: transparent;
 	--scroll-bar: #3a3b3c;
     --task-bg: #2c2c2c;
     --time-bg: #4b4b4b;
 	--invert-default: invert(1);
-
+	--sidebar-shadow: #000000e6;
 }
 
 

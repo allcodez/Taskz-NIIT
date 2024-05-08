@@ -1,0 +1,29 @@
+.layout-root{
+    background-color: #f7f8fa;
+    height: 100vh;
+    width: max-content;
+    /* transform: translateX(255px); */
+}
+
+.main-layout{
+    gap: 30px;
+    transform: translateX(250px);
+    border-left: 2px solid var(--text-light);
+    height: 100vh;
+
+}
+
+.main-layout .control{
+    display: flex;
+}
+
+.toogle-main{
+}
+
+.un-toogle-main{
+    transform: translateX(0);
+}
+
+.control{
+    border-bottom: 2px solid var(--text-light);
+}

@@ -1,8 +1,8 @@
-.dailyList{
+.dailyList {
     margin-right: 5px;
 }
 
-.add{
+.add {
     padding: 5px;
     background-color: var(--task-bg);
     display: flex;
@@ -10,47 +10,55 @@
     border-radius: 5px;
 }
 
-.time{
+.time {
     font-size: smaller;
     padding: 2px;
     border-radius: 2px;
     background-color: var(--time-bg);
 }
 
-.centered{
+.centered {
     margin-top: 100px;
     height: fit-content;
     border-radius: 5px;
     width: 530px;
 }
 
-.popup-content{
+.popup-content {
     margin-top: 50px;
 }
 
-.iconRow{
+.iconRow {
     display: flex;
     justify-content: space-between;
 }
 
-textArea{
+textArea {
     border: none;
     outline: none;
     font-size: 16px;
     padding: 10px;
 }
 
-textarea:focus{
+textarea:focus {
     border: 1px solid var(--task-bg);
 }
 
-.iconRow .date{
--webkit-appearance: none;
-  -moz-appearance: textfield;
-  appearance: textfield;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+.iconRow .date {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
     border: none;
-     outline: none; 
+    outline: none;
+}
+
+.dailyList .dailyList-date{
+    color: var(--text-light3);
+}
+
+.dailyList h2{
+    color: var(--text-color)
 }
