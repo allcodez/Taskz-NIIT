@@ -1,5 +1,14 @@
 .dailyList {
+    display: flex;
     margin-right: 5px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dailyList-task{
+    display: flex;
+    flex-direction: column;
+    gap: 8px
 }
 
 .add {

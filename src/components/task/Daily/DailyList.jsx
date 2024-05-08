@@ -22,7 +22,7 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
 
     return (
         <div className="dailyList">
-            <h2>{dayTitle}</h2>
+            {/* <h2>{dayTitle}</h2> */}
             <Popup
                 trigger={
                     <div className="add">
@@ -65,12 +65,14 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                     </div>
                 )}
             </Popup>
-            {tasks.map(task => (
-                <Minitaskitem
-                    key={task.id} // Ensure each component has a unique key
-                    task={task}
-                />
-            ))}     
+            <div className='dailyList-task'>
+                {tasks.map(task => (
+                    <Minitaskitem
+                        key={task.id} // Ensure each component has a unique key
+                        task={task}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

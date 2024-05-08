@@ -7,8 +7,8 @@
 
 :root {
 	/* ===== Colors ===== */
-	--body-color: #e4e9f7;
-	--sidebar-color: ##f7f8fa;
+	--body-color: #eeeeee;
+	--sidebar-color: #f7f8fa;
 	--primary-color: #2d6a4f;
 	--primary-color-light: #f6f5ff;
 	--toggle-color: #ddd;
@@ -22,10 +22,13 @@
     --time-bg: #eef0f0;
 	--invert-default: invert(0);
 	--sidebar-shadow: #0000000d;
+	--layout-border: #b2b2b2;
+
  
 	/* ====== Transition ====== */
+	--tran-01: all 0.1s ease;
 	--tran-03: all 0.2s ease;
-	--tran-03: all 0.3s ease;
+	/* --tran-03: all 0.3s ease; */
 	--tran-04: all 0.3s ease;
 	--tran-05: all 0.3s ease;
 }
@@ -47,8 +50,12 @@ body.dark {
     --time-bg: #4b4b4b;
 	--invert-default: invert(1);
 	--sidebar-shadow: #000000e6;
+	--layout-border: #282828;
 }
 
+.bx{
+	cursor: pointer;
+}
 
 ::selection {
 	background-color: var(--primary-color);

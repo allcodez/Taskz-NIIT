@@ -2,7 +2,7 @@
     background-color: var(--task-bg);
     padding: 10px;
     /* display: flex; */
-    margin: 8px auto;
+    /* margin: 8px auto; */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.186);
     width: 230px;
     color: var(--text-color);

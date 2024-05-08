@@ -1,6 +1,6 @@
 .dayList{
     display: flex;
-    padding-left: 0.5rem;
+    padding: 1rem;
 }
 
 .dayList p, .dayList h2{
