@@ -4,7 +4,7 @@ import Calendar from '../calendar/Calendar';
 import Category from '../categories/Category';
 import Dropdown from '../dropdown/Dropdown';
 import { FaHashtag } from "react-icons/fa6";
-import { CalendarProvider } from '../../../hooks/CalendarContext';
+// import { CalendarProvider } from '../../../hooks/CalendarContext';
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -100,10 +100,12 @@ export default function SideBar() {
                     </li> */}
                 <div className="menu-content" style={{ overflowY: "auto" }}>
                     {showCalendar && (
-                        <CalendarProvider>
-                            <Calendar />
-                        </CalendarProvider>
+                         // <CalendarProvider>
+                         //   <Calendar />
+                        //</CalendarProvider>
+                        <Calendar />
                     )}
+
 
                     {/* Categories */}
                     <ul className="menu-links">

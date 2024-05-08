@@ -3,7 +3,7 @@ import './calendar.css';
 import arrowLeft from '../../asstes/icons/arrowLeft.svg';
 import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
-import { useCalendarContext } from '../../../hooks/CalendarContext';
+// import { useCalendarContext } from '../../../hooks/CalendarContext';
 
 const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const monthNames = [
@@ -21,8 +21,8 @@ function Calendar() {
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [selectedWeatherInfo, setSelectedWeatherInfo] = useState('');
     const [mounted, setMounted] = useState(false);
-    const { calendarData, setCalendarData } = useCalendarContext();
-    const { providerCurrentDay, providerCurrentDate, providerWeatherIcon, providerWeatherInfo } = calendarData;
+    // const { calendarData, setCalendarData } = useCalendarContext();
+    // const { providerCurrentDay, providerCurrentDate, providerWeatherIcon, providerWeatherInfo } = calendarData;
 
     const prevMonth = () => {
         setCurrentMonth(prevMonth => (prevMonth === 0 ? 11 : prevMonth - 1));
