@@ -76,8 +76,10 @@ export default function DailyTaskList({ day, date }) {
         <div className="dailyTaskList">
             {/* {error && <div>{ error}</div>} */}
             {/* {isPending && <div>Loading ...</div>} */}
-            <h2>{day}</h2> {/* Render the dayTitle */}
-            <p className="dailyList-date">{date}</p>
+            <div className="dailyTaskList-date">
+                <h2>{day}</h2> {/* Render the dayTitle */}
+                <p className="dailyList-date">{date}</p>
+            </div>
             {tasks && <DailyList tasks={tasks} />}
             {/* {tasks &&<DailyList tasks={tasks.filter((blog) => blog.category === 'work')} dayTitle='Work Category'/>} */}
         </div>
