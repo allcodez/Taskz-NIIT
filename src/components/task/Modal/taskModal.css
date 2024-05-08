@@ -163,9 +163,47 @@
     margin-top: -3px;
 }
 
-.taskArea{
-    
+.taskArea .planRow{
+    display: flex;
+    justify-content: space-between;
 }
+
+.taskArea .planRow .taskInfo{
+    display: flex;
+    gap: 10px;
+}
+
+.taskInfo .actual{
+    display: block;
+}
+
+.taskDurations{
+    display: flex;
+    gap: 10px;
+}
+
+.taskDurations select{
+    border: none;
+    appearance: none;
+    outline: none;
+    width: 90px;
+}
+
+.taskDurations select option{
+    padding: 30px;
+    text-align: center;
+    width: 50px;
+}
+
+.ticker{
+    width: 30px;
+    height: 30px;
+}
+
+.ticker:hover{
+    color: var(--primary-color);
+}
+
 
 
 

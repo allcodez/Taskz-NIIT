@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export default function TaskModal({ task }) {
 	const [selectedDate, setSelectedDate] = useState(null);
+	const [selectedDateI, setSelectedDateI] = useState(null);
 
 	return (
 		<Popup
@@ -52,7 +53,7 @@ export default function TaskModal({ task }) {
 											selected={selectedDate}
 											onChange={date => setSelectedDate(date)}
 											dateFormat="MMMM d"
-											placeholderText="Select a date"
+											placeholderText=" "
 											className='date'
 											showPopperArrow={false}
 										/>
@@ -60,10 +61,10 @@ export default function TaskModal({ task }) {
 									<div className='due'>
 										<p className='dueDate'>Due:</p>
 										<DatePicker
-											selected={selectedDate}
-											onChange={date => setSelectedDate(date)}
+											selected={selectedDateI}
+											onChange={dateI => setSelectedDateI(dateI)}
 											dateFormat="MMMM d"
-											placeholderText="Select a date"
+											placeholderText=" "
 											className='date'
 											showPopperArrow={false}
 										/>
@@ -75,12 +76,34 @@ export default function TaskModal({ task }) {
 							<div className="taskArea">
 								<div className="planRow">
 									<div className="taskInfo">
-										<GrStatusGood />
-										{task.taskTitle}
+										<GrStatusGood className='ticker' />
+										<p className='tickerTitle'>{task.taskTitle}</p>
 									</div>
 									<div className="taskDurations">
 										<CiPlay1 />
-									</div>
+										<div className="actual">
+											<p>Duration</p>
+											<select name="actual" id="" className='select'>
+											<option value="0" disabled>--:--</option>
+											<option value="1">5 min</option>
+											<option value="2">10 min</option>
+											<option value="3">15 min</option>
+											<option value="4">20 min</option>
+											<option value="5">25 min</option>
+											<option value="6">30 min</option>
+											<option value="7">45 min</option>
+											<option value="8">1 hr</option>
+											<option value="9">1.5 hr</option>
+											<option value="10">2 hr</option>
+											<option value="11">2.5 hr</option>
+											<option value="12">3 hr</option>
+											<option value="13">4 hr</option>
+											<option value="14">5 hr</option>
+											<option value="15">6 hr</option>
+											<option value="16">7 hr</option>
+											<option value="17">8 hr</option>
+											</select>
+										</div>									</div>
 								</div>
 							</div>
 						</div>
