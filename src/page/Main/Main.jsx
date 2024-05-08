@@ -21,8 +21,12 @@ export default function Main() {
                 {/* <DailyTaskList/> */}
                 <div className="main-layout">
                     <div className="control">
-                        <p>Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-                        <button onClick={toggleSidebar}>Click</button>
+                        {isSidebarClosed ? (
+                            <i onClick={toggleSidebar} className='bx bx-arrow-to-right'></i>
+                        ) : (
+                            <i onClick={toggleSidebar} className='bx bx-arrow-to-left'></i>
+                        )}
+                        <h3>Today</h3>
                     </div>
                     <DateArray />
                 </div>

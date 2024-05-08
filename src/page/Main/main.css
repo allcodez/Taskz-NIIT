@@ -1,5 +1,5 @@
 .layout-root{
-    background-color: #f7f8fa;
+    background-color: var(--body-color);
     height: 100vh;
     width: max-content;
     /* transform: translateX(255px); */
@@ -8,7 +8,7 @@
 .main-layout{
     gap: 30px;
     transform: translateX(250px);
-    border-left: 2px solid var(--text-light);
+    border-left: 1px solid var(--layout-border);
     height: 100vh;
 
 }
@@ -25,5 +25,16 @@
 }
 
 .control{
-    border-bottom: 2px solid var(--text-light);
+    padding: 1rem 0;
+    padding-left: 1rem;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    border-bottom: 1px solid var(--layout-border);
+    color: var(--text-color)
+}
+
+.control i{
+    font-size: 20px;
 }

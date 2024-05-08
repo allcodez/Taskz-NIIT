@@ -88,7 +88,7 @@ export default function SideBar() {
                         <Dropdown />
                     </div>
                 </div>
-                <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i>
+                {/* <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i> */}
             </header>
 
             <div className="menu-bar">
