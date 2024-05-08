@@ -53,7 +53,7 @@ export default function TaskModal({ task }) {
 											onChange={date => setSelectedDate(date)}
 											dateFormat="MMMM d"
 											placeholderText="Select a date"
-											className='dates'
+											className='date'
 											showPopperArrow={false}
 										/>
 									</div>
@@ -64,7 +64,7 @@ export default function TaskModal({ task }) {
 											onChange={date => setSelectedDate(date)}
 											dateFormat="MMMM d"
 											placeholderText="Select a date"
-											className='dates'
+											className='date'
 											showPopperArrow={false}
 										/>
 									</div>
@@ -85,6 +85,7 @@ export default function TaskModal({ task }) {
 							</div>
 						</div>
 					</div>
+
 				</div>
 			)}
 		</Popup>
