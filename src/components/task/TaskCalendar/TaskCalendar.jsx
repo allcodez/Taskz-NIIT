@@ -111,7 +111,7 @@ function TaskCalendar() {
 
                         // Fetch weather data only for dates in the current month
                         if (isCurrentMonth) {
-                            const apiKey = '55a2443648a1fec91d831eb470f33fd0';
+                            const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                             const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
 
                             const response = await fetch(apiUrl);
