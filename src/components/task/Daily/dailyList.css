@@ -1,5 +1,5 @@
 .dailyList{
-    margin-right: 5px;
+    margin-right: 15px;
 }
 
 .add{
@@ -17,7 +17,7 @@
     background-color: var(--time-bg);
 }
 
-.centered{
+.center{
     margin-top: 100px;
     height: fit-content;
     border-radius: 5px;

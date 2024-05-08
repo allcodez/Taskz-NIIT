@@ -33,8 +33,8 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                 closeOnDocumentClick={false}
             >
                 {close => (
-                    <div className="darkBg" onClick={close}>
-                        <div className="centered" onClick={(e) => e.stopPropagation()}>
+                    <div className="darkBag" onClick={close}>
+                        <div className="center" onClick={(e) => e.stopPropagation()}>
                             <div className="content">
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>

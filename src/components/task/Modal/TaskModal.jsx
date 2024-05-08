@@ -39,13 +39,13 @@ export default function TaskModal({ task }) {
 			{close => (
 				<div className='darkBg' onClick={close}>
 					<div className="centered" onClick={(e) => e.stopPropagation()}>
-						<div className="modal">
-							<div className="icon-row">
-								<div className="categ">
-									<span className='ash'>###</span>
+						<div className="modalI">
+							<div className="icon-line">
+								<div className="categoryI">
+									<span className='ash'>#</span>
 									<p>{task.category}</p>
 								</div>
-								<div className="options">
+								<div className="option">
 									<div className='calendar'>
 										<p className='start'>Start:</p>
 										<DatePicker
@@ -58,7 +58,7 @@ export default function TaskModal({ task }) {
 										/>
 									</div>
 									<div className='due'>
-										<p>Due:</p>
+										<p className='dueDate'>Due:</p>
 										<DatePicker
 											selected={selectedDate}
 											onChange={date => setSelectedDate(date)}
