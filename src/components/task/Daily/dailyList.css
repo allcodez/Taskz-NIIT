@@ -5,6 +5,12 @@
     gap: 10px;
 }
 
+.dailyTaskList{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .dailyList-task{
     display: flex;
     flex-direction: column;
@@ -64,10 +70,10 @@ textarea:focus {
     outline: none;
 }
 
-.dailyList .dailyList-date{
+.dailyTaskList-date .dailyList-date{
     color: var(--text-light3);
 }
 
-.dailyList h2{
+.dailyTaskList-date h2{
     color: var(--text-color)
 }
