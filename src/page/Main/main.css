@@ -5,17 +5,18 @@ main{
 .layout-root{
     background-color: var(--body-color);
     height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
+    /* width: 100%; */
+    /* overflow-x: hidden; */
     /* transform: translateX(255px); */
 }
 
 .main-layout{
-    gap: 30px;
     transform: translateX(250px);
     border-left: 1px solid var(--layout-border);
     height: 100vh;
-    width: fit-content;
+    width: 100%;
+    overflow-x: auto;
+    /* background: red; */
 }
 
 .main-layout .control{
