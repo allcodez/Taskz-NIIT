@@ -22,7 +22,9 @@ export default function Main() {
                 <div className="main-layout">
                     <div className="control">
                         <p>Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</p>
-                        <button onClick={toggleSidebar}>Click</button>
+                        <button onClick={toggleSidebar}>
+                            <i class='bx bx-arrow-from-right'></i>
+                        </button>
                     </div>
                     <DateArray />
                 </div>
