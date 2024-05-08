@@ -30,14 +30,14 @@ export default function Form() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
         
                 // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());
         
                 // Make a GET request to OpenWeatherMap API
-                const apiKey = '55a2443648a1fec91d831eb470f33fd0';
+                const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
         
                 try {

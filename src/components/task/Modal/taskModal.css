@@ -3,8 +3,8 @@
     padding: 10px;
     /* display: flex; */
     /* margin: 8px auto; */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.186);
-    width: 250px;
+    box-shadow: 0 2px 5px rgba(68, 67, 67, 0.452);
+    width: 230px;
     color: var(--text-color);
     border-radius: 7px;
     border: .5px solid transparent;
@@ -79,36 +79,39 @@
     justify-content: center;
 }
 
-.centered {
+.centered{
     display: flex;
     justify-content: center;
     background-color: var(--sidebar-color);
     width: 610px;
-    margin-top: 40wnpmpx;
+    margin-top: 40px;
     margin-bottom: 40px;
     border-radius: 10px;
     padding: 20px 0;
 }
 
-.modal {
+.modalI{
     width: 550px;
     padding: 20px;
     color: var(--text-default);
-}
-
-.icon-row {
     display: flex;
-    justify-content: space-between;
-}
-
-.categ {
-    display: flex;
-    gap: 15px;
-}
-
-.options {
-    display: flex;
+    flex-direction: column;
     gap: 20px;
+}
+
+.modalI .icon-line{
+    display: flex;
+    justify-content:space-between;
+}
+
+.icon-line .categoryI{
+    display: flex;
+    gap: 10px;
+}
+
+.icon-line .option {
+    display: flex;
+    gap: 0px;
 }
 
 .popup-content {
@@ -119,44 +122,98 @@
     line-height: 12px;
 }
 
-.start {
+.popup-content .option .calendar{
     margin-top: -10px;
     font-size: 13px;
     color: var(--text-default);
     display: flex;
+    /* width: 250px;     */
+    overflow: hidden;
 }
 
 .delete {
-    margin-top: -2px;
+    margin-top: -15px;
     color: var(--text-light2);
     font-size: 13px;
 }
 
-.due {
+.option .due{
     font-size: 13px;
+    margin-top: -10px;
     color: var(--text-light2);
+    width: 95px;
+    overflow: hidden;
     display: flex;
 }
 
 .closer {
     width: 20px;
     height: 20px;
-    margin-top: -2px;
+    margin-top: -15px;
     color: var(--text-light2);
 }
 
-.dates {
+.date{
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
-    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
     border: none;
     outline: none;
-
+    width: 60px;
+    padding-left: 2px;
+    margin-top: -3px;
+    background-color: transparent;
 }
 
+.taskArea .planRow{
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskArea .planRow .taskInfo{
+    display: flex;
+    gap: 10px;
+}
+
+.taskInfo .actual{
+    display: block;
+}
+
+.taskDurations{
+    display: flex;
+    gap: 10px;
+}
+
+.taskDurations select{
+    border: none;
+    appearance: none;
+    outline: none;
+    width: 90px;
+    background-color: transparent;
+}
+
+.taskDurations select option{
+    padding: 30px;
+    text-align: center;
+    width: 50px;
+}
+
+.ticker{
+    width: 30px;
+    height: 30px;
+}
+
+.ticker:hover{
+    color: var(--primary-color);
+}
+
+.tickerTitle{
+    font-weight: 500;
+    font-size: 25px;
+    margin-top: 10px;
+}
 
 
 

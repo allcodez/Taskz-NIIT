@@ -1,4 +1,3 @@
-// DateArray.jsx
 import React from 'react';
 import './dateArray.css';
 import DailyTaskList from './Daily/DailyTaskList';
