@@ -1,6 +1,6 @@
 .dailyList {
     display: flex;
-    margin-right: 5px;
+    margin-right: 20px;
     flex-direction: column;
     gap: 10px;
 }
