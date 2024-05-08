@@ -1,7 +1,8 @@
 .layout-root{
     background-color: var(--body-color);
     height: 100vh;
-    width: max-content;
+    width: 100%;
+    overflow-x: hidden;
     /* transform: translateX(255px); */
 }
 
@@ -10,7 +11,7 @@
     transform: translateX(250px);
     border-left: 1px solid var(--layout-border);
     height: 100vh;
-
+    width: fit-content;
 }
 
 .main-layout .control{
@@ -38,3 +39,4 @@
 .control i{
     font-size: 20px;
 }
+

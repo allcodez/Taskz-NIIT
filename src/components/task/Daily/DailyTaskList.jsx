@@ -77,7 +77,7 @@ export default function DailyTaskList({ day, date }) {
             {/* {error && <div>{ error}</div>} */}
             {/* {isPending && <div>Loading ...</div>} */}
             <div className="dailyTaskList-date">
-                <h2>{day}</h2> {/* Render the dayTitle */}
+                <h2>{day}</h2> 
                 <p className="dailyList-date">{date}</p>
             </div>
             {tasks && <DailyList tasks={tasks} />}
