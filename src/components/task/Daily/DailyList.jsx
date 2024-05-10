@@ -33,8 +33,8 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                 closeOnDocumentClick={false}
             >
                 {close => (
-                    <div className="darkBag" onClick={close}>
-                        <div className="center" onClick={(e) => e.stopPropagation()}>
+                    // <div className="darkBag" onClick={close}>
+                        // <div className="center" onClick={(e) => e.stopPropagation()}>
                             <div className="content">
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>
@@ -61,8 +61,8 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                    </div>
+                        // </div>
+                    // </div>
                 )}
             </Popup>
             <div className='dailyList-task'>
