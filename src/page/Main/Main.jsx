@@ -16,7 +16,7 @@ export default function Main() {
 
     return (
         <>
-            <div className="layout-root" style={{ transform: `translateX(${translation}px)`, transition: 'transform 0.3s ease', overflowX: isSidebarClosed ? 'auto' : 'hidden' }}>
+            <div className="layout-root" style={{ transform: `translateX(${translation}px)`, transition: 'transform 0.3s ease', overflowX: isSidebarClosed ? 'visible' : 'hidden' }}>
                 <SideBar />
                 {/* <DailyTaskList/> */}
                 <div className="main-layout">

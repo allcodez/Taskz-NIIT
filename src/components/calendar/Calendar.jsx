@@ -5,7 +5,7 @@ import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
 // import { useCalendarContext } from '../../../hooks/CalendarContext';
 
-const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const daysOfWeek = ['S','M', 'T', 'W', 'T', 'F', 'S'];
 const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -53,11 +53,11 @@ export default function Calendar() {
         // Dates from previous month
         const previousMonthDays = [];
         const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        // const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-        // const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
-        // for (let i = startingDay - 1; i >= 0; i--) {
-        //     previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
-        // }
+        const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
+        for (let i = startingDay - 1; i >= 0; i--) {
+            previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
+        }
 
         // Dates from current month
         const currentMonthDays = Array.from({ length: totalDays }, (_, index) => ({
@@ -69,51 +69,67 @@ export default function Calendar() {
         const nextMonthDays = [];
         const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
         const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-        // const remainingDays = 7 - (previousMonthDays.length + currentMonthDays.length) % 7;
-        // for (let i = 1; i <= remainingDays; i++) {
-        //     nextMonthDays.push({ day: i, isCurrentMonth: false });
-        // }
+        const remainingDays = 7 - (previousMonthDays.length + currentMonthDays.length) % 7;
+        for (let i = 1; i <= remainingDays; i++) {
+            nextMonthDays.push({ day: i, isCurrentMonth: false });
+        }
 
-        const allDays = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
+        const allDays = [
+            ...previousMonthDays,
+            ...currentMonthDays,
+            ...nextMonthDays
+        ];
 
-        return allDays.map((day, index) => {
-            const classNames = ["day"];
-            if (!day.isCurrentMonth) {
-                classNames.push("other-month");
-            } else if (currentMonthYear && day.day === today.getDate()) {
-                classNames.push("current-date");
-            }
+        const daysOfWeekArray = [[], [], [], [], [], [], []]; // Initialize a 2D array for the days of the week
 
-            const currentDate = new Date(currentYear, currentMonth, day.day);
-            const dateString = currentDate.toDateString();
-            const weatherInfo = weatherData[dateString] && weatherData[dateString].weather.length > 0
-                ? weatherData[dateString].weather[0].main
-                : '';
-
-            const handleMouseEnter = () => {
-                setHoveredDate(new Date(currentDate));
-                setSelectedWeatherInfo(weatherInfo);
-            };
-
-            const handleMouseLeave = () => {
-                setHoveredDate(null);
-                setSelectedWeatherInfo('');
-            };
-
-            return (
-                <div
-                    key={`day-${index}`}
-                    className={classNames.join(" ")}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    {day.day}
-                    {hoveredDate && hoveredDate.toDateString() === currentDate.toDateString() && (
-                        <WeatherInfo weatherInfo={selectedWeatherInfo} />
-                    )}
-                </div>
-            );
+        // Fill the daysOfWeekArray with dates
+        allDays.forEach((day, index) => {
+            const weekdayIndex = index % 7;
+            daysOfWeekArray[weekdayIndex].push(day);
         });
+
+        return daysOfWeekArray.map((week, weekIndex) => (
+            <div key={`week-${weekIndex}`} className="week">
+                {week.map((day, dayIndex) => {
+                    const classNames = ["day"];
+                    if (!day.isCurrentMonth) {
+                        classNames.push("other-month");
+                    } else if (currentMonthYear && day.day === today.getDate()) {
+                        classNames.push("current-date");
+                    }
+
+                    const currentDate = new Date(currentYear, currentMonth, day.day);
+                    const dateString = currentDate.toDateString();
+                    const weatherInfo = weatherData[dateString] && weatherData[dateString].weather.length > 0
+                        ? weatherData[dateString].weather[0].main
+                        : '';
+
+                    const handleMouseEnter = () => {
+                        setHoveredDate(new Date(currentDate));
+                        setSelectedWeatherInfo(weatherInfo);
+                    };
+
+                    const handleMouseLeave = () => {
+                        setHoveredDate(null);
+                        setSelectedWeatherInfo('');
+                    };
+
+                    return (
+                        <div
+                            key={`day-${weekIndex}-${dayIndex}`}
+                            className={classNames.join(" ")}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            {day.day}
+                            {hoveredDate && hoveredDate.toDateString() === currentDate.toDateString() && (
+                                <WeatherInfo weatherInfo={selectedWeatherInfo} />
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        ));
     };
 
     useEffect(() => {

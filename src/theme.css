@@ -67,6 +67,6 @@ div, p, li, ul, span{
 }
 
 body{
-	/* overflow-x: hidden !important; */
+	overflow-x: hidden;
 	box-sizing: border-box;
 }
