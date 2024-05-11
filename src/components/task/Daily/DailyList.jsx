@@ -39,10 +39,12 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>
                                     <div className="iconRow">
-                                        <div onClick={handleDateClick} className='date'> Start:{startDate ? startDate.toLocaleDateString(undefined, { text: 'Start:', month: 'long', day: 'numeric' }) : ''}</div>
+                                        <div onClick={handleDateClick} className='date'> 
+                                        <label id='absolute'>Start:</label>
+                                        {startDate ? startDate.toLocaleDateString(undefined, { text: 'Start:', month: 'long', day: 'numeric' }) : ''}</div>
                                         {showCalendar && (
                                             <DatePicker
-                                                className='absolute'
+                                                id='absolute'
                                                 selected={startDate}
                                                 onChange={date => handleDateSelect(date)}
                                                 inline
