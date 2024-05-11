@@ -44,10 +44,11 @@
     box-shadow:  0px 10px 70px rgba(12, 12, 12, 0.664);
     background-color: var(--task-bg);
     width: fit-content;
-    height: 140px;
+    height: 160px;
 }
 
 .iconRow {
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
 }
@@ -107,9 +108,17 @@ textarea:focus {
 
 .addButton{
     background-color: var(--primary-color);
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
 }
 
-
+.select .hash{
+    margin-top: 10px;
+    color: orange;
+    margin-right: -5px;
+}
 
 
 

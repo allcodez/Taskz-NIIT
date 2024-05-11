@@ -72,10 +72,15 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
 											<option value="17">8 hr</option>
                                             </select>
                                             </div>
-                                            <select name="" id="">
-                                                <option value=""></option>
-                                            </select>
-                                            <button>+</button>
+                                            <div className="select">
+                                                    <p className='hash'>#</p>
+                                                <select name="" id="" className='selectII'>
+                                                    <option value="1">Work</option>
+                                                    <option value="2">Personal</option>
+                                                    <option value="3">Study</option>
+                                                </select>
+                                                <button className="addButton">+ Add</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
