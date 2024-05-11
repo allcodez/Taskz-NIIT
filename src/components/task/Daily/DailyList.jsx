@@ -27,17 +27,19 @@ export default function DailyList({ tasks, dayTitle, totalTime }) {
                                 <form action="">
                                     <textarea placeholder='Task description...' name="" id="" cols="55" rows="3"></textarea>
                                     <div className="iconRow">
-                                        <div onClick={handleDateClick} className='date'> 
+                                        <div className='date'> 
                                         <label id='absolute'>Start:</label>
-                                        {startDate ? startDate.toLocaleDateString(undefined, { text: 'Start:', month: 'long', day: 'numeric' }) : ''}</div>
+                                        {/* {startDate ? startDate.toLocaleDateString(undefined, { text: 'Start:', month: 'long', day: 'numeric' }) : ''} */}
+                                        {/* </div>
                                         {showCalendar && (
                                             <DatePicker
                                                 id='absolute'
                                                 selected={startDate}
                                                 onChange={date => handleDateSelect(date)}
-                                                inline
-                                            />
-                                        )}
+                                                inline */}
+                                            {/* /> */}
+                                        {/* )} */}
+                                        </div>
                                         <div className="rightIcons">
                                             <div className="select">
                                                 <FaRegClock  className='clockII'/>
