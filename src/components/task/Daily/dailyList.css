@@ -41,9 +41,10 @@
 
 .popup-content {
     margin-top: 50px;
-    box-shadow:  0 10px 50px rgba(12, 12, 12, 0.452);
+    box-shadow:  0px 10px 70px rgba(12, 12, 12, 0.664);
     background-color: var(--task-bg);
     width: fit-content;
+    height: 140px;
 }
 
 .iconRow {
@@ -66,17 +67,53 @@ textarea:focus {
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
-    padding: 5px;
+    padding-left: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
     border: none;
+    width: 100px;
     outline: none;
 }
 
-.dailyTaskList-date .dailyList-date{
-    color: var(--text-light3);
+.rightIcons{
+    display: flex;
+    gap: 5px;
 }
 
-.dailyTaskList-date h2{
-    color: var(--text-color)
+.clockII{
+    width: 20px;
+    height: 30px;
 }
+
+.select{
+    display: flex;
+    gap: 5px;
+}
+
+.select select{
+    border: none;
+    appearance: none;
+    outline: none;
+    width: 50px;
+    background-color: transparent;
+}
+
+.select select option{
+    padding: 30px;
+    text-align: center;
+    width: 50px;
+}
+
+
+.addButton{
+    background-color: var(--primary-color);
+}
+
+
+
+
+
+
+
+
+

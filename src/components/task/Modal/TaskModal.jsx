@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 export default function TaskModal({ task }) {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedDateI, setSelectedDateI] = useState(null);
+	const [tickName, setTickName] = useState("tick-icon");
 
 	return (
 		<Popup
@@ -108,6 +109,11 @@ export default function TaskModal({ task }) {
 										</div>									</div>
 								</div>
 							</div>
+							<div className="taskArena">
+							<textarea placeholder='Notes...' name="" id="" cols="55" rows="7"></textarea>
+							</div>
+							<div className="divider"></div>
+
 						</div>
 					</div>
 
