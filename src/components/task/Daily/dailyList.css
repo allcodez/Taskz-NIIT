@@ -3,10 +3,11 @@
     margin-right: 30px;
     flex-direction: column;
     gap: 1.5rem;
+    padding: 0 15px;
 }
 
 .dailyTaskList{
-    width: 250px;
+    width: 270px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -19,8 +20,9 @@
 }
 
 .add {
-    padding: 5px;
+    padding: 5px 15px;
     background-color: var(--task-bg);
+    color: var(--text-light3);
     display: flex;
     justify-content: space-between;
     border-radius: 5px;

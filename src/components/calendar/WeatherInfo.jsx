@@ -3,7 +3,7 @@ import './weatherInfo.css'
 
 const WeatherInfo = ({ weatherInfo }) => {
     const getIconUrl = (iconCode) => {
-        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        return `https://openweathermap.org/img/wn/${iconCode}.png`;
     };
 
     // Check if weather info exists
@@ -11,44 +11,66 @@ const WeatherInfo = ({ weatherInfo }) => {
         return null;
     }
 
-    // Assuming your weatherInfo prop contains the main weather condition
-    // You can modify this logic based on your actual data structure
+    // Map weather conditions to icon codes
     let iconCode = '';
     switch (weatherInfo.toLowerCase()) {
         case 'clear':
-            iconCode = '01';
+            iconCode = '01d';
             break;
         case 'clouds':
-            iconCode = '02';
+            iconCode = '02d';
             break;
         case 'rain':
-            iconCode = '10';
+            iconCode = '10d';
             break;
         case 'thunderstorm':
-            iconCode = '11';
+            iconCode = '11d';
             break;
         case 'snow':
-            iconCode = '13';
+            iconCode = '13d';
             break;
         case 'mist':
-            iconCode = '50';
+            iconCode = '50d';
+            break;
+        case 'drizzle':
+            iconCode = '09d';
+            break;
+        case 'smoke':
+            iconCode = '50d';
+            break;
+        case 'haze':
+            iconCode = '50d';
+            break;
+        case 'dust':
+            iconCode = '50d';
+            break;
+        case 'fog':
+            iconCode = '50d';
+            break;
+        case 'sand':
+            iconCode = '50d';
+            break;
+        case 'ash':
+            iconCode = '50d';
+            break;
+        case 'squall':
+            iconCode = '50d';
+            break;
+        case 'tornado':
+            iconCode = '50d';
             break;
         default:
-            iconCode = '';
-    }
-
-    // If no matching weather condition found, return null
-    if (!iconCode) {
-        return null;
+            // No matching condition found
+            return null;
     }
 
     // Construct the icon URL
-    const iconUrl = getIconUrl(`${iconCode}d`); // Assuming day icon is used
+    const iconUrl = getIconUrl(iconCode);
 
     return (
         <div className="weather-info">
-                    <img src={iconUrl} alt="Weather Icon" />
-            </div>
+            <img src={iconUrl} alt="Weather Icon" />
+        </div>
     );
 };
 
