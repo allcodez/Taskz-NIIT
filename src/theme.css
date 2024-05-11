@@ -65,3 +65,8 @@ body.dark {
 div, p, li, ul, span{
 	font-size: 0.9rem;
 }
+
+body{
+	overflow-x: hidden;
+	box-sizing: border-box;
+}

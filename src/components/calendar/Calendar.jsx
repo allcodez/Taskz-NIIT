@@ -5,7 +5,7 @@ import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
 // import { useCalendarContext } from '../../../hooks/CalendarContext';
 
-const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const daysOfWeek = ['S','M', 'T', 'W', 'T', 'F', 'S'];
 const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -53,11 +53,11 @@ export default function Calendar() {
         // Dates from previous month
         const previousMonthDays = [];
         const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        // const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-        // const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
-        // for (let i = startingDay - 1; i >= 0; i--) {
-        //     previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
-        // }
+        const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        const daysInPreviousMonth = daysInMonth(previousMonth, previousMonthYear);
+        for (let i = startingDay - 1; i >= 0; i--) {
+            previousMonthDays.push({ day: daysInPreviousMonth - i, isCurrentMonth: false });
+        }
 
         // Dates from current month
         const currentMonthDays = Array.from({ length: totalDays }, (_, index) => ({
@@ -69,10 +69,10 @@ export default function Calendar() {
         const nextMonthDays = [];
         const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
         const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-        // const remainingDays = 7 - (previousMonthDays.length + currentMonthDays.length) % 7;
-        // for (let i = 1; i <= remainingDays; i++) {
-        //     nextMonthDays.push({ day: i, isCurrentMonth: false });
-        // }
+        const remainingDays = 7 - (previousMonthDays.length + currentMonthDays.length) % 7;
+        for (let i = 1; i <= remainingDays; i++) {
+            nextMonthDays.push({ day: i, isCurrentMonth: false });
+        }
 
         const allDays = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
 

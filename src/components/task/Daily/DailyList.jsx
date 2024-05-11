@@ -7,18 +7,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export default function DailyList({ tasks, dayTitle, totalTime }) {
-    const [startDate, setStartDate] = useState(null);
-    const [showCalendar, setShowCalendar] = useState(false);
-
-    const handleDateClick = () => {
-        setShowCalendar(!showCalendar);
-    };
-
-    const handleDateSelect = (date) => {
-        setStartDate(date);
-        setShowCalendar(false);
-        // You can perform any additional actions here based on the selected date
-    };
 
     return (
         <div className="dailyList">

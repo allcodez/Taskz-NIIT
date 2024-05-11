@@ -11,12 +11,12 @@ export default function Main() {
 
     const toggleSidebar = () => {
         setIsSidebarClosed(!isSidebarClosed);
-        setTranslation(isSidebarClosed ? 0 : -248);
+        setTranslation(isSidebarClosed ? 0 : -251);
     };
 
     return (
         <>
-            <div className="layout-root" style={{ transform: `translateX(${translation}px)`, transition: 'transform 0.3s ease' }}>
+            <div className="layout-root" style={{ transform: `translateX(${translation}px)`, transition: 'transform 0.3s ease', overflowX: isSidebarClosed ? 'visible' : 'hidden' }}>
                 <SideBar />
                 {/* <DailyTaskList/> */}
                 <div className="main-layout">

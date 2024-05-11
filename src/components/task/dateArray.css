@@ -1,7 +1,11 @@
 .dayList{
     display: flex;
     padding: 1rem;
+    overflow-x: scroll;
+    height: 91vh;
+    gap: 1.5rem;
 }
+
 
 .dayList p, .dayList h2{
     

@@ -11,11 +11,13 @@ const Category = ({ category }) => {
 
   return (
     <div className="category">
-      <p className="category-name" onClick={toggleSidebar}>
-        <i className={`bx ${isDropDownOpen ? 'bx-chevron-right' : 'bx-chevron-down'} toggle`}></i>
-        {category.name}
-      </p>
-      {!isDropDownOpen && (
+      <li className="category-name" onClick={toggleSidebar}>
+        <a href="">
+          <i className={`bx ${isDropDownOpen ? 'bx-chevron-right' : 'bx-chevron-down'} toggle`}></i>
+          {category.name}
+        </a>
+      </li>
+      {/* {!isDropDownOpen && (
         <ul className="category-list">
           {category.items.map((item, index) => (
             <li key={index} className="category-item">
@@ -25,7 +27,7 @@ const Category = ({ category }) => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </div>
   );
 };

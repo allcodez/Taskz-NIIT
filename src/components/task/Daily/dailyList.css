@@ -2,10 +2,12 @@
     display: flex;
     margin-right: 30px;
     flex-direction: column;
-    gap: 10px;
+    gap: 1.5rem;
+    padding: 0 15px;
 }
 
 .dailyTaskList{
+    width: 270px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -18,8 +20,9 @@
 }
 
 .add {
-    padding: 5px;
+    padding: 5px 15px;
     background-color: var(--task-bg);
+    color: var(--text-light3);
     display: flex;
     justify-content: space-between;
     border-radius: 5px;
@@ -76,33 +79,8 @@ textarea:focus {
     outline: none;
 }
 
-.rightIcons{
-    display: flex;
-    gap: 5px;
-}
-
-.clockII{
-    width: 20px;
-    height: 30px;
-}
-
-.select{
-    display: flex;
-    gap: 5px;
-}
-
-.select select{
-    border: none;
-    appearance: none;
-    outline: none;
-    width: 50px;
-    background-color: transparent;
-}
-
-.select select option{
-    padding: 30px;
-    text-align: center;
-    width: 50px;
+.dailyTaskList-date .dailyList-date{
+    color: var(--text-light3);
 }
 
 
