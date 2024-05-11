@@ -44,9 +44,10 @@
 
 .popup-content {
     margin-top: 50px;
-    box-shadow:  0 10px 50px rgba(12, 12, 12, 0.452);
+    box-shadow:  0px 10px 70px rgba(12, 12, 12, 0.664);
     background-color: var(--task-bg);
     width: fit-content;
+    height: 140px;
 }
 
 .iconRow {
@@ -69,10 +70,11 @@ textarea:focus {
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
-    padding: 5px;
+    padding-left: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
     border: none;
+    width: 100px;
     outline: none;
 }
 
@@ -82,27 +84,4 @@ textarea:focus {
 
 .dailyTaskList-date h2{
     color: var(--text-color)
-}
-
-/* Style the scrollbar track */
-.dayList::-webkit-scrollbar-track {
-	background-color: var(--scroll-bg);
-}
-
-/* Style the scrollbar itself */
-.dayList::-webkit-scrollbar {
-	height: 8px;
-	background-color: var(--scroll-bg);
-	/* border-radius: 100px; */
-}
-
-/* Style the scrollbar thumb */
-.dayList::-webkit-scrollbar-thumb {
-	background-color: var(--scroll-bar);
-	/* border-radius: 100px; */
-}
-
-/* Style the scrollbar thumb on hover */
-.dayList::-webkit-scrollbar-thumb:hover {
-	background-color: #555;
 }

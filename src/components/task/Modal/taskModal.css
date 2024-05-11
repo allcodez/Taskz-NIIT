@@ -127,7 +127,7 @@
     font-size: 13px;
     color: var(--text-default);
     display: flex;
-    /* width: 250px;     */
+    width: 120px;    
     overflow: hidden;
 }
 
@@ -141,7 +141,7 @@
     font-size: 13px;
     margin-top: -10px;
     color: var(--text-light2);
-    width: 95px;
+    width: 90px;
     overflow: hidden;
     display: flex;
 }
@@ -150,6 +150,7 @@
     width: 20px;
     height: 20px;
     margin-top: -15px;
+    margin-left: 15px;
     color: var(--text-light2);
 }
 
@@ -213,6 +214,16 @@
     font-weight: 500;
     font-size: 25px;
     margin-top: 10px;
+}
+
+.taskArena textarea{
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.divider{
+    background-color: rgba(128, 128, 128, 0.418);
+    height: 1px;
 }
 
 
