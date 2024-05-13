@@ -50,7 +50,7 @@ input[type=submit],
 
 .form {
   width: 100%;
-  background: #f0fff1;
+  background: #d8ffda;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,7 +95,7 @@ input[type=date] {
 .input-fields button {
   width: 100%;
   border-radius: 8px;
-  background-color: #081c15;
+  background-color: var(--primary-color);
   padding: 0.9rem 1.2rem;
   color: white;
   border: none;

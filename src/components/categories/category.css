@@ -1,5 +1,5 @@
 .category{
-    padding-top: 8px;
+    padding-top: 5px;
 }
 
 .category-name a{
@@ -11,4 +11,24 @@
 
 .nav-text{
     color: var(--text-color)
+}
+
+.category-option-list{
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 0.5rem;
+}
+
+.category-option-list span{
+    color: var(--text-color);
+}
+
+.category-option-list:hover{
+    background-color: var(--scroll-bar);
+}
+
+.category-option-list i.bx{
+    font-size: 1rem !important;
+    /* color: var(--text-color); */
 }

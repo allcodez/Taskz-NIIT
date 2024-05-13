@@ -9,7 +9,8 @@
 	/* ===== Colors ===== */
 	--body-color: #eeeeee;
 	--sidebar-color: #f7f8fa;
-	--primary-color: #2d6a4f;
+	--primary-color: #109e1f;
+	--brand-light: #d8ffda;
 	--primary-color-light: #f6f5ff;
 	--toggle-color: #ddd;
 	--text-color: #474747;
@@ -19,18 +20,21 @@
 	--scroll-bg: transparent;
 	--scroll-bar: #9f9f9f;
     --task-bg: #fff;
+	--task-bg2: #fff;
     --time-bg: #eef0f0;
 	--invert-default: invert(0);
 	--sidebar-shadow: #0000000d;
 	--layout-border: #b2b2b2;
+	--primary-hover: #109e1e2d;
+	--icon-color: #109e1f;
 
- 
+
 	/* ====== Transition ====== */
 	--tran-01: all 0.1s ease;
-	--tran-03: all 0.2s ease;
+	--tran-03: all 0.3s ease;
 	/* --tran-03: all 0.3s ease; */
-	--tran-04: all 0.3s ease;
-	--tran-05: all 0.3s ease;
+	--tran-04: all 0.4s ease;
+	--tran-05: all 0.5s ease;
 }
 
 body.dark {
@@ -46,15 +50,20 @@ body.dark {
 	--text-default: #ffffff;
 	--scroll-bg: transparent;
 	--scroll-bar: #3a3b3c;
-    --task-bg: #2c2c2c;
+    --task-bg: #141415;
+	--task-bg2: #2c2c2c;
     --time-bg: #4b4b4b;
 	--invert-default: invert(1);
 	--sidebar-shadow: #000000e6;
 	--layout-border: #282828;
+	--primary-hover: #3a3b3c;
+	--icon-color: #c0c0c0;
+	/* --textInvert-color:  */
 }
 
 .bx{
 	cursor: pointer;
+	/* color: var(--primary-color) !important; */
 }
 
 ::selection {

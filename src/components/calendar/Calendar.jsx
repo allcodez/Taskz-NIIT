@@ -5,13 +5,13 @@ import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
 // import { useCalendarContext } from '../../../hooks/CalendarContext';
 
-const daysOfWeek = ['S','M', 'T', 'W', 'T', 'F', 'S'];
+const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export default function Calendar() {
+export default function Calendar({ onDateSelect }) {
     const isMounted = useRef(false);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -42,6 +42,10 @@ export default function Calendar() {
 
     const firstDayOfMonth = (month, year) => {
         return new Date(year, month, 1).getDay();
+    };
+
+    const handleDateSelect = (date) => {
+        onDateSelect(date);
     };
 
     const renderCalendar = () => {
@@ -100,10 +104,15 @@ export default function Calendar() {
                 setSelectedWeatherInfo('');
             };
 
+            const handleDateClick = () => {
+                handleDateSelect(currentDate);
+            };
+
             return (
                 <div
                     key={`day-${index}`}
                     className={classNames.join(" ")}
+                    onClick={handleDateClick}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
@@ -176,13 +185,13 @@ export default function Calendar() {
     return (
         <div className="calendar">
             <div className="navigation">
-                <button onClick={prevMonth}>
-                    <img src={arrowLeft} />
-                </button>
+                <div className='nav-arrow' onClick={prevMonth}>
+                    <i class='bx bx-chevron-left'></i>
+                </div>
                 <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
-                <button onClick={nextMonth}>
-                    <img src={arrowRight} />
-                </button>
+                <div className='nav-arrow' onClick={nextMonth}>
+                    <i class='bx bx-chevron-right'></i>
+                </div>
             </div>
             <div className="days-of-week">
                 {daysOfWeek.map((day, index) => (

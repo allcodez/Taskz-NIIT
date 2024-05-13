@@ -19,15 +19,6 @@
     gap: 8px
 }
 
-.add {
-    padding: 5px 15px;
-    background-color: var(--task-bg);
-    color: var(--text-light3);
-    display: flex;
-    justify-content: space-between;
-    border-radius: 5px;
-}
-
 .time {
     font-size: smaller;
     padding: 2px;
@@ -35,53 +26,49 @@
     background-color: var(--time-bg);
 }
 
-.content{
-    /* margin-top: 100px;
-    height: fit-content;
-    border-radius: 5px;
-    width: 730px; */
-}
-
-.popup-content {
-    margin-top: 50px;
-    box-shadow:  0px 10px 70px rgba(12, 12, 12, 0.664);
-    background-color: var(--task-bg);
-    width: fit-content;
-    height: 140px;
-}
-
-.iconRow {
-    display: flex;
-    justify-content: space-between;
-}
-
-textArea {
-    border: none;
-    outline: none;
-    font-size: 16px;
-    padding: 10px;
-}
-
-textarea:focus {
-    border: 1px solid var(--task-bg);
-}
-
-.iconRow .date {
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    padding-left: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    border: none;
-    width: 100px;
-    outline: none;
-}
-
-.dailyTaskList-date .dailyList-date{
-    color: var(--text-light3);
-}
 
 .dailyTaskList-date h2{
     color: var(--text-color)
 }
+
+.dailyTaskList-date p{
+    color: var(--text-light3);
+}
+
+/* Style the scrollbar track */
+.dayList::-webkit-scrollbar-track {
+	background-color: var(--scroll-bg);
+}
+
+/* Style the scrollbar itself */
+.dayList::-webkit-scrollbar {
+	height: 8px;
+	background-color: var(--scroll-bg);
+	/* border-radius: 100px; */
+}
+
+/* Style the scrollbar thumb */
+.dayList::-webkit-scrollbar-thumb {
+	background-color: var(--scroll-bar);
+	/* border-radius: 100px; */
+}
+
+/* Style the scrollbar thumb on hover */
+.dayList::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
+.clockII{
+    width: 20px;
+    height: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+

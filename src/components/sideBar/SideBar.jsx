@@ -15,12 +15,17 @@ export default function SideBar() {
     const categoriesData = [
         {
             name: 'Work',
-            items: ['Item 1', 'Item 2', 'Item 3']
         },
         {
             name: 'Personal',
-            items: ['Item A', 'Item B', 'Item C']
+        },
+        {
+            name: 'Study',
         }
+        // ,
+        // {
+        //     name: 'Uncategorised',
+        // }
     ];
 
     const toggleSidebar = () => {

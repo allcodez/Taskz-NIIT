@@ -17,7 +17,7 @@ export default function TaskModal({ task }) {
 			trigger={(
 				<div className='container'>
 					<div className="title">
-						<p>{task.taskTitle}</p>
+						<p>{task.name}</p>
 						<div className='time'>{task.time}</div>
 					</div>
 					<div>

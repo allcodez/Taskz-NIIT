@@ -13,10 +13,13 @@
     align-items: center;
 }
 
-.navigation button{
+.navigation .nav-arrow{
     padding: 0;
     border: none;
     background: transparent;
+    cursor: pointer;
+    color: var(--icon-color);
+    font-size: 1.8rem;
 }
 
 .navigation button img{
@@ -43,6 +46,7 @@
 .dates {
     position: relative;
     display: grid;
+    cursor: pointer;
     grid-template-columns: repeat(7, 1fr);
 }
 
