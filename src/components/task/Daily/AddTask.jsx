@@ -69,7 +69,7 @@ const AddTask = ({ onTaskAdd }) => {
         // Pass the new task to the parent component
         onTaskAdd(newTask);
         // Close the popup
-        // close();
+        close();
     };
 
     return (
