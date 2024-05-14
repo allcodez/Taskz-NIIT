@@ -6,8 +6,8 @@ import { FaRegClock } from "react-icons/fa6";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { Button, Form, Input } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+// import { Button, Form, Input } from 'antd';
+// import { PlusOutlined } from '@ant-design/icons';
 
 const AddTask = ({ tasks, dayTitle, totalTime }) => {
 
