@@ -35,49 +35,49 @@ function TaskCalendar() {
         return generateDatesForNextThreeMonths();
     };
 
-    useEffect(() => {
-        const fetchWeatherData = async () => {
-            try {
-                const datesArray = generateDatesForNextThreeMonths();
-                const weatherDataForDates = {};
+    // useEffect(() => {
+    //     const fetchWeatherData = async () => {
+    //         try {
+    //             const datesArray = generateDatesForNextThreeMonths();
+    //             const weatherDataForDates = {};
 
-                for (const dateObj of datesArray) {
-                    const date = dateObj.date;
+    //             for (const dateObj of datesArray) {
+    //                 const date = dateObj.date;
 
-                    // Retrieve latitude and longitude from local storage
-                    const latitude = parseFloat(localStorage.getItem('latitude'));
-                    const longitude = parseFloat(localStorage.getItem('longitude'));
+    //                 // Retrieve latitude and longitude from local storage
+    //                 const latitude = parseFloat(localStorage.getItem('latitude'));
+    //                 const longitude = parseFloat(localStorage.getItem('longitude'));
 
-                    const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
-                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
+    //                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+    //                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
 
-                    const response = await fetch(apiUrl);
-                    if (response.ok) {
-                        const data = await response.json();
-                        weatherDataForDates[date.toDateString()] = data;
-                        // console.log('Calendar', data);
-                    } else {
-                        console.error('Error fetching weather data:', response.statusText);
-                    }
-                }
+    //                 const response = await fetch(apiUrl);
+    //                 if (response.ok) {
+    //                     const data = await response.json();
+    //                     weatherDataForDates[date.toDateString()] = data;
+    //                     // console.log('Calendar', data);
+    //                 } else {
+    //                     console.error('Error fetching weather data:', response.statusText);
+    //                 }
+    //             }
 
-                setWeatherData(weatherDataForDates);
-                setWeatherDataFetched(true);
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-            }
-        };
+    //             setWeatherData(weatherDataForDates);
+    //             setWeatherDataFetched(true);
+    //         } catch (error) {
+    //             console.error('Error fetching weather data:', error);
+    //         }
+    //     };
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                fetchWeatherData();
-            },
-            (error) => {
-                console.error('Error getting location:', error);
-                alert('Unable to get your location. Please allow location access for this feature.');
-            }
-        );
-    }, []);
+    //     navigator.geolocation.getCurrentPosition(
+    //         (position) => {
+    //             fetchWeatherData();
+    //         },
+    //         (error) => {
+    //             console.error('Error getting location:', error);
+    //             alert('Unable to get your location. Please allow location access for this feature.');
+    //         }
+    //     );
+    // }, []);
 
     return renderCalendar();
 }
