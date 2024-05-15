@@ -27,6 +27,7 @@
 	--layout-border: #b2b2b2;
 	--primary-hover: #109e1e2d;
 	--icon-color: #109e1f;
+	--progress-bg: #e0e0df;
 
 
 	/* ====== Transition ====== */
@@ -58,6 +59,7 @@ body.dark {
 	--layout-border: #282828;
 	--primary-hover: #3a3b3c;
 	--icon-color: #c0c0c0;
+	--progress-bg: #4646466b;
 	/* --textInvert-color:  */
 }
 

@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import './calendar.css';
 import arrowLeft from '../../asstes/icons/arrowLeft.svg';
 import arrowRight from '../../asstes/icons/arrowRight.svg';
 import WeatherInfo from './WeatherInfo';
+import { DateContext } from '../../../hooks/DateContext';
+
 // import { useCalendarContext } from '../../../hooks/CalendarContext';
 
 const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -21,6 +23,7 @@ export default function Calendar({ onDateSelect }) {
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [selectedWeatherInfo, setSelectedWeatherInfo] = useState('');
     const [mounted, setMounted] = useState(false);
+    const { setSelectedDate } = useContext(DateContext);
     // const { calendarData, setCalendarData } = useCalendarContext();
     // const { providerCurrentDay, providerCurrentDate, providerWeatherIcon, providerWeatherInfo } = calendarData;
 
@@ -46,6 +49,7 @@ export default function Calendar({ onDateSelect }) {
 
     const handleDateSelect = (date) => {
         onDateSelect(date);
+        setSelectedDate(date);
     };
 
     const renderCalendar = () => {
@@ -154,7 +158,7 @@ export default function Calendar({ onDateSelect }) {
                             if (response.ok) {
                                 const data = await response.json();
                                 weatherDataForMonth[date.toDateString()] = data;
-                                console.log('Calendar', data);
+                                // console.log('Calendar', data);
                             } else {
                                 console.error('Error fetching weather data:', response.statusText);
                             }
@@ -186,11 +190,11 @@ export default function Calendar({ onDateSelect }) {
         <div className="calendar">
             <div className="navigation">
                 <div className='nav-arrow' onClick={prevMonth}>
-                    <i class='bx bx-chevron-left'></i>
+                    <i className='bx bx-chevron-left'></i>
                 </div>
                 <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
                 <div className='nav-arrow' onClick={nextMonth}>
-                    <i class='bx bx-chevron-right'></i>
+                    <i className='bx bx-chevron-right'></i>
                 </div>
             </div>
             <div className="days-of-week">

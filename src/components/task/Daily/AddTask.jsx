@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './addTask.css';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
@@ -57,20 +58,36 @@ const AddTask = ({ onTaskAdd }) => {
 
     const handleAddTask = () => {
         // Gather task details
-        const taskName = document.getElementById('taskName').value; // Get task name from textarea
-        // Create a new task object with gathered details
+        const taskName = document.getElementById('taskName').value;
+
+        // Generate a unique ID
+        const taskId = uuidv4();
+
+        // Create a new task object with gathered details and unique ID
         const newTask = {
-            name: taskName, // Change taskName to name
+            id: taskId, // Add the unique ID
+            name: taskName,
             time: taskTime,
             date: selectedDate,
-            category: selectedCategory
+            category: selectedCategory,
             // Add more details as needed
         };
+
         // Pass the new task to the parent component
         onTaskAdd(newTask);
+
+        // Reset form fields if needed
+        document.getElementById('taskName').value = '';
+        setTaskTime('');
+        setSelectedDate(null);
+        setSelectedCategory('Uncategorised');
+
+        console.log('New task from Addtask.jsx', newTask)
+
         // Close the popup
         close();
     };
+
 
     return (
         <Popup
@@ -102,10 +119,10 @@ const AddTask = ({ onTaskAdd }) => {
                             </div>
                             <div className="rightIcons">
                                 <div className="select add-hover">
-                                    <input 
-                                        type="time" 
-                                        value={taskTime} 
-                                        onChange={handleTaskTimeChange} 
+                                    <input
+                                        type="time"
+                                        value={taskTime}
+                                        onChange={handleTaskTimeChange}
                                     />
                                 </div>
                                 <div>

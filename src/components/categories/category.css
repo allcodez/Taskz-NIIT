@@ -1,6 +1,6 @@
-.category{
+/* .category{
     padding-top: 5px;
-}
+} */
 
 .category-name a{
     /* margin-left: 30px; */
@@ -31,4 +31,44 @@
 .category-option-list i.bx{
     font-size: 1rem !important;
     /* color: var(--text-color); */
+}
+
+
+
+
+
+
+/* ========================================= */
+.category {
+    /* padding-top: 5px; */
+    padding: 3px 1.5rem;
+}
+
+.sidebar .category li {
+    height: 40px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-start; */
+    /* margin-top: 10px; */
+}
+
+.sidebar .category li a {
+    list-style: none;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding-left: 11px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: var(--tran-01);
+    gap: 0.4rem;
+}
+
+.sidebar .category li a:hover {
+	background-color: var(--primary-color);
+	color: #fff;
 }

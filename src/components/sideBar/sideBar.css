@@ -228,17 +228,17 @@ body.dark .sidebar li a:hover .text {
 	background-color: #555;
 }
 
-.menu-title{
+/* .menu-title{
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
+	justify-content: space-between;;;
 	margin-top: 20px;
 	gap: 10px;
 	color: var(--text-color)
-}
+} */
 
 .menu-title hr{
-	flex-grow: 0.2;
+	flex-grow: 0.15;
 	color: var(--text-color)
 }
 
@@ -349,3 +349,18 @@ body.dark .home .text {
 	font-size: smaller;
 	font-weight: var(--text-bold);
 }
+
+
+
+
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin-top: 19px;
+    gap: 11px;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+

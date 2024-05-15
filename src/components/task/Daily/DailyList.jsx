@@ -1,13 +1,17 @@
-// DailyList.jsx
 import React from 'react';
-import Minitaskitem from '../Modal/TaskModal';
+import TaskModal from '../Modal/TaskModal';
 import './dailyList.css';
 
-export default function DailyList({ tasks }) {
+export default function DailyList({ tasks, onTaskEdit, onTaskDelete }) {
     return (
         <div className="dailyList-task">
             {tasks.map((task, index) => (
-                <Minitaskitem key={index} task={task} />
+                <TaskModal
+                    key={`${task.id}-${index}`} // Unique key combining task.id and index
+                    task={{ ...task }}
+                    onTaskEdit={onTaskEdit}
+                    onTaskDelete={onTaskDelete}
+                />
             ))}
         </div>
     );

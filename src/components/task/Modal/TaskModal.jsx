@@ -1,124 +1,183 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './taskModal.css';
 import { GrStatusGood } from "react-icons/gr";
 import { CiCalendarDate, CiClock2, CiPlay1 } from "react-icons/ci";
 import { MdClose, MdDeleteForever } from "react-icons/md";
 import Popup from 'reactjs-popup';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Calendar from '../../calendar/Calendar';
+import CategoryOption from '../../categories/CategoryOption';
+import Lottie from 'react-lottie';
+import confettiAnimation from '../../../asstes/Lottie-confetii.json'; // Adjust the path to your JSON file
+import ProgressBar from '../../progressBar/ProgressBar'; // Import the ProgressBar component
 
-export default function TaskModal({ task }) {
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [selectedDateI, setSelectedDateI] = useState(null);
-	const [tickName, setTickName] = useState("tick-icon");
+export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [showCategory, setShowCategory] = useState(false);
+    const [editedTask, setEditedTask] = useState({});
+    const [showConfetti, setShowConfetti] = useState(false);
 
-	return (
-		<Popup
-			trigger={(
-				<div className='container'>
-					<div className="title">
-						<p>{task.name}</p>
-						<div className='time'>{task.time}</div>
-					</div>
-					<div>
-						<div className="lowerCont">
-							<div className="iconsCont">
-								<GrStatusGood className='tick-icon' onClick={() => {
-									
-								}}/>
-								<CiCalendarDate className='calender-icon none' />
-								<CiClock2 className='timer-icon none' />
-							</div>
-							<div className="category">
-								<p><span className='ash'>#</span>{task.category}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
-			modal
-			nested
-			closeOnDocumentClick
-		>
-			{close => (
-				<div className='darkBg' onClick={close}>
-					<div className="centered" onClick={(e) => e.stopPropagation()}>
-						<div className="modalI">
-							<div className="icon-line">
-								<div className="categoryI">
-									<span className='ash'>#</span>
-									<p>{task.category}</p>
-								</div>
-								<div className="option">
-									<div className='calendar'>
-										<p className='start'>Start:</p>
-										<DatePicker
-											selected={selectedDate}
-											onChange={date => setSelectedDate(date)}
-											dateFormat="MMMM d"
-											placeholderText=" "
-											className='date'
-											showPopperArrow={false}
-										/>
-									</div>
-									<div className='due'>
-										<p className='dueDate'>Due:</p>
-										<DatePicker
-											selected={selectedDateI}
-											onChange={dateI => setSelectedDateI(dateI)}
-											dateFormat="MMMM d"
-											placeholderText=" "
-											className='date'
-											showPopperArrow={false}
-										/>
-									</div>
-									<p className='delete' >Delete task <MdDeleteForever /></p>
-									<MdClose onClick={close} className='closer' />
-								</div>
-							</div>
-							<div className="taskArea">
-								<div className="planRow">
-									<div className="taskInfo">
-										<GrStatusGood className='ticker' />
-										<p className='tickerTitle'>{task.taskTitle}</p>
-									</div>
-									<div className="taskDurations">
-										<CiPlay1 />
-										<div className="actual">
-											<p>Duration</p>
-											<select name="actual" id="" className='select'>
-											<option value="0" disabled>--:--</option>
-											<option value="1">5 min</option>
-											<option value="2">10 min</option>
-											<option value="3">15 min</option>
-											<option value="4">20 min</option>
-											<option value="5">25 min</option>
-											<option value="6">30 min</option>
-											<option value="7">45 min</option>
-											<option value="8">1 hr</option>
-											<option value="9">1.5 hr</option>
-											<option value="10">2 hr</option>
-											<option value="11">2.5 hr</option>
-											<option value="12">3 hr</option>
-											<option value="13">4 hr</option>
-											<option value="14">5 hr</option>
-											<option value="15">6 hr</option>
-											<option value="16">7 hr</option>
-											<option value="17">8 hr</option>
-											</select>
-										</div>									</div>
-								</div>
-							</div>
-							<div className="taskArena">
-							<textarea placeholder='Notes...' name="" id="" cols="55" rows="7"></textarea>
-							</div>
-							<div className="divider"></div>
+    useEffect(() => {
+        setEditedTask({ ...task });
+    }, [task]);
 
-						</div>
-					</div>
+    const handleEditTask = (close) => {
+        console.log("Saving task:", editedTask);  // Logging for debugging
+        onTaskEdit(editedTask.id, editedTask.date, editedTask);
+        close();
+    };
 
-				</div>
-			)}
-		</Popup>
-	);
+    const handleDeleteTask = () => {
+        onTaskDelete(task.id, task.date);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedTask((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleCompletionToggle = (close) => {
+        const updatedTask = { ...editedTask, completed: !editedTask.completed };
+        setEditedTask(updatedTask);
+        onTaskEdit(updatedTask.id, updatedTask.date, updatedTask);
+        if (updatedTask.completed) {
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 1500); // Show confetti for 1.5 seconds
+        }
+        close();
+    };
+
+    const handleDateSelect = (date) => {
+        console.log("Selected date:", date);  // Logging for debugging
+        setEditedTask((prevState) => ({
+            ...prevState,
+            date: date.toISOString(),  // Ensure the date is in a proper format
+        }));
+        setShowCalendar(false);
+    };
+
+    const handleCategoryChange = (category) => {
+        setEditedTask((prevState) => ({
+            ...prevState,
+            category,
+        }));
+        setShowCategory(false);
+    };
+
+    const lottieOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: confettiAnimation,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
+    // Calculate the progress percentage
+    const progress = editedTask.completed ? 100 : 0;
+
+    return (
+        <div className='task-container'>
+            {showConfetti && (
+                <div className="confetti-container">
+                    <Lottie options={lottieOptions} height={150} width={110} />
+                </div>
+            )}
+            <div className="iconsCont">
+                {task?.completed ? (
+                    <i className='bx bxs-check-circle' onClick={handleCompletionToggle}></i>
+                ) : (
+                    <i className='bx bx-check-circle' onClick={handleCompletionToggle}></i>
+                )}
+            </div>
+
+            <Popup
+                trigger={(
+                    <div className={`container ${task?.completed ? 'completed' : ''}`}>
+                        <div className="title">
+                            <p>{task?.name}</p>
+                            <div className='time'>{task?.time}</div>
+                        </div>
+                        <div>
+                            <div className="lowerCont">
+                                <div className="task-modal-category">
+                                    <p><span className='ash'>#</span>{task?.category}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                modal
+                nested
+                closeOnDocumentClick
+            >
+                {close => (
+                    <div className='darkBg' onClick={close}>
+                        <div className="centered" onClick={(e) => e.stopPropagation()}>
+                            <div className="modalI edit-task-modal">
+                                <div className="icon-line">
+                                    <div className="categoryI">
+                                        <div onClick={() => setShowCategory(!showCategory)} className='add-hover'>
+                                            <div className='add-task-category'>
+                                                <p>#{editedTask.category || 'Select Category'}</p>
+                                            </div>
+                                            {showCategory && (
+                                                <div className='edit-category-container'>
+                                                    <CategoryOption handleChange={handleCategoryChange} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="option">
+                                        <div onClick={() => setShowCalendar(!showCalendar)} className='add-hover'>
+                                            <div className='add-task-date'>
+                                                <i className='bx bx-calendar-alt'></i>
+                                                <p>{editedTask.date ? new Date(editedTask.date).toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' }) : 'Start'}</p>
+                                            </div>
+                                            {showCalendar && (
+                                                <div className='edit-calendar-container'>
+                                                    <Calendar onDateSelect={handleDateSelect} />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className='delete-task' onClick={handleDeleteTask}>
+                                            <i className='bx bx-trash-alt'></i>
+                                            <p>Delete</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="taskArea">
+                                    <div className="taskInfo">
+                                        <i className={task?.completed ? 'bx bxs-check-circle' : 'bx bx-check-circle'} onClick={() => handleCompletionToggle(close)}></i>
+                                        <textarea
+                                            name="name"
+                                            cols="28"
+                                            rows="1"
+                                            className="tickerTitle"
+                                            value={editedTask.name}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                    <div className="taskDurations add-hover">
+                                        <input
+                                            type="time"
+                                            name="time"
+                                            value={editedTask.time}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
+                                {/* Add the progress bar here */}
+                                
+                                <button className="save-task-btn" onClick={() => handleEditTask(close)}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </Popup>
+        </div>
+    );
 }

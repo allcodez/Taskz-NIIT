@@ -62,9 +62,14 @@
     height: 30px;
 }
 
+/* dailyList.css */
+.visible {
+    visibility: visible;
+}
 
-
-
+.hidden {
+    visibility: hidden;
+}
 
 
 
