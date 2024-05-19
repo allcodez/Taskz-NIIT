@@ -1,0 +1,142 @@
+/* weatherBar.css */
+.weather-bar-container {
+    background:
+        /* linear-gradient(to bottom, white, white), */
+        url(../../asstes/images/weather1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.weather-bar.hidden {
+    /* background: var(--body-color); */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    box-shadow: -1px -1px 11px #00000066;
+    height: 100vh;
+    transform: translateX(110%);
+    transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    /* visibility: hidden; */
+}
+
+.weather-bar.visible {
+    /* background: var(--body-color); */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    box-shadow: -1px -1px 11px #00000066;
+    border-left: 1px solid var(--layout-border);
+    height: 100vh;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    /* visibility: visible; */
+}
+
+/* .weather-bar.visible {
+    background: #89f48940;
+    position: absolute;
+    top: 5%;
+    right: 0;
+    z-index: 1000;
+    width: 25%;
+    box-shadow: -1px -1px 11px #0000004a;
+    height: 90vh;
+    transform: translateX(-5%);
+    border-radius: 14px;
+    transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    backdrop-filter: blur(6px);
+} */
+
+.weather-bar-control {
+    padding: 1rem 0;
+    padding-left: 1rem;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    border-bottom: 1px solid var(--layout-border);
+    color: var(--text-color);
+}
+
+.weather-bar-control i,
+.weather-bar-control h3 {
+    color: white;
+}
+
+.weather-bar-control i {
+    font-size: 20px;
+}
+
+.weather-bar-header {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+
+.weather-bar-header span {
+    background: var(--primary-color);
+    padding: 0.1rem 0.5rem;
+    color: white;
+    border-radius: 5px;
+}
+
+.weather-bar-body {
+    padding: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 equal-width columns */
+    grid-gap: 10px;
+    /* Adjust the gap between grid items */
+}
+
+.weather-bar-content {
+    background: #109e1f9c;
+    backdrop-filter: blur(5px);
+    width: 100%;
+    padding: 1.5rem;
+    flex-direction: column;
+    display: flex;
+    border-radius: 21px;
+    gap: 0.5rem;
+}
+
+.weather-bar-content1 {
+    display: flex;
+    justify-content: space-between;
+    background: #109e1f9c;
+    backdrop-filter: blur(5px);
+    align-items: center;
+    padding: 0 1.5rem;
+    border-radius: 21px;
+    grid-column: span 2;
+}
+
+.weather-bar-content1 p,
+.weather-bar-content1 h2{
+    color: white;
+}
+
+.weather-bar-content p,
+.weather-bar-content h2{
+    color: white;
+}
+
+.weather-bar-content1-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.weather-bar-content1-desc p {
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.weather-bar-img {
+    width: 80px;
+    height: 80px;
+}

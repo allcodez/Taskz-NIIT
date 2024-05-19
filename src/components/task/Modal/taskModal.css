@@ -1,7 +1,13 @@
+.task-container{
+    position: relative;
+}
+
 .container {
     background-color: var(--task-bg);
-    padding: 10px;
-    /* display: flex; */
+    padding: 13px;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
     /* margin: 8px auto; */
     box-shadow: 0 2px 5px rgba(68, 67, 67, 0.452);
     /* width: 230px; */
@@ -36,8 +42,15 @@
 }
 
 .iconsCont {
-    display: flex;
-    gap: 8px;
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+    padding: 0.5rem 0.8rem;
+}
+
+.iconsCont i{
+    font-size: 1.1rem;
+    color: var(--icon-color);
 }
 
 .time {
@@ -50,7 +63,8 @@
 .lowerCont {
     margin-top: 5px;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .ash {
@@ -77,6 +91,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .centered{
@@ -88,6 +103,7 @@
     margin-bottom: 40px;
     border-radius: 10px;
     padding: 20px 0;
+    height: fit-content;
 }
 
 .modalI{
@@ -101,6 +117,8 @@
 
 .modalI .icon-line{
     display: flex;
+    align-items: center;
+    display: flex;
     justify-content:space-between;
 }
 
@@ -111,7 +129,7 @@
 
 .icon-line .option {
     display: flex;
-    gap: 0px;
+    gap: 1.2rem;
 }
 
 /* .popup-content {
@@ -168,14 +186,26 @@
     background-color: transparent;
 }
 
+.edit-task-modal .taskArea{
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .taskArea .planRow{
     display: flex;
     justify-content: space-between;
 }
 
-.taskArea .planRow .taskInfo{
+.taskArea .taskInfo{
     display: flex;
     gap: 10px;
+    align-items: center;
+}
+
+.taskArea .taskInfo i{
+    font-size: 2rem;
 }
 
 .taskInfo .actual{
@@ -211,9 +241,10 @@
 }
 
 .tickerTitle{
+    background: transparent;
     font-weight: 500;
     font-size: 25px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .taskArena textarea{
@@ -226,11 +257,78 @@
     height: 1px;
 }
 
+.edit-calendar-container{
+    border-radius: 4px;
+    position: absolute;
+    background: var(--body-color);
+    width: 250px;
+    padding: 10px 5px;
+    box-shadow: -2px 2px 6px #7373739c;
+    border: 1px solid var(--layout-border);
+}
 
+.edit-calendar-container .calendar {
+    width: unset !important;
+    flex-direction: column;
+    padding: 10px 15px;
+}
 
+.delete-task{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
 
+.edit-task-modal i{
+    font-size: 1.2rem;
+    color: var(--icon-color);
+}
 
+.edit-task-modal .add-task-date{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
 
+.edit-task-modal input{
+    background: transparent;
+    outline: none !important;
+    border: none !important;
+    /* padding: 5px 10px; */
+    text-align: center;
+    color: var(--text-color);
+}
+
+.container.completed {
+    opacity: 0.5;
+}
+
+.save-task-btn{
+    outline: none;
+    border: none;
+    background: var(--primary-color);
+    padding: 1rem;
+    border-radius: 7px;
+    color: white;
+}
+
+.edit-category-container{
+    border-radius: 4px;
+    position: absolute;
+    background: var(--body-color);
+    width: 250px;
+    padding: 10px 5px;
+    box-shadow: -2px 2px 6px #7373739c;
+    border: 1px solid var(--layout-border);
+}
+
+.confetti-container{
+    position: absolute;
+    top: -30%;
+    z-index: 100;
+}
 
 
 

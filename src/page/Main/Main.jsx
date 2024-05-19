@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import './main.css'; // Assuming you have a CSS file for styling
+import React, { useState, useContext } from 'react';
+import './main.css';
 import SideBar from '../../components/sideBar/SideBar';
-// import DailyTaskList from '../../components/task/Daily/DailyTaskList';
 import DateArray from '../../components/task/DateArray';
-// import TaskContainer from '../../components/_task/TaskContainer';
+import WeatherBar from '../../components/weather/WeatherBar'; // Import WeatherBar component
+import { WeatherContext } from '../../../hooks/WeatherProvider'; // Import WeatherContext
 
 export default function Main() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -14,11 +14,13 @@ export default function Main() {
         setTranslation(isSidebarClosed ? 0 : -251);
     };
 
+    // Access weatherData from WeatherContext
+    const { weatherData } = useContext(WeatherContext);
+
     return (
         <>
             <div className="layout-root" style={{ transform: `translateX(${translation}px)`, transition: 'transform 0.3s ease', overflowX: isSidebarClosed ? 'visible' : 'hidden' }}>
                 <SideBar />
-                {/* <DailyTaskList/> */}
                 <div className="main-layout">
                     <div className="control">
                         {isSidebarClosed ? (
@@ -30,7 +32,13 @@ export default function Main() {
                     </div>
                     <DateArray />
                 </div>
+
+                {/* Pass weatherData to WeatherBar */}
+
+
             </div>
+            <WeatherBar weatherData={weatherData} />
         </>
-    )
+
+    );
 }

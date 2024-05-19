@@ -1,0 +1,23 @@
+.progress-bar-container {
+    width: 100%;
+    background-color: var(--progress-bg);
+    border-radius: 5px;
+    overflow: hidden;
+    /* margin: 10px 0; */
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #109e1f;
+    transition: width 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+/* dailyList.css */
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}

@@ -33,6 +33,11 @@ export default function SideBar() {
         setShowCalendar(!showCalendar)
     };
 
+    const handleDateSelect = (date) => {
+        // Handle the selected date here
+        console.log('Selected date:', date);
+    };
+
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
         document.body.classList.toggle('dark'); // Toggle dark mode class on body
@@ -106,7 +111,7 @@ export default function SideBar() {
                         // <CalendarProvider>
                         //     <Calendar />
                         // </CalendarProvider>
-                        <Calendar />
+                        <Calendar onDateSelect={handleDateSelect} />
                     )}
 
                     {/* Categories */}
@@ -155,7 +160,7 @@ export default function SideBar() {
                 <li className="sidebar-bottom">
                     {weatherData && (
                         <>
-                            <i class='bx bx-current-location icon'></i>
+                            <i className='bx bx-current-location icon'></i>
                             <div>
                                 <span className="text nav-text">{weatherData.sys.country}, {weatherData.name}</span>
 

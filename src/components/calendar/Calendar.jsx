@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import './calendar.css';
 import arrowLeft from '../../asstes/icons/arrowLeft.svg';
 import arrowRight from '../../asstes/icons/arrowRight.svg';
-import WeatherInfo from './WeatherInfo';
+import WeatherInfo from '../weather/WeatherInfo';
+import { DateContext } from '../../../hooks/DateContext';
+
 // import { useCalendarContext } from '../../../hooks/CalendarContext';
 
 const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -21,6 +23,7 @@ export default function Calendar({ onDateSelect }) {
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [selectedWeatherInfo, setSelectedWeatherInfo] = useState('');
     const [mounted, setMounted] = useState(false);
+    const { setSelectedDate } = useContext(DateContext);
     // const { calendarData, setCalendarData } = useCalendarContext();
     // const { providerCurrentDay, providerCurrentDate, providerWeatherIcon, providerWeatherInfo } = calendarData;
 
@@ -46,6 +49,7 @@ export default function Calendar({ onDateSelect }) {
 
     const handleDateSelect = (date) => {
         onDateSelect(date);
+        setSelectedDate(date);
     };
 
     const renderCalendar = () => {
@@ -117,80 +121,81 @@ export default function Calendar({ onDateSelect }) {
                     onMouseLeave={handleMouseLeave}
                 >
                     {day.day}
-                    {hoveredDate && hoveredDate.toDateString() === currentDate.toDateString() && (
+                    {/* {hoveredDate && hoveredDate.toDateString() === currentDate.toDateString() && (
                         <WeatherInfo weatherInfo={selectedWeatherInfo} />
-                    )}
+                    )} */}
                 </div>
             );
         });
     };
 
-    useEffect(() => {
-        if (!mounted) {
-            const fetchWeatherData = async () => {
-                try {
-                    const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
-                    const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
+    // useEffect(() => {
+    //     if (!mounted) {
+    //         const fetchWeatherData = async () => {
+    //             try {
+    //                 const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
+    //                 const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
 
-                    const weatherDataForMonth = {};
+    //                 const weatherDataForMonth = {};
 
-                    for (let i = 0; i < daysInCurrentMonth; i++) {
-                        const date = new Date(firstDayOfCurrentMonth);
-                        date.setDate(date.getDate() + i);
+    //                 for (let i = 0; i < daysInCurrentMonth; i++) {
+    //                     const date = new Date(firstDayOfCurrentMonth);
+    //                     date.setDate(date.getDate() + i);
 
-                        // Check if the date is from the current month
-                        const isCurrentMonth = date.getMonth() === currentMonth;
+    //                     // Check if the date is from the current month
+    //                     const isCurrentMonth = date.getMonth() === currentMonth;
 
-                        // Retrieve latitude and longitude from local storage
-                        const latitude = parseFloat(localStorage.getItem('latitude'));
-                        const longitude = parseFloat(localStorage.getItem('longitude'));
+    //                     // Retrieve latitude and longitude from local storage
+    //                     const latitude = parseFloat(localStorage.getItem('latitude'));
+    //                     const longitude = parseFloat(localStorage.getItem('longitude'));
 
-                        // Fetch weather data only for dates in the current month
-                        if (isCurrentMonth) {
-                            const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
-                            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
+    //                     // Fetch weather data only for dates in the current month
+    //                     if (isCurrentMonth) {
+    //                         const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+    //                         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
 
-                            const response = await fetch(apiUrl);
-                            if (response.ok) {
-                                const data = await response.json();
-                                weatherDataForMonth[date.toDateString()] = data;
-                                console.log('Calendar', data);
-                            } else {
-                                console.error('Error fetching weather data:', response.statusText);
-                            }
-                        }
-                    }
+    //                         const response = await fetch(apiUrl);
+    //                         if (response.ok) {
+    //                             const data = await response.json();
+    //                             weatherDataForMonth[date.toDateString()] = data;
+    //                             // console.log('Calendar', data);
+    //                         } else {
+    //                             console.error('Error fetching weather data:', response.statusText);
+    //                         }
+    //                     }
+    //                 }
 
-                    setWeatherData(weatherDataForMonth);
-                    setWeatherDataFetched(true);
-                    setMounted(true);
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                }
-            };
+    //                 setWeatherData(weatherDataForMonth);
+    //                 setWeatherDataFetched(true);
+    //                 setMounted(true);
+    //             } catch (error) {
+    //                 console.error('Error fetching weather data:', error);
+    //             }
+    //         };
 
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    fetchWeatherData();
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                    alert('Unable to get your location. Please allow location access for this feature.');
-                }
-            );
-        }
-    }, [currentMonth, currentYear, weatherDataFetched, mounted]);
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 fetchWeatherData();
+    //             },
+    //             (error) => {
+    //                 console.error('Error getting location:', error);
+    //                 alert('Unable to get your location. Please allow location access for this feature.');
+    //             }
+    //         );
+    //     }
+    //     console.log()
+    // }, [currentMonth, currentYear, weatherDataFetched, mounted]);
 
 
     return (
         <div className="calendar">
             <div className="navigation">
                 <div className='nav-arrow' onClick={prevMonth}>
-                    <i class='bx bx-chevron-left'></i>
+                    <i className='bx bx-chevron-left'></i>
                 </div>
                 <div className="current-month">{`${monthNames[currentMonth]} ${currentYear}`}</div>
                 <div className='nav-arrow' onClick={nextMonth}>
-                    <i class='bx bx-chevron-right'></i>
+                    <i className='bx bx-chevron-right'></i>
                 </div>
             </div>
             <div className="days-of-week">
