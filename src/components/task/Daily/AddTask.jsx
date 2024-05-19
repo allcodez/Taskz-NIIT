@@ -1,18 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
-import { FaRegClock } from "react-icons/fa6";
-import 'react-datepicker/dist/react-datepicker.css';
-import './addTask.css';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
+import './addTask.css'
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('Uncategorised'); // State to store selected category
-    const [taskTime, setTaskTime] = useState(''); // State to store task time
+    const [selectedCategory, setSelectedCategory] = useState('Uncategorised');
+    const [taskTime, setTaskTime] = useState('');
 
     const calendarRef = useRef(null);
 
@@ -36,8 +34,8 @@ const AddTask = ({ onTaskAdd }) => {
 
     const handleDateSelect = (date) => {
         setStartDate(date);
-        setSelectedDate(date); // Update the selectedDate state
-        setShowCalendar(false); // Hide the calendar after date selection
+        setSelectedDate(date);
+        setShowCalendar(false);
     };
 
     const handleCategoryClick = () => {
@@ -46,30 +44,59 @@ const AddTask = ({ onTaskAdd }) => {
     };
 
     const handleCategorySelect = (category) => {
-        setSelectedCategory(category); // Update selected category state
-        setShowCategory(false); // Hide category options after selection
+        setSelectedCategory(category);
+        setShowCategory(false);
     };
 
     const handleTaskTimeChange = (event) => {
-        // Update taskTime state when input value changes
         setTaskTime(event.target.value);
     };
 
     const handleAddTask = () => {
-        // Gather task details
-        const taskName = document.getElementById('taskName').value; // Get task name from textarea
-        // Create a new task object with gathered details
+        const taskName = document.getElementById('taskName').value;
         const newTask = {
-            name: taskName, // Change taskName to name
+            name: taskName,
             time: taskTime,
             date: selectedDate,
             category: selectedCategory
-            // Add more details as needed
-        };
-        // Pass the new task to the parent component
-        onTaskAdd(newTask);
-        // Close the popup
-        // close();
+        }        // Schedule notification if task time is set
+        
+        if (taskTime && selectedDate) {
+            const taskDateTime = new Date(selectedDate);
+            const currentTime = new Date();
+            const notificationTime = new Date(taskDateTime.getTime() - 5 * 60 * 1000); // 5 minutes before task time
+
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // Permission granted, proceed with showing notifications
+                        showNotification("Permission Granted", "You can now receive task notifications.");
+                    }
+                });
+            }
+
+            if (taskDateTime.getTime() === currentTime.getTime()) {
+                // Task time is in the past, show notification immediately
+                showNotification("Task Reminder", `Your task "${taskName}" is due now!!`);
+            }
+            else if (taskDateTime.getTime() <= currentTime.getTime()) {
+                // Task time is in the past, show notification immediately
+                showNotification("Task Reminder", `Your task "${taskName}" is by "${taskTime}!!"`);
+            }
+            else if (notificationTime.getTime() > currentTime.getTime()) {
+                // Task time is more than 5 minutes in the future, schedule notification for 5 minutes before task time
+                setTimeout(() => {
+                    showNotification("Task Reminder", `Your task "${taskName}" is coming up in 5 minutes!`);
+                }, notificationTime.getTime() - currentTime.getTime());
+            }
+        }
+        
+    };
+
+    const showNotification = (title, body) => {
+        if (Notification.permission === 'granted') {
+            new Notification(title, { body });
+        }
     };
 
     return (
@@ -77,9 +104,7 @@ const AddTask = ({ onTaskAdd }) => {
             trigger={
                 <div className="add">
                     <p><i className='bx bx-plus'></i> Add task</p>
-                    <div className="time">
-                        {/* {totalTime} */}
-                        --:--</div>
+                    <div className="time">--:--</div>
                 </div>}
             className='popup'
             closeOnDocumentClick
@@ -94,8 +119,7 @@ const AddTask = ({ onTaskAdd }) => {
                                     <i className='bx bx-calendar-plus'></i> {selectedDate ? selectedDate.toLocaleString('default', { weekday: 'long' }) + ', ' + selectedDate.toLocaleString('default', { month: 'long' }) + ' ' + selectedDate.getDate() : 'Start'}
                                 </div>
                                 {showCalendar &&
-                                    <div className='calendar-container'>
-                                        {/* {select task date} */}
+                                    <div className='calendar-container' ref={calendarRef}>
                                         <Calendar onDateSelect={handleDateSelect} />
                                     </div>
                                 }
@@ -114,7 +138,6 @@ const AddTask = ({ onTaskAdd }) => {
                                     </div>
                                     {showCategory &&
                                         <div className='category-container'>
-                                            {/* Pass handleCategorySelect function to CategoryOption */}
                                             <CategoryOption handleChange={handleCategorySelect} />
                                         </div>
                                     }

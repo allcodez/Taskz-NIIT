@@ -8,7 +8,7 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd }) {
     return (
         <div className="dailyTaskList">
             <div className="dailyTaskList-date">
-                <h2>{day}</h2>
+                <h2 className='dayName'>{day}</h2>
                 <p className="dailyList-date">{date}</p>
             </div>
             <AddTask onTaskAdd={onTaskAdd} />

@@ -43,5 +43,9 @@ main{
 
 .control i{
     font-size: 20px;
+    /* color: var(--primary-color); */
 }
 
+.today{
+    color: var(--primary-color);
+}

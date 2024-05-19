@@ -26,7 +26,7 @@ export default function Main() {
                         ) : (
                             <i onClick={toggleSidebar} className='bx bx-arrow-to-left'></i>
                         )}
-                        <h3>Today</h3>
+                        <h3 className='today'>Today</h3>
                     </div>
                     <DateArray />
                 </div>
