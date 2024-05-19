@@ -61,7 +61,6 @@ const AddTask = ({ onTaskAdd }) => {
             category: selectedCategory
         };
 
-        onTaskAdd(newTask);
 
         // Schedule notification if task time is set
         if (taskTime && selectedDate) {
@@ -88,6 +87,7 @@ const AddTask = ({ onTaskAdd }) => {
                 }, notificationTime.getTime() - currentTime.getTime());
             }
         }
+        onTaskAdd(newTask);
     };
 
     const showNotification = (title, body) => {
@@ -95,6 +95,8 @@ const AddTask = ({ onTaskAdd }) => {
             new Notification(title, { body });
         }
     };
+
+    
 
     return (
         <Popup
