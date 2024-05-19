@@ -45,3 +45,13 @@ main{
     font-size: 20px;
 }
 
+.layout-weather{
+    background: var(--body-color);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    box-shadow: -1px -1px 11px #000000b0;
+    height: 100vh;
+    transform: translateX(110%);
+}

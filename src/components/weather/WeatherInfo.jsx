@@ -68,9 +68,7 @@ const WeatherInfo = ({ weatherInfo }) => {
     const iconUrl = getIconUrl(iconCode);
 
     return (
-        <div className="weather-info">
-            <img src={iconUrl} alt="Weather Icon" />
-        </div>
+        <img src={iconUrl} alt="Weather Icon" />
     );
 };
 

@@ -26,6 +26,11 @@
     background-color: var(--time-bg);
 }
 
+.dailyTaskList-date-details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .dailyTaskList-date h2{
     color: var(--text-color)
@@ -71,9 +76,18 @@
     visibility: hidden;
 }
 
-
-
-
-
-
+.weather-info{
+    /* position: absolute; */
+    background: var(--primary-color);
+    padding: 3px;
+    border-radius: 100%;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* bottom: -60%; */
+}
 
