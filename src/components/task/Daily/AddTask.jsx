@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
-import { v4 as uuidv4 } from 'uuid';
+import './addTask.css'
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
@@ -53,37 +53,48 @@ const AddTask = ({ onTaskAdd }) => {
     };
 
     const handleAddTask = () => {
-        // Gather task details
         const taskName = document.getElementById('taskName').value;
-
-        // Generate a unique ID
-        const taskId = uuidv4();
-
-        // Create a new task object with gathered details and unique ID
         const newTask = {
-            id: taskId, // Add the unique ID
             name: taskName,
             time: taskTime,
             date: selectedDate,
-            category: selectedCategory,
-            // Add more details as needed
+            category: selectedCategory
         };
 
-        // Pass the new task to the parent component
         onTaskAdd(newTask);
 
-        // Reset form fields if needed
-        document.getElementById('taskName').value = '';
-        setTaskTime('');
-        setSelectedDate(null);
-        setSelectedCategory('Uncategorised');
+        // Schedule notification if task time is set
+        if (taskTime && selectedDate) {
+            const taskDateTime = new Date(selectedDate);
+            const currentTime = new Date();
+            const notificationTime = new Date(taskDateTime.getTime() - 5 * 60 * 1000); // 5 minutes before task time
 
-        console.log('New task from Addtask.jsx', newTask)
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // Permission granted, proceed with showing notifications
+                        showNotification("Permission Granted", "You can now receive task notifications.");
+                    }
+                });
+            }
 
-        // Close the popup
-        close();
+            if (taskDateTime.getTime() <= currentTime.getTime()) {
+                // Task time is in the past, show notification immediately
+                showNotification("Task Reminder", `Your task "${taskName}" is due now!`);
+            } else if (notificationTime.getTime() > currentTime.getTime()) {
+                // Task time is more than 5 minutes in the future, schedule notification for 5 minutes before task time
+                setTimeout(() => {
+                    showNotification("Task Reminder", `Your task "${taskName}" is coming up in 5 minutes!`);
+                }, notificationTime.getTime() - currentTime.getTime());
+            }
+        }
     };
 
+    const showNotification = (title, body) => {
+        if (Notification.permission === 'granted') {
+            new Notification(title, { body });
+        }
+    };
 
     return (
         <Popup
@@ -112,10 +123,10 @@ const AddTask = ({ onTaskAdd }) => {
                             </div>
                             <div className="rightIcons">
                                 <div className="select add-hover">
-                                    <input
-                                        type="time"
-                                        value={taskTime}
-                                        onChange={handleTaskTimeChange}
+                                    <input 
+                                        type="time" 
+                                        value={taskTime} 
+                                        onChange={handleTaskTimeChange} 
                                     />
                                 </div>
                                 <div>
