@@ -116,7 +116,7 @@ export default function Login() {
     };
 
     const SignupHereClick = () => {
-        navigate('/')
+        navigate('/star-taskz')
         setAnimeSlider(false)
         setHideSlider(true)
         setTimeout(() => {
@@ -225,7 +225,7 @@ export default function Login() {
                                         <p>Password</p>
                                         <input type="password" placeholder='Password' />
                                     </div>
-                                    <input type="submit" value="Sign In" />
+                                    <input type="submit" value="Sign In" onClick={SignupHereClick}/>
                                 </form>
                                 <div className='option'>
                                     <hr /> <p>or login with</p> <hr />

@@ -3,6 +3,7 @@ import './sideBar.css';
 import Calendar from '../calendar/Calendar';
 import Category from '../categories/Category';
 import Dropdown from '../dropdown/Dropdown';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -12,6 +13,7 @@ export default function SideBar() {
     });
     const [showCalendar, setShowCalendar] = useState(true);
     const [weatherData, setWeatherData] = useState(null);
+    const navigate = useNavigate()
 
     const categoriesData = [
         { name: 'All' },
@@ -28,6 +30,10 @@ export default function SideBar() {
     const handleDateSelect = (date) => {
         console.log('Selected date:', date);
     };
+
+    const handleLogot = ()=>{
+        navigate('/login')
+    }
 
     const toggleDarkMode = () => {
         const newMode = !isDarkMode;
@@ -105,7 +111,7 @@ export default function SideBar() {
             </div>
 
             <div className="bottom-content">
-                <li className="sidebar-bottom">
+                <li className="sidebar-bottom" onClick={handleLogot}>
                     <a href="/login">
                         <i className='bx bx-log-out icon'></i>
                         <span className="text nav-text">Logout</span>
