@@ -23,6 +23,10 @@ main{
     display: flex;
 }
 
+.main-layout .control h3 b{
+    color: var(--category-color)
+}
+
 .toogle-main{
 }
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './form.css'; // Import CSS file if you have one
+import './signup.css'; // Import CSS file if you have one
 import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
 
-export default function Form() {
+export default function SignUp() {
     const [rigthSlider, setRightSlider] = useState(false);
     const [animeSlider, setAnimeSlider] = useState(false);
     const [showData1, setShowData1] = useState(true);
@@ -98,6 +98,7 @@ export default function Form() {
     };
 
     const handleLoginHereClick = () => {
+        navigate('/login')
         setAnimeSlider(true)
         setHideSlider(true)
         setTimeout(() => {
@@ -198,7 +199,7 @@ export default function Form() {
         <>
             <div className='form-container'>
                 {/* SignUp Form */}
-                {showSignupForm && (
+                {/* {showSignupForm && ( */}
                     <div className='signup-form form'>
                         <div className='form-content'>
                             {showHeading && (
@@ -223,6 +224,11 @@ export default function Form() {
                                                 onChange={handleLastNameChange}
                                                 autoComplete="lastname" />
                                         </div>
+                                        <div className='input'>
+                                            <p>Date of Birth</p>
+                                            <input type="date" placeholder='Date of Birth' value={dateOfBirth}
+                                                onChange={handleDateOfBirthChange} />
+                                        </div>
 
                                         <button onClick={handleNext}>
                                             Next
@@ -244,23 +250,6 @@ export default function Form() {
                                                 autoComplete="email" />
                                         </div>
                                         <div className='input'>
-                                            <p>Date of Birth</p>
-                                            <input type="date" placeholder='Date of Birth' value={dateOfBirth}
-                                                onChange={handleDateOfBirthChange} />
-                                        </div>
-                                        <button onClick={handleNext2}>
-                                            Next
-                                            <i className="fa-solid fa-arrow-right"></i>
-                                        </button>
-                                    </form>
-                                )}
-
-                                {showData3 && (
-                                    <form action="" className='input-fields'>
-                                        <div onClick={handleBack2} className='button'>
-                                            <i className="fa-solid fa-arrow-left"></i>
-                                        </div>
-                                        <div className='input'>
                                             <p>Password</p>
                                             <input type="password" placeholder='Password' value={password}
                                                 onChange={handlePasswordChange}
@@ -272,6 +261,15 @@ export default function Form() {
                                         </div>
                                         {/* Create account button */}
                                         <input onClick={handleSignup} type="submit" value="Create Account" />
+                                    </form>
+                                )}
+
+                                {showData3 && (
+                                    <form action="" className='input-fields'>
+                                        <div onClick={handleBack2} className='button'>
+                                            <i className="fa-solid fa-arrow-left"></i>
+                                        </div>
+                                        
                                     </form>
                                 )}
                                 <div className='option'>
@@ -300,10 +298,10 @@ export default function Form() {
                             </div>
                         </div>
                     </div>
-                )}
+                {/* )} */}
 
                 {/* Login Form */}
-                {showLoginForm && (
+                {/* {showLoginForm && (
                     <div className='login-form form'>
                         <div className='form-content'>
                             <div>
@@ -335,8 +333,8 @@ export default function Form() {
                                             console.log('Login Failed');
                                         }}
                                     />
-                                    {/* <img src={google} alt="" />
-                                    <p>Sign up with Google</p> */}
+                                    <img src={google} alt="" />
+                                    <p>Sign up with Google</p>
                                 </div>
                             </div>
                             <div className='have-acct'>
@@ -347,12 +345,11 @@ export default function Form() {
                             </div>
                         </div>
                     </div>
-                )}
-                <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
-                </div>
+                )} */}
+                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
+                </div> */}
                 <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider hideProp={`${hideSlider ? 'hide' : 'visible'}`}
-                        sliderContent={`${hideSlider ? 'hide' : 'visible'}`}
+                    <Slider 
                     />
                 </div>
             </div>

@@ -28,6 +28,7 @@
 	--primary-hover: #109e1e2d;
 	--icon-color: #109e1f;
 	--progress-bg: #e0e0df;
+	--category-color: #109e1f;
 
 
 	/* ====== Transition ====== */
@@ -60,6 +61,7 @@ body.dark {
 	--primary-hover: #3a3b3c;
 	--icon-color: #c0c0c0;
 	--progress-bg: #4646466b;
+	--category-color: #f5f5f5;
 	/* --textInvert-color:  */
 }
 

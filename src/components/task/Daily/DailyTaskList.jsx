@@ -5,6 +5,7 @@ import AddTask from './AddTask';
 import ProgressBar from '../../progressBar/ProgressBar';
 import WeatherInfo from '../../weather/WeatherInfo';
 import { WeatherContext } from '../../../../hooks/WeatherProvider';
+import { CategoryContext } from '../../../../hooks/CategoryContext';
 
 export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit, onTaskDelete, weatherData }) {
     const {
@@ -14,6 +15,8 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
         setWeatherIcon,
         setLocation
     } = useContext(WeatherContext);
+    const { selectedCategory } = useContext(CategoryContext);
+
 
     const calculateOverallProgress = () => {
         if (tasks.length === 0) return 0;
@@ -37,6 +40,12 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
         }
     };
 
+
+    const filteredTasks = selectedCategory === 'All'
+        ? tasks
+        : tasks.filter((task) => task.category === selectedCategory);
+
+
     return (
         <div className="dailyTaskList">
             <div className="dailyTaskList-date">
@@ -52,7 +61,7 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
             </div>
             <ProgressBar progress={progress} className={tasks.length > 0 ? 'visible' : 'hidden'} />
             <AddTask onTaskAdd={onTaskAdd} />
-            <DailyList tasks={tasks} onTaskEdit={onTaskEdit} onTaskDelete={onTaskDelete} />
+            <DailyList tasks={filteredTasks} onTaskEdit={onTaskEdit} onTaskDelete={onTaskDelete} />
         </div>
     );
 }

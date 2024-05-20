@@ -21,7 +21,7 @@ input[type=submit],
 
 .main-form button {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 200px;
   background-color: #ffffff;
   border: 1px solid black;
   padding: 0.9rem 1.2rem;
@@ -85,16 +85,16 @@ input[type=password],
 input[type=email],
 input[type=date] {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 200px;
   color: black;
   padding: 0.9rem 1.2rem;
-  border: 1px solid grey;
+  border: 1px solid var(--primary-color);
 }
 
 .input-fields input[type=submit],
 .input-fields button {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 200px;
   background-color: var(--primary-color);
   padding: 0.9rem 1.2rem;
   color: white;
@@ -140,15 +140,15 @@ input[type=date] {
 
 .slider-container {
   /* opacity: .3; */
-  height: 100vh;
+  /* height: 100vh; */
   width: 50%;
-  position: absolute;
+  /* position: absolute; */
   transition: 0.3s ease;
   z-index: 100;
 }
 
 .slider-container.right {
-  transform: translateX(100%);
+  /* transform: translateX(100%); */
 }
 
 .slider-container.left {
@@ -177,6 +177,11 @@ input[type=date] {
   color: #2d6a4f !important;
 }
 
+/* Google */
+
+.nsm7Bb-HzV7m-LgbsSe {
+  border-radius: 200px !important;
+}
 
 
 @media (max-width: 1000px) {

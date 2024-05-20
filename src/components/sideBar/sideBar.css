@@ -159,7 +159,8 @@ body.dark .sidebar header .toggle {
 	transition: var(--tran-01);
 }
 
-.sidebar li a {
+.sidebar li a, 
+.sidebar li .category-content {
 	list-style: none;
 	height: 100%;
 	background-color: transparent;
@@ -173,18 +174,23 @@ body.dark .sidebar header .toggle {
 	transition: var(--tran-01);
 }
 
-.sidebar li a:hover {
+.sidebar li a:hover,
+.sidebar li .category-content:hover {
 	background-color: var(--primary-color);
 	color: #fff;
 }
 
 .sidebar li a:hover .icon,
-.sidebar li a:hover .text {
+.sidebar li a:hover .text,
+.sidebar li .category-content:hover .icon,
+.sidebar li .category-content:hover .text {
 	color: var(--sidebar-color);
 }
 
 body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
+body.dark .sidebar li a:hover .text,
+body.dark .sidebar li .category-content:hover .icon,
+body.dark .sidebar li .category-content:hover .text {
 	color: var(--text-color);
 }
 
@@ -201,7 +207,8 @@ body.dark .sidebar li a:hover .text {
     margin-top: 5px !important;
 }
 
-.sidebar-bottom a{
+.sidebar-bottom a,
+.sidebar-bottom .category-content{
 	padding-left: 0 !important;
 }
 
@@ -244,7 +251,7 @@ body.dark .sidebar li a:hover .text {
 
 .mode {
 	/* border-radius: 6px; */
-	background-color: var(--primary-color-light);
+	/* background-color: var(--primary-color-light); */
 	position: relative;
 	transition: var(--tran-01);
 }
@@ -258,17 +265,17 @@ body.dark .sidebar li a:hover .text {
 	position: absolute;
 }
 
-.mode .sun-moon i.sun {
+/* .mode .sun-moon i.sun {
 	opacity: 0;
-}
+} */
 
 body.dark .mode .sun-moon i.sun {
 	opacity: 1;
 }
 
-body.dark .mode .sun-moon i.moon {
+/* body.dark .mode .sun-moon i.moon {
 	opacity: 0;
-}
+} */
 
 .bottom-content {
 	box-shadow: -1px 2px 15px 1px #0000002b;
@@ -292,10 +299,13 @@ body.dark .mode .sun-moon i.moon {
 
 .toggle-switch .switch {
 	position: relative;
+	display: flex;
 	height: 22px;
 	width: 40px;
 	border-radius: 25px;
-	background-color: var(--toggle-color);
+	margin-left: 0.5rem;
+	border: 1px solid var(--primary-color);
+	/* background-color: var(--toggle-color); */
 	transition: var(--tran-01);
 }
 
@@ -308,7 +318,7 @@ body.dark .mode .sun-moon i.moon {
 	top: 50%;
 	left: 5px;
 	transform: translateY(-50%);
-	background-color: var(--sidebar-color);
+	background-color: var(--primary-color);
 	transition: var(--tran-04);
 }
 
