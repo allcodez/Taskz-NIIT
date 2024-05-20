@@ -1,15 +1,15 @@
 // server.js
-import express from 'express';
-import { createTransport } from 'nodemailer';
-import { json } from 'body-parser';
+const express = require('express');
+const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 5000;
 
-app.use(json());
+app.use(bodyParser.json());
 
 // Email configuration
-const transporter = createTransport({
+const transporter = nodemailer.createTransport({
     service: 'gmail', // Use your email service
     auth: {
         user: 'startasks991@gmail.com', // Your email address
