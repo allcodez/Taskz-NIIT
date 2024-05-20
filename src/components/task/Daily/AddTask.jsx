@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
-import './addTask.css'
+import './addTask.css';
+import { AppContext } from '../../../AppContext';
+import axios from 'axios';
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
@@ -11,6 +13,7 @@ const AddTask = ({ onTaskAdd }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('Uncategorised');
     const [taskTime, setTaskTime] = useState('');
+    const { email } = useContext(AppContext);
 
     const calendarRef = useRef(null);
 
@@ -52,7 +55,7 @@ const AddTask = ({ onTaskAdd }) => {
         setTaskTime(event.target.value);
     };
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         const taskName = document.getElementById('taskName').value;
         const newTask = {
             name: taskName,
@@ -61,8 +64,6 @@ const AddTask = ({ onTaskAdd }) => {
             category: selectedCategory
         };
 
-
-        // Schedule notification if task time is set
         if (taskTime && selectedDate) {
             const taskDateTime = new Date(selectedDate);
             const currentTime = new Date();
@@ -77,16 +78,29 @@ const AddTask = ({ onTaskAdd }) => {
                 });
             }
 
-            if (taskDateTime.getTime() <= currentTime.getTime()) {
+            if (taskDateTime.getHours() == currentTime.getHours() && taskDateTime.getMinutes() == currentTime.getMinutes()) {
                 // Task time is in the past, show notification immediately
-                showNotification("Task Reminder", `Your task "${taskName}" is due now!`);
+                showNotification("Task Reminder", `Your task ${taskName} is due now!!`);
+                alert("now");
+            } else if (taskDateTime.getTime() <= currentTime.getTime()) {
+                // Task time is in the past, show notification immediately
+                showNotification("Task Reminder", `Your task ${taskName} is by "${taskTime}!!"`);
             } else if (notificationTime.getTime() > currentTime.getTime()) {
                 // Task time is more than 5 minutes in the future, schedule notification for 5 minutes before task time
                 setTimeout(() => {
                     showNotification("Task Reminder", `Your task "${taskName}" is coming up in 5 minutes!`);
                 }, notificationTime.getTime() - currentTime.getTime());
             }
+
+            try {
+                await axios.post('/send-email', { email, subject: "Task Due Reminder", message: `Your task "${taskName}" is due in 5 minutes!` });
+                alert('Email sent successfully');
+            } catch (error) {
+                console.error('Error sending email:', error);
+                alert('Error sending email');
+            }
         }
+
         onTaskAdd(newTask);
     };
 
@@ -95,8 +109,6 @@ const AddTask = ({ onTaskAdd }) => {
             new Notification(title, { body });
         }
     };
-
-    
 
     return (
         <Popup

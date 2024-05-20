@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './form.css'; // Import CSS file if you have one
 import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../AppContext';
 
 export default function Form() {
     const [rigthSlider, setRightSlider] = useState(false);
@@ -19,9 +20,12 @@ export default function Form() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
-    const [email, setEmail] = useState("");
+    // const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
+
+    const { email, setEmail } = useContext(AppContext);
+
 
     const handleSignup = async () => {
         // Get user location before creating account
