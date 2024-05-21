@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { WeatherContext } from '../../../hooks/WeatherProvider';
 import './weatherBar.css';
 import WeatherInfo from './WeatherInfo';
+import { useLocationFetch } from '../../../hooks/useLocationFetch';
 
 export default function WeatherBar() {
     const {
@@ -9,9 +10,8 @@ export default function WeatherBar() {
         weatherBarVisible,
         selectedDate,
         setWeatherBarVisible,
-        location
     } = useContext(WeatherContext);
-
+    const { location, error } = useLocationFetch();
     const weatherBarClass = weatherBarVisible ? 'weather-bar visible' : 'weather-bar hidden';
 
     if (!selectedWeatherData) {
@@ -28,7 +28,6 @@ export default function WeatherBar() {
     return (
         <div className={`weather-bar-container ${weatherBarClass}`}>
             <div className='weather-bar-control'>
-                {/* right close arrow */}
                 <i className='bx bx-arrow-to-right' onClick={() => setWeatherBarVisible(false)}></i>
                 <div className='weather-bar-header'>
                     <h3>Weather Info</h3>
@@ -38,7 +37,16 @@ export default function WeatherBar() {
 
             <div className='weather-bar-body'>
                 <div className='weather-bar-content1'>
-                    <h2>{location}</h2>
+                    <h2>
+                        Lagos
+                    </h2>
+                    {/* {location ? (
+                        <h2>
+                            {location.city}, {location.country}
+                        </h2>
+                    ) : (
+                        <p>{error ? `Error: ${error}` : 'Loading location...'}</p>
+                    )} */}
                     <div className='weather-bar-content1-desc'>
                         {weather && weather[0] &&
                             <div className='weather-bar-img'>
@@ -65,17 +73,6 @@ export default function WeatherBar() {
                     <p>Pressure</p>
                     <h2>{pressure} hPa</h2>
                 </div>
-                {/* <div>
-                    <p>Wind Speed: {speed} m/s</p>
-                </div> */}
-
-                {/* <p>Feels like: {feels_like} °C</p>
-                <p>Humidity: {humidity}%</p>
-                <p>Pressure: {pressure} hPa</p>
-                <p>Wind Speed: {speed} m/s</p>
-                <p>Weather: {weather[0].main} ({weather[0].description})</p>
-                <p>Sunrise: {new Date(sunrise * 1000).toLocaleTimeString()}</p>
-                <p>Sunset: {new Date(sunset * 1000).toLocaleTimeString()}</p> */}
             </div>
         </div>
     );

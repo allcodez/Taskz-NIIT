@@ -35,7 +35,6 @@ const Category = ({ category }) => {
     <div className="category">
       <li className="category-name">
         <div
-          href="#"
           className={`category-content ${activeCategory === category.name ? 'active' : ''}`}
           onClick={handleCategorySelect}
         >

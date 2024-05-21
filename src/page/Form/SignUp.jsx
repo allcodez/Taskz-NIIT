@@ -30,16 +30,16 @@ export default function SignUp() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
-        
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+
                 // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());
-        
+
                 // Make a GET request to OpenWeatherMap API
                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-        
+
                 try {
                     const response = await fetch(apiUrl);
                     if (response.ok) {
@@ -54,7 +54,7 @@ export default function SignUp() {
                     console.error('Error fetching weather data:', error);
                     // Handle error fetching weather data
                 }
-        
+
                 // Rest of your signup logic (creating account with form data)
                 // ...
             },
@@ -63,7 +63,7 @@ export default function SignUp() {
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
-        
+
         navigate('/star-taskz');
 
         // Create an object with form data
@@ -72,12 +72,15 @@ export default function SignUp() {
         //     lastName: lastName,
         //     dateOfBirth: dateOfBirth,
         //     email: email,
-        //     password: password
+        //     password: password,
+        //     role: "USER"
         // };
+
+        // console.log('signUp Data', formData)
 
         // try {
         //     // Make an API call to your backend server
-        //     const response = await fetch('your_api_endpoint', {
+        //     const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
         //         method: 'POST',
         //         headers: {
         //             'Content-Type': 'application/json'
@@ -87,7 +90,7 @@ export default function SignUp() {
 
         //     if (response.ok) {
         //         // If the API call is successful, navigate to the main page
-        //         history.push('/main-page'); // Replace '/main-page' with your desired route
+        //         history.push('/star-taskz'); // Replace '/main-page' with your desired route
         //     } else {
         //         // Handle error if API call fails
         //         console.error('Error:', response.statusText);
@@ -200,104 +203,107 @@ export default function SignUp() {
             <div className='form-container'>
                 {/* SignUp Form */}
                 {/* {showSignupForm && ( */}
-                    <div className='signup-form form'>
-                        <div className='form-content'>
-                            {showHeading && (
-                                <div>
-                                    <h2>Get Started with Star Taskz</h2>
-                                    <p>Manage you task more effeciently</p>
-                                </div>
+                <div className='signup-form form'>
+                    <div className='form-content'>
+                        {showHeading && (
+                            <div>
+                                <h2>Get Started with Star Taskz</h2>
+                                <p>Manage you task more effeciently</p>
+                            </div>
+                        )}
+
+                        <div className='main-form'>
+                            {showData1 && (
+                                <form action="" className='input-fields'>
+                                    <div className='input'>
+                                        <p>First Name</p>
+                                        <input type="text" placeholder='First Name' value={firstName}
+                                            onChange={handleFirstNameChange}
+                                            autoComplete="firstname" />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Last Name</p>
+                                        <input type="text" placeholder='Last Name' value={lastName}
+                                            onChange={handleLastNameChange}
+                                            autoComplete="lastname" />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Date of Birth</p>
+                                        <input type="date" placeholder='Date of Birth' value={dateOfBirth}
+                                            onChange={handleDateOfBirthChange} />
+                                    </div>
+
+                                    <button onClick={handleNext}>
+                                        Next
+                                        <i className="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                    {/* <input type="submit" value="Next" /> */}
+                                </form>
                             )}
 
-                            <div className='main-form'>
-                                {showData1 && (
-                                    <form action="" className='input-fields'>
-                                        <div className='input'>
-                                            <p>First Name</p>
-                                            <input type="text" placeholder='First Name' value={firstName}
-                                                onChange={handleFirstNameChange}
-                                                autoComplete="firstname" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Last Name</p>
-                                            <input type="text" placeholder='Last Name' value={lastName}
-                                                onChange={handleLastNameChange}
-                                                autoComplete="lastname" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Date of Birth</p>
-                                            <input type="date" placeholder='Date of Birth' value={dateOfBirth}
-                                                onChange={handleDateOfBirthChange} />
-                                        </div>
+                            {showData2 && (
+                                <form action="" className='input-fields'>
+                                    <div onClick={handleBack} className='button'>
+                                        <i className="fa-solid fa-arrow-left"></i>
+                                    </div>
+                                    <div className='input'>
+                                        <p>Email</p>
+                                        <input type="email" placeholder='Email' value={email}
+                                            onChange={handleEmailChange}
+                                            autoComplete="email" />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Password</p>
+                                        <input type="password" placeholder='Password' value={password}
+                                            onChange={handlePasswordChange}
+                                            autoComplete="password" />
+                                    </div>
+                                    <div className='input'>
+                                        <p>Confirm Password</p>
+                                        <input type="password" placeholder='Confirm Password' />
+                                    </div>
+                                    {/* Create account button */}
+                                    <button onClick={handleSignup}>
+                                        Create Account
+                                    </button>
+                                    {/* <input onClick={handleSignup} type="submit" value="" /> */}
+                                </form>
+                            )}
 
-                                        <button onClick={handleNext}>
-                                            Next
-                                            <i className="fa-solid fa-arrow-right"></i>
-                                        </button>
-                                        {/* <input type="submit" value="Next" /> */}
-                                    </form>
-                                )}
+                            {showData3 && (
+                                <form action="" className='input-fields'>
+                                    <div onClick={handleBack2} className='button'>
+                                        <i className="fa-solid fa-arrow-left"></i>
+                                    </div>
 
-                                {showData2 && (
-                                    <form action="" className='input-fields'>
-                                        <div onClick={handleBack} className='button'>
-                                            <i className="fa-solid fa-arrow-left"></i>
-                                        </div>
-                                        <div className='input'>
-                                            <p>Email</p>
-                                            <input type="email" placeholder='Email' value={email}
-                                                onChange={handleEmailChange}
-                                                autoComplete="email" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Password</p>
-                                            <input type="password" placeholder='Password' value={password}
-                                                onChange={handlePasswordChange}
-                                                autoComplete="password" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Confirm Password</p>
-                                            <input type="password" placeholder='Confirm Password' />
-                                        </div>
-                                        {/* Create account button */}
-                                        <input onClick={handleSignup} type="submit" value="Create Account" />
-                                    </form>
-                                )}
-
-                                {showData3 && (
-                                    <form action="" className='input-fields'>
-                                        <div onClick={handleBack2} className='button'>
-                                            <i className="fa-solid fa-arrow-left"></i>
-                                        </div>
-                                        
-                                    </form>
-                                )}
-                                <div className='option'>
-                                    <hr /> <p>or register with</p> <hr />
-                                </div>
-                                <div className='google-button'>
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            const decoded = jwtDecode(credentialResponse?.credential);
-                                            console.log(decoded);
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
-                                    />
-                                    {/* <img src={google} alt="" />
-                                    <p>Sign up with Google</p> */}
-                                </div>
+                                </form>
+                            )}
+                            <div className='option'>
+                                <hr /> <p>or register with</p> <hr />
                             </div>
-
-                            <div className='have-acct'>
-                                <p>Already have an account?</p>
-                                <button onClick={handleLoginHereClick}>
-                                    <p>Login Here</p>
-                                </button>
+                            <div className='google-button'>
+                                <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        const decoded = jwtDecode(credentialResponse?.credential);
+                                        console.log(decoded);
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
+                                {/* <img src={google} alt="" />
+                                    <p>Sign up with Google</p> */}
                             </div>
                         </div>
+
+                        <div className='have-acct'>
+                            <p>Already have an account?</p>
+                            <button onClick={handleLoginHereClick}>
+                                <p>Login Here</p>
+                            </button>
+                        </div>
                     </div>
+                </div>
                 {/* )} */}
 
                 {/* Login Form */}
@@ -349,7 +355,7 @@ export default function SignUp() {
                 {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
                 </div> */}
                 <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider 
+                    <Slider
                     />
                 </div>
             </div>

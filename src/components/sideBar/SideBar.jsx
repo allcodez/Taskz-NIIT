@@ -31,7 +31,8 @@ export default function SideBar() {
         console.log('Selected date:', date);
     };
 
-    const handleLogot = ()=>{
+    const handleLogot = (e)=>{
+        e.preventDefault();
         navigate('/login')
     }
 
@@ -112,7 +113,7 @@ export default function SideBar() {
 
             <div className="bottom-content">
                 <li className="sidebar-bottom" onClick={handleLogot}>
-                    <a href="/login">
+                    <a onClick={handleLogot}>
                         <i className='bx bx-log-out icon'></i>
                         <span className="text nav-text">Logout</span>
                     </a>

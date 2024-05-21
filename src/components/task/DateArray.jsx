@@ -74,44 +74,32 @@ export default function DateArray() {
         if (!mounted) {
             const fetchWeatherData = async () => {
                 try {
-                    const daysInCurrentMonth = daysInMonth(currentMonth, currentYear);
-                    const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
+                    // Retrieve latitude and longitude from local storage
+                    const latitude = parseFloat(localStorage.getItem('latitude'));
+                    const longitude = parseFloat(localStorage.getItem('longitude'));
 
-                    const weatherDataForMonth = {};
+                    const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+                    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&cnt=40`;
 
-                    for (let i = 0; i < daysInCurrentMonth; i++) {
-                        const date = new Date(firstDayOfCurrentMonth);
-                        date.setDate(date.getDate() + i);
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const forecastData = {};
 
-                        // Check if the date is from the current month
-                        const isCurrentMonth = date.getMonth() === currentMonth;
+                        // Process the forecast data and store it in the forecastData object
+                        data.list.forEach((forecast) => {
+                            const date = new Date(forecast.dt * 1000);
+                            const dateString = date.toDateString();
+                            forecastData[dateString] = forecast;
+                        });
 
-                        // Retrieve latitude and longitude from local storage
-                        const latitude = parseFloat(localStorage.getItem('latitude'));
-                        const longitude = parseFloat(localStorage.getItem('longitude'));
-
-                        // Fetch weather data only for dates in the current month
-                        if (isCurrentMonth) {
-                            const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
-                            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
-
-                            const response = await fetch(apiUrl);
-                            if (response.ok) {
-                                const data = await response.json();
-                                weatherDataForMonth[date.toDateString()] = data;
-                            } else {
-                                console.error('Error fetching weather data:', response.statusText);
-                            }
-                        }
+                        setWeatherData(forecastData);
+                        console.log('date array', forecastData)
+                        setWeatherDataFetched(true);
+                        setMounted(true);
+                    } else {
+                        console.error('Error fetching weather data:', response.statusText);
                     }
-
-                    setWeatherData((prevWeatherData) => ({
-                        ...prevWeatherData,
-                        ...weatherDataForMonth,
-                    }));
-
-                    setWeatherDataFetched(true);
-                    setMounted(true);
                 } catch (error) {
                     console.error('Error fetching weather data:', error);
                 }
@@ -127,7 +115,7 @@ export default function DateArray() {
                 }
             );
         }
-    }, [currentMonth, currentYear, weatherDataFetched, mounted, weatherData]);
+    }, [mounted, weatherData]);
 
     return (
         <div className="dateArray" ref={scrollContainerRef}>

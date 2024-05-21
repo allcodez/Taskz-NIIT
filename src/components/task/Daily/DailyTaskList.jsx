@@ -26,9 +26,9 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
 
     const progress = calculateOverallProgress();
 
-    useEffect(() => {
-        console.log(weatherData);
-    }, [weatherData]);
+    // useEffect(() => {
+    //     console.log(weatherData);
+    // }, [weatherData]);
 
     const handleWeatherInfoClick = () => {
         setWeatherBarVisible(true);
