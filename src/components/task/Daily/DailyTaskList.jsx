@@ -20,7 +20,7 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
 
     const calculateOverallProgress = () => {
         if (tasks.length === 0) return 0;
-        const completedTasks = tasks.filter(task => task.completed);
+        const completedTasks = tasks.filter(task => task.taskStatus === 'completed');
         return (completedTasks.length / tasks.length) * 100;
     };
 
@@ -43,7 +43,7 @@ export default function DailyTaskList({ day, date, tasks, onTaskAdd, onTaskEdit,
 
     const filteredTasks = selectedCategory === 'All'
         ? tasks
-        : tasks.filter((task) => task.category === selectedCategory);
+        : tasks.filter((task) => task.taskCategory === selectedCategory);
 
 
     return (

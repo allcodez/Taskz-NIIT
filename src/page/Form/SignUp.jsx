@@ -23,14 +23,14 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
 
-    const handleSignup = async () => {
+    const handleSignup = async (e) => {
+        e.preventDefault();
         // Get user location before creating account
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
                 // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
@@ -45,18 +45,50 @@ export default function SignUp() {
                     if (response.ok) {
                         const weatherData = await response.json();
                         console.log('Weather data:', weatherData);
-                        // You can now use the weather data as needed, such as displaying it on the UI
                     } else {
                         console.error('Error fetching weather data:', response.statusText);
-                        // Handle error fetching weather data
                     }
                 } catch (error) {
                     console.error('Error fetching weather data:', error);
-                    // Handle error fetching weather data
                 }
 
-                // Rest of your signup logic (creating account with form data)
-                // ...
+                // Prepare the request payload
+                const payload = {
+                    firstName,
+                    lastName,
+                    dateOfBirth,
+                    email,
+                    password,
+                    role: 'USER', // Assuming you have a 'user' role
+                };
+                console.log('Singup payload', payload)
+
+                try {
+                    // Make a POST request to your signup endpoint
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        // Handle successful signup
+                        const data = await response.json();
+                        console.log('Signup successful:', data);
+                        // You can redirect the user to another page or show a success message
+                        navigate('/login'); // Assuming you have a /login route
+                    } else {
+                        // Handle signup error
+                        const errorData = await response.json();
+                        console.error('Signup error:', errorData);
+                        // You can display an error message to the user
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    // Handle network or other errors
+                }
             },
             (error) => {
                 console.error('Error getting location:', error);
@@ -64,40 +96,7 @@ export default function SignUp() {
             }
         );
 
-        navigate('/star-taskz');
 
-        // Create an object with form data
-        // const formData = {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     dateOfBirth: dateOfBirth,
-        //     email: email,
-        //     password: password,
-        //     role: "USER"
-        // };
-
-        // console.log('signUp Data', formData)
-
-        // try {
-        //     // Make an API call to your backend server
-        //     const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formData)
-        //     });
-
-        //     if (response.ok) {
-        //         // If the API call is successful, navigate to the main page
-        //         history.push('/star-taskz'); // Replace '/main-page' with your desired route
-        //     } else {
-        //         // Handle error if API call fails
-        //         console.error('Error:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     };
 
     const handleLoginHereClick = () => {
@@ -201,8 +200,11 @@ export default function SignUp() {
     return (
         <>
             <div className='form-container'>
-                {/* SignUp Form */}
-                {/* {showSignupForm && ( */}
+                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
+                    <Slider
+                    />
+                </div>
+
                 <div className='signup-form form'>
                     <div className='form-content'>
                         {showHeading && (
@@ -212,24 +214,24 @@ export default function SignUp() {
                             </div>
                         )}
 
-                        <div className='main-form'>
+                        <form action="" className='main-form'>
                             {showData1 && (
-                                <form action="" className='input-fields'>
+                                <div className='input-fields'>
                                     <div className='input'>
                                         <p>First Name</p>
-                                        <input type="text" placeholder='First Name' value={firstName}
+                                        <input required type="text" placeholder='First Name' value={firstName}
                                             onChange={handleFirstNameChange}
                                             autoComplete="firstname" />
                                     </div>
                                     <div className='input'>
                                         <p>Last Name</p>
-                                        <input type="text" placeholder='Last Name' value={lastName}
+                                        <input required type="text" placeholder='Last Name' value={lastName}
                                             onChange={handleLastNameChange}
                                             autoComplete="lastname" />
                                     </div>
                                     <div className='input'>
                                         <p>Date of Birth</p>
-                                        <input type="date" placeholder='Date of Birth' value={dateOfBirth}
+                                        <input required type="date" placeholder='Date of Birth' value={dateOfBirth}
                                             onChange={handleDateOfBirthChange} />
                                     </div>
 
@@ -237,46 +239,46 @@ export default function SignUp() {
                                         Next
                                         <i className="fa-solid fa-arrow-right"></i>
                                     </button>
-                                    {/* <input type="submit" value="Next" /> */}
-                                </form>
+                                    {/* <input required type="submit" value="Next" /> */}
+                                </div>
                             )}
 
                             {showData2 && (
-                                <form action="" className='input-fields'>
+                                <div className='input-fields'>
                                     <div onClick={handleBack} className='button'>
                                         <i className="fa-solid fa-arrow-left"></i>
                                     </div>
                                     <div className='input'>
                                         <p>Email</p>
-                                        <input type="email" placeholder='Email' value={email}
+                                        <input required type="email" placeholder='Email' value={email}
                                             onChange={handleEmailChange}
                                             autoComplete="email" />
                                     </div>
                                     <div className='input'>
                                         <p>Password</p>
-                                        <input type="password" placeholder='Password' value={password}
+                                        <input required type="password" placeholder='Password' value={password}
                                             onChange={handlePasswordChange}
                                             autoComplete="password" />
                                     </div>
                                     <div className='input'>
                                         <p>Confirm Password</p>
-                                        <input type="password" placeholder='Confirm Password' />
+                                        <input required type="password" placeholder='Confirm Password' />
                                     </div>
-                                    {/* Create account button */}
+                                    {/* Create account button
                                     <button onClick={handleSignup}>
                                         Create Account
-                                    </button>
-                                    {/* <input onClick={handleSignup} type="submit" value="" /> */}
-                                </form>
+                                    </button> */}
+                                    <input required onClick={handleSignup} type="submit" value="Create Account" />
+                                </div>
                             )}
 
                             {showData3 && (
-                                <form action="" className='input-fields'>
+                                <div className='input-fields'>
                                     <div onClick={handleBack2} className='button'>
                                         <i className="fa-solid fa-arrow-left"></i>
                                     </div>
 
-                                </form>
+                                </div>
                             )}
                             <div className='option'>
                                 <hr /> <p>or register with</p> <hr />
@@ -294,7 +296,7 @@ export default function SignUp() {
                                 {/* <img src={google} alt="" />
                                     <p>Sign up with Google</p> */}
                             </div>
-                        </div>
+                        </form>
 
                         <div className='have-acct'>
                             <p>Already have an account?</p>
@@ -304,67 +306,9 @@ export default function SignUp() {
                         </div>
                     </div>
                 </div>
-                {/* )} */}
-
-                {/* Login Form */}
-                {/* {showLoginForm && (
-                    <div className='login-form form'>
-                        <div className='form-content'>
-                            <div>
-                                <h2>Login to Star Taskz</h2>
-                                <p>Don't you have some pending taskz?</p>
-                            </div>
-                            <div className='main-form'>
-                                <form action="" className='input-fields'>
-                                    <div className='input'>
-                                        <p>Email</p>
-                                        <input type="email" placeholder='Email' />
-                                    </div>
-                                    <div className='input'>
-                                        <p>Password</p>
-                                        <input type="password" placeholder='Password' />
-                                    </div>
-                                    <input type="submit" value="Sign In" />
-                                </form>
-                                <div className='option'>
-                                    <hr /> <p>or login with</p> <hr />
-                                </div>
-                                <div className='google-button'>
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            const decoded = jwtDecode(credentialResponse?.credential);
-                                            console.log(decoded);
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
-                                    />
-                                    <img src={google} alt="" />
-                                    <p>Sign up with Google</p>
-                                </div>
-                            </div>
-                            <div className='have-acct'>
-                                <p>Are you new?</p>
-                                <button onClick={SignupHereClick}>
-                                    <p>Create Account</p>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )} */}
-                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
-                </div> */}
-                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider
-                    />
-                </div>
-            </div>
-
-            {/* 1000PX Screen size */}
-
-            <div className=''>
 
             </div>
+
         </>
     );
 }

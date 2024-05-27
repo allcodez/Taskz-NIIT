@@ -8,8 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
 import Lottie from 'react-lottie';
-import confettiAnimation from '../../../asstes/Lottie-confetii.json'; // Adjust the path to your JSON file
-import ProgressBar from '../../progressBar/ProgressBar'; // Import the ProgressBar component
+import confettiAnimation from '../../../asstes/Lottie-confetii.json';
 
 export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     const [showCalendar, setShowCalendar] = useState(false);
@@ -21,14 +20,68 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         setEditedTask({ ...task });
     }, [task]);
 
-    const handleEditTask = (close) => {
-        console.log("Saving task:", editedTask);  // Logging for debugging
-        onTaskEdit(editedTask.id, editedTask.date, editedTask);
-        close();
+    const formatTime = (time) => {
+        if (!time) return '';
+        const date = new Date(time);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const formattedHours = hours.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        return `${formattedHours}:${formattedMinutes}`;
     };
 
-    const handleDeleteTask = () => {
-        onTaskDelete(task.id, task.date);
+    const handleEditTask = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const token = sessionStorage.getItem('token');
+        const taskId = editedTask.id;
+
+        try {
+            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/update-task/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedTask),
+            });
+
+            if (response.ok) {
+                const updatedTask = await response.json();
+                console.log('Task updated successfully:', updatedTask);
+                onTaskEdit(updatedTask.id, new Date(updatedTask.startDate), updatedTask);
+            } else {
+                const errorData = await response.json();
+                console.error('Error updating task:', errorData);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    };
+    const handleDeleteTask = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const token = sessionStorage.getItem('token');
+        const taskId = task.id;
+
+        try {
+            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/delete-task/${userId}/${taskId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+                onTaskDelete(taskId, task.startDate);
+            } else {
+                const errorText = await response.text();
+                console.error('Error deleting task:', errorText);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -39,30 +92,71 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         }));
     };
 
-    const handleCompletionToggle = (close) => {
-        const updatedTask = { ...editedTask, completed: !editedTask.completed };
-        setEditedTask(updatedTask);
-        onTaskEdit(updatedTask.id, updatedTask.date, updatedTask);
-        if (updatedTask.completed) {
-            setShowConfetti(true);
-            setTimeout(() => setShowConfetti(false), 1500); // Show confetti for 1.5 seconds
+    const handleTimeChange = (e) => {
+        const { value } = e.target;
+        const [hours, minutes] = value.split(':');
+
+        let date;
+        if (editedTask.startTime) {
+            date = new Date(editedTask.startTime);
+        } else {
+            date = new Date();
         }
-        close();
+
+        const updatedHours = parseInt(hours, 10);
+        const updatedMinutes = parseInt(minutes, 10);
+        date.setHours(updatedHours, updatedMinutes, 0, 0);
+
+        setEditedTask((prevState) => ({
+            ...prevState,
+            startTime: date.toISOString(),
+        }));
+    };
+
+    const handleCompletionToggle = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const token = sessionStorage.getItem('token');
+        const taskId = editedTask.id;
+        const updatedTask = {
+            ...editedTask,
+            taskStatus: editedTask.taskStatus === 'completed' ? 'incomplete' : 'completed',
+        };
+
+        try {
+            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/update-task/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedTask),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                onTaskEdit(result.id, result.startDate, result);
+                setEditedTask(result);
+            } else {
+                const errorData = await response.json();
+                console.error('Error updating task:', errorData);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
     };
 
     const handleDateSelect = (date) => {
-        console.log("Selected date:", date);  // Logging for debugging
         setEditedTask((prevState) => ({
             ...prevState,
-            date: date.toISOString(),  // Ensure the date is in a proper format
+            startDate: date.toISOString(),
         }));
         setShowCalendar(false);
     };
 
-    const handleCategoryChange = (category) => {
+    const handleCategoryChange = (taskCategory) => {
         setEditedTask((prevState) => ({
             ...prevState,
-            category,
+            taskCategory,
         }));
         setShowCategory(false);
     };
@@ -76,9 +170,6 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         }
     };
 
-    // Calculate the progress percentage
-    const progress = editedTask.completed ? 100 : 0;
-
     return (
         <div className='task-container'>
             {showConfetti && (
@@ -87,7 +178,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 </div>
             )}
             <div className="iconsCont">
-                {task?.completed ? (
+                {task?.taskStatus === 'completed' ? (
                     <i className='bx bxs-check-circle' onClick={handleCompletionToggle}></i>
                 ) : (
                     <i className='bx bx-check-circle' onClick={handleCompletionToggle}></i>
@@ -96,15 +187,15 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
             <Popup
                 trigger={(
-                    <div className={`container ${task?.completed ? 'completed' : ''}`}>
+                    <div className={`container ${task?.taskStatus === 'completed' ? 'completed' : ''}`}>
                         <div className="title">
-                            <p>{task?.name}</p>
-                            <div className='time'>{task?.time}</div>
+                            <p>{task?.taskName}</p>
+                            <div className='time'>{task?.startTime ? formatTime(task.startTime) : ''}</div>
                         </div>
                         <div>
                             <div className="lowerCont">
                                 <div className="task-modal-category">
-                                    <p><span className='ash'>#</span>{task?.category}</p>
+                                    <p><span className='ash'>#</span>{task?.taskCategory}</p>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +213,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                                     <div className="categoryI">
                                         <div onClick={() => setShowCategory(!showCategory)} className='add-hover'>
                                             <div className='add-task-category'>
-                                                <p>#{editedTask.category || 'Select Category'}</p>
+                                                <p>#{editedTask.taskCategory || 'Select Category'}</p>
                                             </div>
                                             {showCategory && (
                                                 <div className='edit-category-container'>
@@ -135,15 +226,15 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                                         <div onClick={() => setShowCalendar(!showCalendar)} className='add-hover'>
                                             <div className='add-task-date'>
                                                 <i className='bx bx-calendar-alt'></i>
-                                                <p>{editedTask.date ? new Date(editedTask.date).toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' }) : 'Start'}</p>
+                                                <p>{editedTask.startDate ? new Date(editedTask.startDate).toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' }) : 'Start'}</p>
                                             </div>
                                             {showCalendar && (
                                                 <div className='edit-calendar-container'>
-                                                    <Calendar onDateSelect={handleDateSelect} />
+                                                    <Calendar onDateSelect={(date, e) => handleDateSelect(date, e)} />
                                                 </div>
                                             )}
                                         </div>
-                                        <div className='delete-task' onClick={handleDeleteTask}>
+                                        <div className='delete-task' onClick={() => { handleDeleteTask(); close(); }}>
                                             <i className='bx bx-trash-alt'></i>
                                             <p>Delete</p>
                                         </div>
@@ -151,28 +242,30 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                                 </div>
                                 <div className="taskArea">
                                     <div className="taskInfo">
-                                        <i className={task?.completed ? 'bx bxs-check-circle' : 'bx bx-check-circle'} onClick={() => handleCompletionToggle(close)}></i>
+                                        {task?.taskStatus === 'completed' ? (
+                                            <i className='bx bxs-check-circle' onClick={handleCompletionToggle}></i>
+                                        ) : (
+                                            <i className='bx bx-check-circle' onClick={handleCompletionToggle}></i>
+                                        )}
                                         <textarea
-                                            name="name"
+                                            name="taskName"
                                             cols="28"
                                             rows="1"
                                             className="tickerTitle"
-                                            value={editedTask.name}
+                                            value={editedTask.taskName}
                                             onChange={handleInputChange}
                                         />
                                     </div>
                                     <div className="taskDurations add-hover">
                                         <input
                                             type="time"
-                                            name="time"
-                                            value={editedTask.time}
-                                            onChange={handleInputChange}
+                                            name="startTime"
+                                            value={editedTask.startTime ? formatTime(editedTask.startTime) : ''}
+                                            onChange={handleTimeChange}
                                         />
                                     </div>
                                 </div>
-                                {/* Add the progress bar here */}
-                                
-                                <button className="save-task-btn" onClick={() => handleEditTask(close)}>Save Changes</button>
+                                <button className="save-task-btn" onClick={() => { handleEditTask(); close(); }}>Save Changes</button>
                             </div>
                         </div>
                     </div>

@@ -26,7 +26,7 @@ export const useLocationFetch = () => {
                 longitude: data.longitude,
             });
         } catch (error) {
-            console.error('Error fetching location:', error);
+            // console.error('Error fetching location:', error);
             setError(error.message);
         }
     };

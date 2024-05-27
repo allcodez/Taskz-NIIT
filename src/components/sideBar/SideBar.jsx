@@ -126,7 +126,7 @@ export default function SideBar() {
                             <i className='bx bx-sun icon sun'></i>
                         )}
                     </div>
-                    <span className="mode-text text">{isDarkMode ? 'Dark mode' : 'Light mode'}</span>
+                    <span className="mode-text text">{isDarkMode ? 'Light mode' : 'Dark mode'}</span>
                     <div className="toggle-switch">
                         <span className="switch"></span>
                     </div>

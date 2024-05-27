@@ -1,19 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
-import { FaRegClock } from "react-icons/fa6";
-import 'react-datepicker/dist/react-datepicker.css';
-import './addTask.css';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
-import { v4 as uuidv4 } from 'uuid';
+import 'react-datepicker/dist/react-datepicker.css';
+import './addTask.css';
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('Uncategorised'); // State to store selected category
-    const [taskTime, setTaskTime] = useState(''); // State to store task time
+    const [selectedCategory, setSelectedCategory] = useState('Uncategorised');
+    const [taskTime, setTaskTime] = useState('');
+    const [endTime, setEndTime] = useState('');
 
     const calendarRef = useRef(null);
 
@@ -36,9 +35,9 @@ const AddTask = ({ onTaskAdd }) => {
     };
 
     const handleDateSelect = (date) => {
-        setStartDate(date);
-        setSelectedDate(date); // Update the selectedDate state
-        setShowCalendar(false); // Hide the calendar after date selection
+        setSelectedDate(date);
+        console.log("Date selected:", date); // Debugging log
+        setShowCalendar(false);
     };
 
     const handleCategoryClick = () => {
@@ -47,72 +46,101 @@ const AddTask = ({ onTaskAdd }) => {
     };
 
     const handleCategorySelect = (category) => {
-        setSelectedCategory(category); // Update selected category state
-        setShowCategory(false); // Hide category options after selection
+        setSelectedCategory(category);
+        setShowCategory(false);
     };
 
     const handleTaskTimeChange = (event) => {
-        // Update taskTime state when input value changes
         setTaskTime(event.target.value);
     };
 
-    const handleAddTask = () => {
-        // Gather task details
-        const taskName = document.getElementById('taskName').value;
-
-        // Generate a unique ID
-        const taskId = uuidv4();
-
-        // Create a new task object with gathered details and unique ID
-        const newTask = {
-            id: taskId, // Add the unique ID
-            name: taskName,
-            time: taskTime,
-            date: selectedDate,
-            category: selectedCategory,
-            // Add more details as needed
-        };
-
-        // Pass the new task to the parent component
-        onTaskAdd(newTask);
-
-        // Reset form fields if needed
-        document.getElementById('taskName').value = '';
-        setTaskTime('');
-        setSelectedDate(null);
-        setSelectedCategory('Uncategorised');
-
-        console.log('New task from Addtask.jsx', newTask)
-
-        // Close the popup
-        close();
+    const handleEndTimeChange = (event) => {
+        setEndTime(event.target.value);
     };
 
+    const handleAddTask = async () => {
+        const taskName = document.getElementById('taskName').value;
+
+        const formatDateString = (date) => {
+            if (!date) return null;
+            const offset = date.getTimezoneOffset();
+            const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+            return adjustedDate.toISOString().split('T')[0];
+        };
+
+        const newTask = {
+            taskName: taskName || null,
+            taskDescription: taskName || null,
+            startTime: taskTime ? `${formatDateString(selectedDate)}T${taskTime}:00` : null,
+            endTime: endTime ? `${startDate ? formatDateString(startDate) : formatDateString(selectedDate)}T${endTime}:00` : null,
+            taskStatus: "PENDING",
+            taskCategory: selectedCategory || "Uncategorised",
+            startDate: selectedDate ? formatDateString(selectedDate) : null  // Use selectedDate as startDate
+        };
+
+        // Pass selectedDate directly to onTaskAdd
+        onTaskAdd(selectedDate, newTask);
+
+        const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
+
+        if (!token || !userId) {
+            console.error('No token or user ID found in session storage');
+            alert('You must be logged in to create a task.');
+            return;
+        }
+
+        try {
+            // Use newTask object as the payload
+            const payload = { ...newTask };
+            console.log('payload', payload);
+            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/create-task/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Add task api resp', data);
+                alert('Task created successfully.');
+                console.log('Task Created');
+            } else {
+                const errorData = await response.json();
+                console.error('Error creating task:', errorData);
+                alert(`Error creating task: ${errorData.message || response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            alert('Network error. Please try again later.');
+        }
+    };
 
     return (
         <Popup
             trigger={
                 <div className="add">
                     <p><i className='bx bx-plus'></i> Add task</p>
-                    <div className="time">
-                        {/* {totalTime} */}
-                        --:--</div>
-                </div>}
+                    <div className="time">--:--</div>
+                </div>
+            }
             className='popup'
             closeOnDocumentClick
         >
             {close => (
                 <div className="content add-task">
                     <form action="">
-                        <textarea placeholder='Task Name or description...' name="" id="taskName" cols="55" rows="1"></textarea>
+                        <textarea placeholder='Task Name or description...' id="taskName" cols="55" rows="1"></textarea>
                         <div className="iconRow">
                             <div>
                                 <div onClick={handleDateClick} className='add-task-date add-hover'>
                                     <i className='bx bx-calendar-plus'></i> {selectedDate ? selectedDate.toLocaleString('default', { weekday: 'long' }) + ', ' + selectedDate.toLocaleString('default', { month: 'long' }) + ' ' + selectedDate.getDate() : 'Start'}
                                 </div>
                                 {showCalendar &&
-                                    <div className='calendar-container'>
-                                        {/* {select task date} */}
+                                    <div className='calendar-container' ref={calendarRef}>
                                         <Calendar onDateSelect={handleDateSelect} />
                                     </div>
                                 }
@@ -131,7 +159,6 @@ const AddTask = ({ onTaskAdd }) => {
                                     </div>
                                     {showCategory &&
                                         <div className='category-container'>
-                                            {/* Pass handleCategorySelect function to CategoryOption */}
                                             <CategoryOption handleChange={handleCategorySelect} />
                                         </div>
                                     }
@@ -142,7 +169,6 @@ const AddTask = ({ onTaskAdd }) => {
                     </form>
                 </div>
             )}
-
         </Popup>
     );
 };

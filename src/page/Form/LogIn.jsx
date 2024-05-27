@@ -23,8 +23,9 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
 
-    const handleSignup = async () => {
-        // Get user location before creating account
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const latitude = position.coords.latitude;
@@ -32,11 +33,9 @@ export default function Login() {
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
                 alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
-                // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());
 
-                // Make a GET request to OpenWeatherMap API
                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
@@ -45,57 +44,94 @@ export default function Login() {
                     if (response.ok) {
                         const weatherData = await response.json();
                         console.log('Weather data:', weatherData);
-                        // You can now use the weather data as needed, such as displaying it on the UI
                     } else {
                         console.error('Error fetching weather data:', response.statusText);
-                        // Handle error fetching weather data
                     }
                 } catch (error) {
                     console.error('Error fetching weather data:', error);
-                    // Handle error fetching weather data
                 }
 
-                // Rest of your signup logic (creating account with form data)
-                // ...
+                const email = document.querySelector('input[type="email"]').value;
+                const password = document.querySelector('input[type="password"]').value;
+
+                const payload = {
+                    email,
+                    password,
+                };
+
+                try {
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Login successful:', data);
+
+                        sessionStorage.setItem('token', data.token);
+                        sessionStorage.setItem('refreshToken', data.refreshToken);
+                        sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
+
+                        console.log()
+
+                        navigate('/star-taskz');
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Login error:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             },
             (error) => {
                 console.error('Error getting location:', error);
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
-
-        navigate('/star-taskz');
-
-        // Create an object with form data
-        // const formData = {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     dateOfBirth: dateOfBirth,
-        //     email: email,
-        //     password: password
-        // };
-
-        // try {
-        //     // Make an API call to your backend server
-        //     const response = await fetch('your_api_endpoint', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formData)
-        //     });
-
-        //     if (response.ok) {
-        //         // If the API call is successful, navigate to the main page
-        //         history.push('/main-page'); // Replace '/main-page' with your desired route
-        //     } else {
-        //         // Handle error if API call fails
-        //         console.error('Error:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     };
+
+
+    const makeAuthenticatedRequest = async (url, options = {}) => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            console.error('No token found in session storage');
+            return;
+        }
+
+        // Add the Authorization header with the token
+        options.headers = {
+            ...options.headers,
+            'Authorization': `Bearer ${token}`,
+        };
+
+        try {
+            const response = await fetch(url, options);
+            if (response.ok) {
+                return await response.json();
+            } else {
+                console.error('Error with authenticated request:', response.statusText);
+                // Handle token expiration or other errors
+                if (response.status === 401) {
+                    // Token might be expired, handle re-authentication
+                    console.log('Token expired or unauthorized, handle re-authentication');
+                }
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    };
+
+    // Example usage of an authenticated request
+    const fetchUserData = async () => {
+        const data = await makeAuthenticatedRequest('https://startaskzbackend-production.up.railway.app/user/data');
+        console.log('User data:', data);
+    };
+
+
 
     const handleLoginHereClick = () => {
         setAnimeSlider(true)
@@ -116,7 +152,7 @@ export default function Login() {
     };
 
     const SignupHereClick = () => {
-        navigate('/star-taskz')
+        navigate('/')
         setAnimeSlider(false)
         setHideSlider(true)
         setTimeout(() => {
@@ -204,52 +240,52 @@ export default function Login() {
                     <Slider
                     />
                 </div>
-                
+
                 {/* )} */}
 
                 {/* Login Form */}
-    
-                    <div className='login-form form'>
-                        <div className='form-content'>
-                            <div>
-                                <h2>Login to Star Taskz</h2>
-                                <p>Don't you have some pending taskz?</p>
-                            </div>
-                            <div className='main-form'>
-                                <form action="" className='input-fields'>
-                                    <div className='input'>
-                                        <p>Email</p>
-                                        <input type="email" placeholder='Email' />
-                                    </div>
-                                    <div className='input'>
-                                        <p>Password</p>
-                                        <input type="password" placeholder='Password' />
-                                    </div>
-                                    <input type="submit" value="Sign In" onClick={SignupHereClick}/>
-                                </form>
-                                <div className='option'>
-                                    <hr /> <p>or login with</p> <hr />
+
+                <div className='login-form form'>
+                    <div className='form-content'>
+                        <div>
+                            <h2>Login to Star Taskz</h2>
+                            <p>Don't you have some pending taskz?</p>
+                        </div>
+                        <div className='main-form'>
+                            <form action="" className='input-fields'>
+                                <div className='input'>
+                                    <p>Email</p>
+                                    <input type="email" placeholder='Email' />
                                 </div>
-                                <div className='google-button'>
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            const decoded = jwtDecode(credentialResponse?.credential);
-                                            console.log(decoded);
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
-                                    />
+                                <div className='input'>
+                                    <p>Password</p>
+                                    <input type="password" placeholder='Password' />
                                 </div>
+                                <input type="submit" value="Sign In" onClick={handleLogin} />
+                            </form>
+                            <div className='option'>
+                                <hr /> <p>or login with</p> <hr />
                             </div>
-                            <div className='have-acct'>
-                                <p>Are you new?</p>
-                                <button onClick={SignupHereClick}>
-                                    <p>Create Account</p>
-                                </button>
+                            <div className='google-button'>
+                                <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        const decoded = jwtDecode(credentialResponse?.credential);
+                                        console.log(decoded);
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
                             </div>
                         </div>
+                        <div className='have-acct'>
+                            <p>Are you new?</p>
+                            <button onClick={SignupHereClick}>
+                                <p>Create Account</p>
+                            </button>
+                        </div>
                     </div>
+                </div>
 
                 {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
                 </div> */}
