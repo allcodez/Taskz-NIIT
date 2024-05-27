@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
-import './form.css'; // Import CSS file if you have one
+import React, { useState, useEffect } from 'react';
+import './signup.css'; // Import CSS file if you have one
 import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../../AppContext';
 
-export default function Form() {
+export default function Login() {
     const [rigthSlider, setRightSlider] = useState(false);
     const [animeSlider, setAnimeSlider] = useState(false);
     const [showData1, setShowData1] = useState(true);
@@ -20,12 +19,9 @@ export default function Form() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
-    // const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
-
-    const { email, setEmail } = useContext(AppContext);
-
 
     const handleSignup = async () => {
         // Get user location before creating account
@@ -35,15 +31,15 @@ export default function Form() {
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
                 alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
-        
+
                 // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());
-        
+
                 // Make a GET request to OpenWeatherMap API
                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-        
+
                 try {
                     const response = await fetch(apiUrl);
                     if (response.ok) {
@@ -58,7 +54,7 @@ export default function Form() {
                     console.error('Error fetching weather data:', error);
                     // Handle error fetching weather data
                 }
-        
+
                 // Rest of your signup logic (creating account with form data)
                 // ...
             },
@@ -67,7 +63,7 @@ export default function Form() {
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
-        
+
         navigate('/star-taskz');
 
         // Create an object with form data
@@ -120,6 +116,7 @@ export default function Form() {
     };
 
     const SignupHereClick = () => {
+        navigate('/star-taskz')
         setAnimeSlider(false)
         setHideSlider(true)
         setTimeout(() => {
@@ -200,114 +197,18 @@ export default function Form() {
 
     return (
         <>
-            <div className='form-container'>
+            <div className='form-container login'>
                 {/* SignUp Form */}
-                {showSignupForm && (
-                    <div className='signup-form form'>
-                        <div className='form-content'>
-                            {showHeading && (
-                                <div>
-                                    <h2>Get Started with Star Taskz</h2>
-                                    <p>Manage you task more effeciently</p>
-                                </div>
-                            )}
-
-                            <div className='main-form'>
-                                {showData1 && (
-                                    <form action="" className='input-fields'>
-                                        <div className='input'>
-                                            <p>First Name</p>
-                                            <input type="text" placeholder='First Name' value={firstName}
-                                                onChange={handleFirstNameChange}
-                                                autoComplete="firstname" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Last Name</p>
-                                            <input type="text" placeholder='Last Name' value={lastName}
-                                                onChange={handleLastNameChange}
-                                                autoComplete="lastname" />
-                                        </div>
-
-                                        <button onClick={handleNext}>
-                                            Next
-                                            <i className="fa-solid fa-arrow-right"></i>
-                                        </button>
-                                        {/* <input type="submit" value="Next" /> */}
-                                    </form>
-                                )}
-
-                                {showData2 && (
-                                    <form action="" className='input-fields'>
-                                        <div onClick={handleBack} className='button'>
-                                            <i className="fa-solid fa-arrow-left"></i>
-                                        </div>
-                                        <div className='input'>
-                                            <p>Email</p>
-                                            <input type="email" placeholder='Email' value={email}
-                                                onChange={handleEmailChange}
-                                                autoComplete="email" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Date of Birth</p>
-                                            <input type="date" placeholder='Date of Birth' value={dateOfBirth}
-                                                onChange={handleDateOfBirthChange} />
-                                        </div>
-                                        <button onClick={handleNext2}>
-                                            Next
-                                            <i className="fa-solid fa-arrow-right"></i>
-                                        </button>
-                                    </form>
-                                )}
-
-                                {showData3 && (
-                                    <form action="" className='input-fields'>
-                                        <div onClick={handleBack2} className='button'>
-                                            <i className="fa-solid fa-arrow-left"></i>
-                                        </div>
-                                        <div className='input'>
-                                            <p>Password</p>
-                                            <input type="password" placeholder='Password' value={password}
-                                                onChange={handlePasswordChange}
-                                                autoComplete="password" />
-                                        </div>
-                                        <div className='input'>
-                                            <p>Confirm Password</p>
-                                            <input type="password" placeholder='Confirm Password' />
-                                        </div>
-                                        {/* Create account button */}
-                                        <input onClick={handleSignup} type="submit" value="Create Account" />
-                                    </form>
-                                )}
-                                <div className='option'>
-                                    <hr /> <p>or register with</p> <hr />
-                                </div>
-                                <div className='google-button'>
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            const decoded = jwtDecode(credentialResponse?.credential);
-                                            console.log(decoded);
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
-                                    />
-                                    {/* <img src={google} alt="" />
-                                    <p>Sign up with Google</p> */}
-                                </div>
-                            </div>
-
-                            <div className='have-acct'>
-                                <p>Already have an account?</p>
-                                <button onClick={handleLoginHereClick}>
-                                    <p>Login Here</p>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {/* {showSignupForm && ( */}
+                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
+                    <Slider
+                    />
+                </div>
+                
+                {/* )} */}
 
                 {/* Login Form */}
-                {showLoginForm && (
+    
                     <div className='login-form form'>
                         <div className='form-content'>
                             <div>
@@ -324,7 +225,7 @@ export default function Form() {
                                         <p>Password</p>
                                         <input type="password" placeholder='Password' />
                                     </div>
-                                    <input type="submit" value="Sign In" />
+                                    <input type="submit" value="Sign In" onClick={SignupHereClick}/>
                                 </form>
                                 <div className='option'>
                                     <hr /> <p>or login with</p> <hr />
@@ -339,8 +240,6 @@ export default function Form() {
                                             console.log('Login Failed');
                                         }}
                                     />
-                                    {/* <img src={google} alt="" />
-                                    <p>Sign up with Google</p> */}
                                 </div>
                             </div>
                             <div className='have-acct'>
@@ -351,14 +250,10 @@ export default function Form() {
                             </div>
                         </div>
                     </div>
-                )}
-                <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
-                </div>
-                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider hideProp={`${hideSlider ? 'hide' : 'visible'}`}
-                        sliderContent={`${hideSlider ? 'hide' : 'visible'}`}
-                    />
-                </div>
+
+                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
+                </div> */}
+
             </div>
 
             {/* 1000PX Screen size */}

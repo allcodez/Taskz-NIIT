@@ -12,7 +12,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: black;
+  /* background: black; */
 
   /* Center slide text vertically */
   display: flex;
@@ -28,20 +28,35 @@
 }
 
 .custom-slide{
+  background: transparent;
   width: 100%;
   height: 100vh;
   display: flex;
-  align-items: flex-end;
-  padding: 0 2rem 2rem 2rem;
+  gap: 4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5rem 2rem 2rem;
+}
+
+.login .custom-slide{
+  padding: 0 2rem 2rem 6rem;
+
+}
+
+.custom-slide-img{
+  width: 80%;
+  /* height: 60%; */
+  /* object-fit: cover; */
 }
 
 .custom-slide p{
-  text-align: left;
+  text-align: center;
   /* font-weight: bold; */
-  color: white; 
+  color: balck; 
 }
 
-.slide1{
+/* .slide1{
   background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(/src/asstes/images/jess-bailey-94Ld_MtIUf0-unsplash.jpg);
   background-size: cover;
   background-position: center;
@@ -63,4 +78,4 @@
   background: linear-gradient(to bottom, #ffffff00, #1c1c1c6c, #1c1c1c6c), url(../../asstes/images/pexels-armin-rimoldi-5553053.jpg);
   background-size: cover;
   background-position: center;
-}
+} */

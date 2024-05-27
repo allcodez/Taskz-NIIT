@@ -1,9 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './category.css';
 import '../sideBar/sideBar.css';
+import { CategoryContext } from '../../../hooks/CategoryContext';
 
 const Category = ({ category }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(true);
+  const { setSelectedCategory, selectedCategory } = useContext(CategoryContext);
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  const handleCategorySelect = () => {
+    if (category.name === 'All') {
+      setSelectedCategory('All');
+    } else {
+      setSelectedCategory(category.name);
+    }
+  };
+
+  useEffect(() => {
+    // Reset activeCategory when a new category is selected
+    if (selectedCategory === 'All') {
+      setActiveCategory(null);
+    } else if (selectedCategory === category.name) {
+      setActiveCategory(category.name);
+    } else {
+      setActiveCategory(null);
+    }
+  }, [selectedCategory, category.name]);
 
   const toggleSidebar = () => {
     setIsDropDownOpen(!isDropDownOpen);
@@ -11,23 +33,15 @@ const Category = ({ category }) => {
 
   return (
     <div className="category">
-      <li className="category-name" onClick={toggleSidebar}>
-        <a href="">
+      <li className="category-name">
+        <div
+          className={`category-content ${activeCategory === category.name ? 'active' : ''}`}
+          onClick={handleCategorySelect}
+        >
           <i className={`bx ${isDropDownOpen ? 'bx-chevron-right' : 'bx-chevron-down'} toggle`}></i>
-          {category.name}
-        </a>
+          <p>{category.name}</p>
+        </div>
       </li>
-      {/* {!isDropDownOpen && (
-        <ul className="category-list">
-          {category.items.map((item, index) => (
-            <li key={index} className="category-item">
-              <a href="#">
-                <span className="text nav-text">#{item}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )} */}
     </div>
   );
 };

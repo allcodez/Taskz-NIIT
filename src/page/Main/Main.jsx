@@ -4,10 +4,12 @@ import SideBar from '../../components/sideBar/SideBar';
 import DateArray from '../../components/task/DateArray';
 import WeatherBar from '../../components/weather/WeatherBar'; // Import WeatherBar component
 import { WeatherContext } from '../../../hooks/WeatherProvider'; // Import WeatherContext
+import { CategoryContext } from '../../../hooks/CategoryContext';
 
 export default function Main() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
     const [translation, setTranslation] = useState(0);
+    const { selectedCategory } = useContext(CategoryContext);
 
     const toggleSidebar = () => {
         setIsSidebarClosed(!isSidebarClosed);
@@ -28,14 +30,16 @@ export default function Main() {
                         ) : (
                             <i onClick={toggleSidebar} className='bx bx-arrow-to-left'></i>
                         )}
-                        <h3 className='today'>Today</h3>
+                        <h3>
+                            Today{' '}
+                            <b>{selectedCategory && selectedCategory !== 'All'
+                                ? `(${selectedCategory})`
+                                : ''}
+                            </b>
+                        </h3>
                     </div>
                     <DateArray />
                 </div>
-
-                {/* Pass weatherData to WeatherBar */}
-
-
             </div>
             <WeatherBar weatherData={weatherData} />
         </>

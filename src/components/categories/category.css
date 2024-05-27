@@ -2,33 +2,42 @@
     padding-top: 5px;
 } */
 
-.category-name a{
+.category-name .category-content {
     /* margin-left: 30px; */
     /* padding: 10px 0; */
     cursor: pointer;
+    color: var(--text-color);
+    display: flex;
+    gap: 0.3rem
+}
+
+/* category.css */
+.category-content.active {
+    background-color: var(--primary-color) !important;
+    color: white;
+    /* Add other styles for the active category here */
+}
+
+.nav-text {
     color: var(--text-color)
 }
 
-.nav-text{
-    color: var(--text-color)
-}
-
-.category-option-list{
+.category-option-list {
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    gap: 0.5rem;
+    gap: 0.8rem;
 }
 
-.category-option-list span{
+.category-option-list span {
     color: var(--text-color);
 }
 
-.category-option-list:hover{
+.category-option-list:hover {
     background-color: var(--scroll-bar);
 }
 
-.category-option-list i.bx{
+.category-option-list i.bx {
     font-size: 1rem !important;
     /* color: var(--text-color); */
 }
@@ -53,7 +62,8 @@
     /* margin-top: 10px; */
 }
 
-.sidebar .category li a {
+.sidebar .category li a,
+.sidebar .category li .category-content {
     list-style: none;
     height: 100%;
     background-color: transparent;
@@ -68,7 +78,8 @@
     gap: 0.4rem;
 }
 
-.sidebar .category li a:hover {
-	background-color: var(--primary-color);
-	color: #fff;
+.sidebar .category li a:hover,
+.sidebar .category li .category-content:hover {
+    background-color: var(--primary-color);
+    color: #fff;
 }
