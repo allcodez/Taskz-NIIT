@@ -90,7 +90,7 @@ const AddTask = ({ onTaskAdd }) => {
 
         if (!token || !userId) {
             console.error('No token or user ID found in session storage');
-            alert('You must be logged in to create a task.');
+            // alert('You must be logged in to create a task.');
             return;
         }
 
@@ -110,7 +110,7 @@ const AddTask = ({ onTaskAdd }) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Add task api resp', data);
-                alert('Task created successfully.');
+                // alert('Task created successfully.');
                 console.log('Task Created');
 
                 // Fetch the updated tasks after successful task creation
@@ -131,7 +131,7 @@ const AddTask = ({ onTaskAdd }) => {
             }
         } catch (error) {
             console.error('Error creating task:', error);
-            alert('Failed to create task. Please try again.');
+            // alert('Failed to create task. Please try again.');
         }
     };
 

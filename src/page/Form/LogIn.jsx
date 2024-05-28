@@ -40,7 +40,7 @@ export default function Login() {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());

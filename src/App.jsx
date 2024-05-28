@@ -22,7 +22,8 @@ function App() {
             <DateProvider> {/* Wrap your routes with the DateProvider */}
               <Routes>
                 <Route exact path="/" element={<SignUp />} />
-                <Route exact path="/login" element={<LandingPage />} />
+                <Route exact path="/app" element={<LandingPage />} />
+                <Route exact path="/login" element={<Login />} />
                 <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} />
               </Routes>
             </DateProvider>

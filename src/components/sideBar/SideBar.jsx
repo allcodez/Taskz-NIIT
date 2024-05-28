@@ -4,6 +4,7 @@ import Calendar from '../calendar/Calendar';
 import Category from '../categories/Category';
 import Dropdown from '../dropdown/Dropdown';
 import { Navigate, useNavigate } from 'react-router-dom';
+import logo from '../../asstes/images/logo.jpg'
 
 export default function SideBar() {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -78,7 +79,7 @@ export default function SideBar() {
             },
             (error) => {
                 console.error('Error getting location:', error);
-                alert('Unable to get your location. Please allow location access for this feature.');
+                // alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
     }, [isDarkMode]);
@@ -88,11 +89,11 @@ export default function SideBar() {
             <header>
                 <div className="image-text">
                     <span className="image">
-                        {/* <img src="logo.png" alt=""> */}
+                        <img src={logo} alt=""/>
                     </span>
                     <div className="text logo-text">
-                        {/* <span className="name">Star Taskz</span> */}
-                        <Dropdown />
+                        <span className="name">Star Taskz</span>
+                        {/* <Dropdown /> */}
                     </div>
                 </div>
                 {/* <i className={`bx ${isSidebarClosed ? 'bx-chevron-right' : 'bx-chevron-left'} toggle`} onClick={toggleSidebar}></i> */}

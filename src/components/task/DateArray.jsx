@@ -139,7 +139,7 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
                     },
                     (error) => {
                         console.error('Error getting location:', error);
-                        alert('Unable to get your location. Please allow location access for this feature.');
+                        // alert('Unable to get your location. Please allow location access for this feature.');
                     }
                 );
             }
