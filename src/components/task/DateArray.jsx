@@ -4,10 +4,11 @@ import DailyTaskList from './Daily/DailyTaskList';
 import TaskCalendar from '../task/TaskCalendar/TaskCalendar';
 import { DateContext } from '../../../hooks/DateContext';
 import { WeatherContext } from '../../../hooks/WeatherProvider';
+import { TaskContext } from '../../../hooks/TaskContext';
 
-export default function DateArray() {
+export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate }) {
     const dates = TaskCalendar();
-    const [tasks, setTasks] = useState({});
+    // const [tasks, setTasks] = useState({});
     const { selectedDate, setSelectedDate } = useContext(DateContext);
     const scrollContainerRef = useRef(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -17,21 +18,32 @@ export default function DateArray() {
     const [hoveredDate, setHoveredDate] = useState(null);
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [mounted, setMounted] = useState(false);
+    // const [filterStatus, setFilterStatus] = useState('All');
+    const [needsRefetch, setNeedsRefetch] = useState(false);
+    const { tasks, setTasks } = useContext(TaskContext);
 
     const handleTaskAdd = (selectedDate, newTask) => {
-        if (selectedDate instanceof Date && !isNaN(selectedDate)) {
-            const dateString = selectedDate.toDateString();
-            setTasks((prevTasks) => ({
-                ...prevTasks,
-                [dateString]: [...(prevTasks[dateString] || []), newTask],
-            }));
-        } else {
-            console.error('selectedDate is not a valid Date:', selectedDate);
-        }
+        setNeedsRefetch(true);
+        // if (selectedDate instanceof Date && !isNaN(selectedDate)) {
+        //     const dateString = selectedDate.toDateString();
+        //     setTasks((prevTasks) => ({
+        //         ...prevTasks,
+        //         [dateString]: [...(prevTasks[dateString] || []), newTask],
+        //     }));
+        // } else {
+        //     console.error('selectedDate is not a valid Date:', selectedDate);
+        // }
     };
 
-    const handleTaskEdit = (taskId, taskDate, updatedTask) => {
-        const dateString = taskDate.toDateString();
+    const handleTaskDelete = (taskId, dateString) => {
+        setTasks((prevTasks) => {
+            const updatedTasks = { ...prevTasks };
+            updatedTasks[dateString] = prevTasks[dateString].filter((task) => task.id !== taskId);
+            return updatedTasks;
+        });
+    };
+
+    const handleTaskEdit = (taskId, dateString, updatedTask) => {
         setTasks((prevTasks) => {
             const updatedTasks = { ...prevTasks };
             const tasksForDate = prevTasks[dateString] || [];
@@ -41,14 +53,6 @@ export default function DateArray() {
             updatedTasks[dateString] = updatedTasksForDate;
             return updatedTasks;
         });
-    };
-
-    const handleTaskDelete = (taskId, taskDate) => {
-        const dateString = taskDate.toDateString();
-        setTasks((prevTasks) => ({
-            ...prevTasks,
-            [dateString]: prevTasks[dateString].filter((task) => task.id !== taskId),
-        }));
     };
 
     const prevMonth = () => {
@@ -121,21 +125,28 @@ export default function DateArray() {
                         return acc;
                     }, {});
                     setTasks(tasksByDate);
+                    setNeedsRefetch(false);
                 }
             };
 
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    fetchWeatherData();
-                    fetchTaskData();
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                    alert('Unable to get your location. Please allow location access for this feature.');
-                }
-            );
+            if (needsRefetch) {
+                fetchTaskData();
+            } else {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        fetchWeatherData();
+                        fetchTaskData(); // Call fetchTaskData on initial render
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        alert('Unable to get your location. Please allow location access for this feature.');
+                    }
+                );
+            }
+
+            setMounted(true);
         }
-    }, [mounted, weatherData]);
+    }, [needsRefetch, mounted, weatherData]);
 
     const fetchTasks = async () => {
         const userId = sessionStorage.getItem('userId');
@@ -180,13 +191,14 @@ export default function DateArray() {
                 weatherData={weatherData}
                 weatherDataFetched={weatherDataFetched}
                 handleDateSelect={handleDateSelect}
-                onTaskAdd={handleTaskAdd}
+                filterStatus={filterStatus}
             />
         </div>
     );
 }
 
-function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDataFetched, handleDateSelect, onTaskAdd }) {
+// DayList component
+function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDataFetched, handleDateSelect, onTaskAdd, filterStatus }) {
     return (
         <div className="dayList">
             {days && days.length > 0 ? (
@@ -201,6 +213,7 @@ function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDa
                             weatherData={weatherDataFetched ? weatherData[day.date.toDateString()] : null}
                             key={index}
                             onTaskAdd={onTaskAdd}
+                            filterStatus={filterStatus} // Pass filterStatus as a prop
                         />
                     </div>
                 ))

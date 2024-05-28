@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './signup.css'; // Import CSS file if you have one
-import google from '../../asstes/images/google.png';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
+import { BiShow, BiHide } from 'react-icons/bi'; // Importing eye icons from react-icons/bi
 
 export default function SignUp() {
-    const [rigthSlider, setRightSlider] = useState(false);
+    const [rightSlider, setRightSlider] = useState(false);
     const [animeSlider, setAnimeSlider] = useState(false);
     const [showData1, setShowData1] = useState(true);
     const [showData2, setShowData2] = useState(false);
@@ -15,16 +15,36 @@ export default function SignUp() {
     const [showHeading, setShowHeading] = useState(true);
     const [showSignupForm, setShowSignupForm] = useState(true);
     const [showLoginForm, setShowLoginForm] = useState(window.innerWidth > 1000);
-    const [hideSlider, setHideSlider] = useState(false)
+    const [hideSlider, setHideSlider] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [dateOfBirthError, setDateOfBirthError] = useState("");
     const navigate = useNavigate(); // Initialize useHistory hook for navigation
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
+        if (password !== confirmPassword) {
+            setPasswordError("Passwords do not match.");
+            return;
+        }
+
+        if (password.length < 8) {
+            setPasswordError("Password must be at least 8 characters long.");
+            return;
+        } else {
+            setPasswordError("");
+        }
+
         // Get user location before creating account
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -61,7 +81,7 @@ export default function SignUp() {
                     password,
                     role: 'USER', // Assuming you have a 'user' role
                 };
-                console.log('Singup payload', payload)
+                console.log('Signup payload', payload);
 
                 try {
                     // Make a POST request to your signup endpoint
@@ -95,73 +115,96 @@ export default function SignUp() {
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
-
-
     };
 
     const handleLoginHereClick = () => {
-        navigate('/login')
-        setAnimeSlider(true)
-        setHideSlider(true)
+        navigate('/login');
+        setAnimeSlider(true);
+        setHideSlider(true);
         setTimeout(() => {
             setRightSlider(true);
             console.log('login');
         }, 700);
 
         setTimeout(() => {
-            setHideSlider(false)
+            setHideSlider(false);
         }, 1000);
 
         if (window.innerWidth < 1000) {
-            setShowSignupForm(false)
-            setShowLoginForm(true)
+            setShowSignupForm(false);
+            setShowLoginForm(true);
         }
     };
 
     const SignupHereClick = () => {
-        setAnimeSlider(false)
-        setHideSlider(true)
+        setAnimeSlider(false);
+        setHideSlider(true);
         setTimeout(() => {
             setRightSlider(false);
-        }, 700)
-        console.log('signup')
+        }, 700);
+        console.log('signup');
 
         setTimeout(() => {
-            setHideSlider(false)
+            setHideSlider(false);
         }, 1000);
 
         if (window.innerWidth < 1000) {
-            setShowSignupForm(true)
-            setShowLoginForm(false)
+            setShowSignupForm(true);
+            setShowLoginForm(false);
         }
-    }
+    };
 
     const handleNext = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-    }
+        let valid = true;
+
+        if (!firstName) {
+            setFirstNameError("First name is required.");
+            valid = false;
+        } else {
+            setFirstNameError("");
+        }
+
+        if (!lastName) {
+            setLastNameError("Last name is required.");
+            valid = false;
+        } else {
+            setLastNameError("");
+        }
+
+        if (!dateOfBirth) {
+            setDateOfBirthError("Date of birth is required.");
+            valid = false;
+        } else {
+            setDateOfBirthError("");
+        }
+
+        if (valid) {
+            setShowHeading(false);
+            setShowData1(false);
+            setShowData2(true);
+            setShowData3(false);
+        }
+    };
 
     const handleNext2 = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(false)
-        setShowData3(true)
-    }
+        setShowHeading(false);
+        setShowData1(false);
+        setShowData2(false);
+        setShowData3(true);
+    };
 
     const handleBack = () => {
-        setShowData1(true)
-        setShowData2(false)
-        setShowHeading(true)
-    }
+        setShowData1(true);
+        setShowData2(false);
+        setShowHeading(true);
+    };
 
     const handleBack2 = () => {
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-        setShowHeading(false)
-    }
+        setShowData1(false);
+        setShowData2(true);
+        setShowData3(false);
+        setShowHeading(false);
+    };
 
     const handleResize = () => {
         if (window.innerWidth <= 1000) {
@@ -189,7 +232,18 @@ export default function SignUp() {
 
     function handlePasswordChange(event) {
         setPassword(event.target.value);
-        // setIsPasswordTooShort(event.target.value.length >= 1 && event.target.value.length < 8);
+    }
+
+    function handleConfirmPasswordChange(event) {
+        setConfirmPassword(event.target.value);
+    }
+
+    function togglePasswordVisibility() {
+        setShowPassword(!showPassword);
+    }
+
+    function toggleConfirmPasswordVisibility() {
+        setShowConfirmPassword(!showConfirmPassword);
     }
 
     useEffect(() => {
@@ -200,9 +254,8 @@ export default function SignUp() {
     return (
         <>
             <div className='form-container'>
-                <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider
-                    />
+                <div className={`slider-container ${rightSlider ? 'left' : 'right'}`}>
+                    <Slider />
                 </div>
 
                 <div className='signup-form form'>
@@ -210,11 +263,11 @@ export default function SignUp() {
                         {showHeading && (
                             <div>
                                 <h2>Get Started with Star Taskz</h2>
-                                <p>Manage you task more effeciently</p>
+                                <p>Manage your tasks more efficiently</p>
                             </div>
                         )}
 
-                        <form action="" className='main-form'>
+                        <form onSubmit={handleSignup} className='main-form'>
                             {showData1 && (
                                 <div className='input-fields'>
                                     <div className='input'>
@@ -222,24 +275,26 @@ export default function SignUp() {
                                         <input required type="text" placeholder='First Name' value={firstName}
                                             onChange={handleFirstNameChange}
                                             autoComplete="firstname" />
+                                        {firstNameError && <p className="error">{firstNameError}</p>}
                                     </div>
                                     <div className='input'>
                                         <p>Last Name</p>
                                         <input required type="text" placeholder='Last Name' value={lastName}
                                             onChange={handleLastNameChange}
                                             autoComplete="lastname" />
+                                        {lastNameError && <p className="error">{lastNameError}</p>}
                                     </div>
                                     <div className='input'>
                                         <p>Date of Birth</p>
                                         <input required type="date" placeholder='Date of Birth' value={dateOfBirth}
                                             onChange={handleDateOfBirthChange} />
+                                        {dateOfBirthError && <p className="error">{dateOfBirthError}</p>}
                                     </div>
 
-                                    <button onClick={handleNext}>
+                                    <button type="button" onClick={handleNext}>
                                         Next
                                         <i className="fa-solid fa-arrow-right"></i>
                                     </button>
-                                    {/* <input required type="submit" value="Next" /> */}
                                 </div>
                             )}
 
@@ -256,19 +311,37 @@ export default function SignUp() {
                                     </div>
                                     <div className='input'>
                                         <p>Password</p>
-                                        <input required type="password" placeholder='Password' value={password}
-                                            onChange={handlePasswordChange}
-                                            autoComplete="password" />
+                                        <div className="password-input">
+                                            <input
+                                                required
+                                                type={showPassword ? "text" : "password"}
+                                                placeholder='Password'
+                                                value={password}
+                                                onChange={handlePasswordChange}
+                                                autoComplete="password"
+                                            />
+                                            <span onClick={togglePasswordVisibility}>
+                                                {showPassword ? <BiHide /> : <BiShow />}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className='input'>
                                         <p>Confirm Password</p>
-                                        <input required type="password" placeholder='Confirm Password' />
+                                        <div className="password-input">
+                                            <input
+                                                required
+                                                type={showConfirmPassword ? "text" : "password"}
+                                                placeholder='Confirm Password'
+                                                value={confirmPassword}
+                                                onChange={handleConfirmPasswordChange}
+                                            />
+                                            <span onClick={toggleConfirmPasswordVisibility}>
+                                                {showConfirmPassword ? <BiHide /> : <BiShow />}
+                                            </span>
+                                        </div>
                                     </div>
-                                    {/* Create account button
-                                    <button onClick={handleSignup}>
-                                        Create Account
-                                    </button> */}
-                                    <input required onClick={handleSignup} type="submit" value="Create Account" />
+                                    {passwordError && <p className="error">{passwordError}</p>}
+                                    <input type="submit" value="Create Account" />
                                 </div>
                             )}
 
@@ -277,7 +350,6 @@ export default function SignUp() {
                                     <div onClick={handleBack2} className='button'>
                                         <i className="fa-solid fa-arrow-left"></i>
                                     </div>
-
                                 </div>
                             )}
                             <div className='option'>
@@ -293,8 +365,6 @@ export default function SignUp() {
                                         console.log('Login Failed');
                                     }}
                                 />
-                                {/* <img src={google} alt="" />
-                                    <p>Sign up with Google</p> */}
                             </div>
                         </form>
 
@@ -306,11 +376,7 @@ export default function SignUp() {
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </>
     );
 }
-
-

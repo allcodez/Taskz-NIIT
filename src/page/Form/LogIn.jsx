@@ -5,26 +5,35 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
+import { BiShow, BiHide } from 'react-icons/bi'; // Importing eye icons from react-icons/bi
 
 export default function Login() {
     const [rigthSlider, setRightSlider] = useState(false);
-    const [animeSlider, setAnimeSlider] = useState(false);
-    const [showData1, setShowData1] = useState(true);
-    const [showData2, setShowData2] = useState(false);
-    const [showData3, setShowData3] = useState(false);
-    const [showHeading, setShowHeading] = useState(true);
-    const [showSignupForm, setShowSignupForm] = useState(true);
-    const [showLoginForm, setShowLoginForm] = useState(window.innerWidth > 1000);
-    const [hideSlider, setHideSlider] = useState(false)
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
+    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+    const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [loginError, setLoginError] = useState(""); // State for login error message
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        // Reset errors
+        setEmailError("");
+        setPasswordError("");
+
+        // Check if fields are empty
+        if (!email) {
+            setEmailError("Email is required");
+        }
+        if (!password) {
+            setPasswordError("Password is required");
+        }
+        if (!email || !password) {
+            return;
+        }
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -51,9 +60,6 @@ export default function Login() {
                     console.error('Error fetching weather data:', error);
                 }
 
-                const email = document.querySelector('input[type="email"]').value;
-                const password = document.querySelector('input[type="password"]').value;
-
                 const payload = {
                     email,
                     password,
@@ -70,21 +76,26 @@ export default function Login() {
 
                     if (response.ok) {
                         const data = await response.json();
-                        console.log('Login successful:', data);
+                        if (data.statusCode === 200) {
+                            console.log('Login successful:', data);
 
-                        sessionStorage.setItem('token', data.token);
-                        sessionStorage.setItem('refreshToken', data.refreshToken);
-                        sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
+                            sessionStorage.setItem('token', data.token);
+                            sessionStorage.setItem('refreshToken', data.refreshToken);
+                            sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
 
-                        console.log()
-
-                        navigate('/star-taskz');
+                            navigate('/star-taskz');
+                        } else {
+                            console.error('Login error:', data);
+                            setLoginError(data.message || 'Login failed');
+                        }
                     } else {
                         const errorData = await response.json();
                         console.error('Login error:', errorData);
+                        setLoginError(errorData.message || 'Login failed');
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                    setLoginError('An error occurred during login');
                 }
             },
             (error) => {
@@ -93,157 +104,33 @@ export default function Login() {
             }
         );
     };
-
-
-    const makeAuthenticatedRequest = async (url, options = {}) => {
-        const token = sessionStorage.getItem('token');
-        if (!token) {
-            console.error('No token found in session storage');
-            return;
-        }
-
-        // Add the Authorization header with the token
-        options.headers = {
-            ...options.headers,
-            'Authorization': `Bearer ${token}`,
-        };
-
-        try {
-            const response = await fetch(url, options);
-            if (response.ok) {
-                return await response.json();
-            } else {
-                console.error('Error with authenticated request:', response.statusText);
-                // Handle token expiration or other errors
-                if (response.status === 401) {
-                    // Token might be expired, handle re-authentication
-                    console.log('Token expired or unauthorized, handle re-authentication');
-                }
-            }
-        } catch (error) {
-            console.error('Network error:', error);
-        }
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
     };
 
-    // Example usage of an authenticated request
-    const fetchUserData = async () => {
-        const data = await makeAuthenticatedRequest('https://startaskzbackend-production.up.railway.app/user/data');
-        console.log('User data:', data);
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
     };
 
-
-
-    const handleLoginHereClick = () => {
-        setAnimeSlider(true)
-        setHideSlider(true)
-        setTimeout(() => {
-            setRightSlider(true);
-            console.log('login');
-        }, 700);
-
-        setTimeout(() => {
-            setHideSlider(false)
-        }, 1000);
-
-        if (window.innerWidth < 1000) {
-            setShowSignupForm(false)
-            setShowLoginForm(true)
-        }
-    };
+    function togglePasswordVisibility() {
+        setShowPassword(!showPassword);
+    }
 
     const SignupHereClick = () => {
         navigate('/')
-        setAnimeSlider(false)
-        setHideSlider(true)
-        setTimeout(() => {
-            setRightSlider(false);
-        }, 700)
-        console.log('signup')
-
-        setTimeout(() => {
-            setHideSlider(false)
-        }, 1000);
-
-        if (window.innerWidth < 1000) {
-            setShowSignupForm(true)
-            setShowLoginForm(false)
-        }
     }
 
-    const handleNext = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-    }
-
-    const handleNext2 = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(false)
-        setShowData3(true)
-    }
-
-    const handleBack = () => {
-        setShowData1(true)
-        setShowData2(false)
-        setShowHeading(true)
-    }
-
-    const handleBack2 = () => {
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-        setShowHeading(false)
-    }
-
-    const handleResize = () => {
-        if (window.innerWidth <= 1000) {
-            setShowLoginForm(false);
-        } else {
-            setShowLoginForm(true);
-        }
-    };
-
-    function handleFirstNameChange(event) {
-        setFirstName(event.target.value);
-    }
-
-    function handleLastNameChange(event) {
-        setLastName(event.target.value);
-    }
-
-    function handleEmailChange(event) {
-        setEmail(event.target.value);
-    }
-
-    function handleDateOfBirthChange(event) {
-        setDateOfBirth(event.target.value);
-    }
-
-    function handlePasswordChange(event) {
-        setPassword(event.target.value);
-        // setIsPasswordTooShort(event.target.value.length >= 1 && event.target.value.length < 8);
-    }
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('resize', handleResize);
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, []);
 
     return (
         <>
             <div className='form-container login'>
-                {/* SignUp Form */}
-                {/* {showSignupForm && ( */}
                 <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider
-                    />
+                    <Slider />
                 </div>
-
-                {/* )} */}
-
-                {/* Login Form */}
 
                 <div className='login-form form'>
                     <div className='form-content'>
@@ -255,14 +142,33 @@ export default function Login() {
                             <form action="" className='input-fields'>
                                 <div className='input'>
                                     <p>Email</p>
-                                    <input type="email" placeholder='Email' />
+                                    <input
+                                        type="email"
+                                        placeholder='Email'
+                                        value={email}
+                                        onChange={handleEmailChange}
+                                    />
+                                    {emailError && <span className="error">{emailError}</span>}
                                 </div>
                                 <div className='input'>
                                     <p>Password</p>
-                                    <input type="password" placeholder='Password' />
+                                    <div className='password-input'>
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder='Password'
+                                            value={password}
+                                            onChange={handlePasswordChange}
+                                        />
+                                        <span onClick={togglePasswordVisibility}>
+                                            {showPassword ? <BiHide /> : <BiShow />}
+                                        </span>
+                                    </div>
+                                    {passwordError && <span className="error">{passwordError}</span>}
                                 </div>
+                                {loginError && <div className="error">{loginError}</div>} {/* Display login error message */}
                                 <input type="submit" value="Sign In" onClick={handleLogin} />
                             </form>
+                            
                             <div className='option'>
                                 <hr /> <p>or login with</p> <hr />
                             </div>
@@ -286,19 +192,7 @@ export default function Login() {
                         </div>
                     </div>
                 </div>
-
-                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
-                </div> */}
-
-            </div>
-
-            {/* 1000PX Screen size */}
-
-            <div className=''>
-
             </div>
         </>
     );
 }
-
-

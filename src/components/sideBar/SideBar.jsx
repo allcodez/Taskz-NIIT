@@ -31,10 +31,13 @@ export default function SideBar() {
         console.log('Selected date:', date);
     };
 
-    const handleLogot = (e)=>{
+    const handleLogot = (e) => {
         e.preventDefault();
-        navigate('/login')
-    }
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate('/login');
+    };
+
 
     const toggleDarkMode = () => {
         const newMode = !isDarkMode;

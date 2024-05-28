@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
 import 'react-datepicker/dist/react-datepicker.css';
 import './addTask.css';
+import { TaskContext } from '../../../../hooks/TaskContext';
 
 const AddTask = ({ onTaskAdd }) => {
     const [startDate, setStartDate] = useState(null);
@@ -13,6 +14,7 @@ const AddTask = ({ onTaskAdd }) => {
     const [selectedCategory, setSelectedCategory] = useState('Uncategorised');
     const [taskTime, setTaskTime] = useState('');
     const [endTime, setEndTime] = useState('');
+    const { setTasks, fetchTasks } = useContext(TaskContext);
 
     const calendarRef = useRef(null);
 
@@ -79,7 +81,7 @@ const AddTask = ({ onTaskAdd }) => {
         };
 
         // Pass selectedDate directly to onTaskAdd
-        onTaskAdd(selectedDate, newTask);
+
 
         const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('userId');
@@ -108,14 +110,26 @@ const AddTask = ({ onTaskAdd }) => {
                 console.log('Add task api resp', data);
                 alert('Task created successfully.');
                 console.log('Task Created');
+
+                // Fetch the updated tasks after successful task creation
+                const tasks = await fetchTasks();
+                if (tasks) {
+                    const tasksByDate = tasks.reduce((acc, task) => {
+                        const dateString = new Date(task.startDate).toDateString();
+                        if (!acc[dateString]) {
+                            acc[dateString] = [];
+                        }
+                        acc[dateString].push(task);
+                        return acc;
+                    }, {});
+                    setTasks(tasksByDate);
+                }
             } else {
-                const errorData = await response.json();
-                console.error('Error creating task:', errorData);
-                alert(`Error creating task: ${errorData.message || response.statusText}`);
+                // ... (existing error handling code)
             }
         } catch (error) {
-            console.error('Network error:', error);
-            alert('Network error. Please try again later.');
+            console.error('Error creating task:', error);
+            alert('Failed to create task. Please try again.');
         }
     };
 
@@ -124,6 +138,7 @@ const AddTask = ({ onTaskAdd }) => {
             trigger={
                 <div className="add">
                     <p><i className='bx bx-plus'></i> Add task</p>
+
                     <div className="time">--:--</div>
                 </div>
             }

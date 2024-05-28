@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './taskModal.css';
 import { GrStatusGood } from "react-icons/gr";
 import { CiCalendarDate, CiClock2, CiPlay1 } from "react-icons/ci";
@@ -17,7 +17,11 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     const [showConfetti, setShowConfetti] = useState(false);
 
     useEffect(() => {
-        setEditedTask({ ...task });
+        if (task) {
+            setEditedTask({ ...task });
+        } else {
+            setEditedTask({});
+        }
     }, [task]);
 
     const formatTime = (time) => {
@@ -30,10 +34,16 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         return `${formattedHours}:${formattedMinutes}`;
     };
 
-    const handleEditTask = async () => {
+    const handleEditTask = useCallback(async () => {
         const userId = sessionStorage.getItem('userId');
         const token = sessionStorage.getItem('token');
         const taskId = editedTask.id;
+
+        // Check if taskId is defined
+        if (!taskId) {
+            console.warn('Task ID is not defined, skipping update.');
+            return;
+        }
 
         try {
             const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/update-task/${userId}/${taskId}`, {
@@ -48,7 +58,9 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             if (response.ok) {
                 const updatedTask = await response.json();
                 console.log('Task updated successfully:', updatedTask);
-                onTaskEdit(updatedTask.id, new Date(updatedTask.startDate), updatedTask);
+                const taskDate = new Date(updatedTask.startDate);
+                const dateString = taskDate.toDateString();
+                onTaskEdit(updatedTask.id, dateString, updatedTask);
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -56,11 +68,14 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         } catch (error) {
             console.error('Network error:', error);
         }
-    };
+    }, [editedTask, onTaskEdit]);
+
     const handleDeleteTask = async () => {
         const userId = sessionStorage.getItem('userId');
         const token = sessionStorage.getItem('token');
         const taskId = task.id;
+        const taskDate = new Date(task.startDate);
+        const dateString = taskDate.toDateString();
 
         try {
             const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/delete-task/${userId}/${taskId}`, {
@@ -74,13 +89,15 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message);
-                onTaskDelete(taskId, task.startDate);
+                onTaskDelete(taskId, dateString); // Pass the dateString instead of taskDate
             } else {
                 const errorText = await response.text();
                 console.error('Error deleting task:', errorText);
+                onTaskDelete(taskId, dateString);
             }
         } catch (error) {
             console.error('Network error:', error);
+            onTaskDelete(taskId, dateString);
         }
     };
 
@@ -117,6 +134,8 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         const userId = sessionStorage.getItem('userId');
         const token = sessionStorage.getItem('token');
         const taskId = editedTask.id;
+        const taskDate = new Date(editedTask.startDate);
+        const dateString = taskDate.toDateString();
         const updatedTask = {
             ...editedTask,
             taskStatus: editedTask.taskStatus === 'completed' ? 'incomplete' : 'completed',
@@ -134,8 +153,24 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
             if (response.ok) {
                 const result = await response.json();
-                onTaskEdit(result.id, result.startDate, result);
+                if (result.taskStatus === 'completed') {
+                    setShowConfetti(true);
+                    setTimeout(() => setShowConfetti(false), 1500); // Show confetti for 1.5 seconds
+                }
+
+                onTaskEdit(result.id, dateString, result); // Pass the dateString instead of taskDate
                 setEditedTask(result);
+
+                // Update the tasks state using setTasks
+                setTasks((prevTasks) => {
+                    const updatedTasks = { ...prevTasks };
+                    if (updatedTasks[dateString]) {
+                        updatedTasks[dateString] = updatedTasks[dateString].map((task) =>
+                            task.id === result.id ? result : task
+                        );
+                    }
+                    return updatedTasks;
+                });
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -174,7 +209,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         <div className='task-container'>
             {showConfetti && (
                 <div className="confetti-container">
-                    <Lottie options={lottieOptions} height={150} width={110} />
+                    <Lottie options={lottieOptions} height={160} width={120} />
                 </div>
             )}
             <div className="iconsCont">

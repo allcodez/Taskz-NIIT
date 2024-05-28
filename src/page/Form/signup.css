@@ -81,14 +81,39 @@ input[type=submit],
 }
 
 .input-fields input[type=text],
-input[type=password],
+/* input[type=password], */
 input[type=email],
-input[type=date] {
+input[type=date], .password-input {
   width: 100%;
   border-radius: 200px;
   color: black;
   padding: 0.9rem 1.2rem;
   border: 1px solid var(--primary-color);
+}
+
+input[type=password]{
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.password-input{
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  align-items: center;
+}
+
+.password-input input[type=text]{
+  padding: 0 !important;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.password-input span{
+  color: var(--primary-color);
+  font-size: 15px;
 }
 
 .input-fields input[type=submit],
