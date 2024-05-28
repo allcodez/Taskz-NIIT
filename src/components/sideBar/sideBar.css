@@ -226,13 +226,15 @@ body.dark .sidebar li .category-content:hover .text {
 
 /* Style the scrollbar thumb */
 .menu-content::-webkit-scrollbar-thumb {
-	background-color: var(--scroll-bar);
-	/* border-radius: 100px; */
+	/* background: linear-gradient(var(--primary-color), rgb(149, 182, 235), rgb(231, 128, 171)); */
+	border-radius: 100px;
+	background: var(--primary-color);
 }
 
 /* Style the scrollbar thumb on hover */
 .menu-content::-webkit-scrollbar-thumb:hover {
-	background-color: #555;
+	/* background-color: #555; */
+	background: var(--primary-color);
 }
 
 /* .menu-title{

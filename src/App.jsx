@@ -10,6 +10,7 @@ import { CategoryProvider } from '../hooks/CategoryContext';
 import ProtectedRoute from '../hooks/ProtectedRoute';
 import { TaskProvider } from '../hooks/TaskContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import LandingPage from './page/LandingPage/LandingPage';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             <DateProvider> {/* Wrap your routes with the DateProvider */}
               <Routes>
                 <Route exact path="/" element={<SignUp />} />
-                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/login" element={<LandingPage />} />
                 <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} />
               </Routes>
             </DateProvider>

@@ -1,0 +1,286 @@
+.aos-component{
+    display: flex;
+    padding: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    justify-content: space-between;
+    width: 100%;
+    gap: 250px;
+    margin-bottom: -100px;
+}
+
+.text-container{
+    width: 100%;
+}
+
+.text-container h2{
+    font-size: 60px;
+    line-height: 60px;
+    margin-top: 20%;
+}
+
+.text-container p{
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+.pic{
+    width: 100%;
+    height: 90%;
+}
+
+.pic:hover{
+    transform: rotate(-10deg);   
+}
+
+.two img{
+    height: fit-content;
+    width: 300px;
+    box-shadow: 5px 5px 10px 5px rgb(104, 114, 104);
+}
+
+.two img:hover{
+    transform: rotate(10deg);
+}
+
+@media screen and (max-width:786px){
+    .actualSpline{
+        display: none;
+    }
+
+    .ad-button{
+        width: 100%;
+    }
+
+    .advert{
+        position: relative;
+        height: 600px;
+    }
+
+    .advert h1{
+        line-height: 80px;
+        font-size: 70px;
+    }
+
+    #features{
+        margin-top: -300px;
+    }
+
+    .nav-links-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        justify-content: space-between;
+      }
+
+    .mobileSpline{
+        display: block;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    right: 0;
+    margin-top: 150px;
+    margin-right: -20%;
+    }
+
+    .aos-component{
+        /* flex-direction: column; */
+        margin-top: 400px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 25px;
+        padding: 10px;
+    }
+    .two img{
+        width: 200px;
+        margin-top: -180px;
+    }
+    .text-container h2{
+        font-weight: 100 !important;
+        /* color: red; */
+        margin-top: -200px !important;
+        font-size: 50px !important;
+    }
+    .one{
+        width: 60%;
+    }
+    .two{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    body{
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .ad-container{
+        padding: 20px;
+    }
+
+        .navbar{
+            padding-right: 120px;
+        }
+    
+        .nav-links-container {
+          display: none;
+        }
+        .nav-links-mobile {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: white;
+          padding: 1rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          justify-content: space-between;
+        }
+        .nav-links-mobile li {
+          margin-bottom: 1rem;
+        }
+        .nav-buttons {
+          flex-direction: column;
+          margin-left: 0;
+        }
+        #features{
+            margin-top: -450px !important;
+        }
+        .mobile-menu-icon {
+          display: block;
+          /* margin-left: -90px; */
+        }
+        .advert{
+            position: relative;
+        }
+        .advert p{
+            width: 100%;
+        }
+        .advert h1{
+            font-size: 55px;
+            line-height: 55px;
+            font-weight: 600;
+        }
+        .spline .actualSpline{
+            display: none;
+        }
+        .mobileSpline{
+        display: block;
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        margin: 0;
+        right: 0;
+        margin-top: 150px;
+        margin-right: -10%;
+        }
+        .aos-component{
+            /* flex-direction: column; */
+            margin-top: 350px;
+            justify-content: center;
+            align-items: center;
+            width: 100% !important;
+            /* gap: px; */
+            padding: 10px;
+        }
+        .two img{
+            width: 150px;
+            margin-top: -180px;
+        }
+        .one .pic{
+                /* width: 150px;
+                margin-top: -90px !important; */
+        }
+        .text-container h2{
+            font-weight: 100;
+            /* color: red; */
+            margin-top: -200px !important;
+            font-size: 40px !important;
+            line-height: 38px !important;
+            width: 60%;
+        }
+        .text-container p{
+            width: 160px;
+        }
+        .one{
+            width: 60%;
+        }
+        .two{
+            width: 40%;
+            margin-left:-70px ;
+        }
+        .pic{
+            width: 150px;
+            width: 150px;
+                margin-top: -180px !important;
+        }
+      }
+    
+
+      @media screen and (max-width: 400px) {
+        body{
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .navbar{
+            padding-right: 70px;
+        }
+        
+            #features{
+                margin-top: -220px !important;
+                /* background-color: red; */
+            }
+           
+            .advert h1{
+                font-size: 40px;
+                line-height: 38px;
+            }
+
+            .aos-component{
+                /* flex-direction: column; */
+                margin-top: 350px;
+                justify-content: center;
+                align-items: center;
+                width: 100% !important;
+                /* gap: px; */
+                padding: 10px;
+            }
+            img{
+                width: 150px;
+                margin-top: -180px;
+            }
+            .text-container h2{
+                font-weight: 100;
+                /* color: red; */
+                margin-top: -200px !important;
+                font-size: 35px !important;
+                line-height: 38px !important;
+                width: 50%;
+            }
+            .text-container p{
+                width: 160px;
+            }
+            .one{
+                width: 60%;
+            }
+            .two{
+                width: 40%;
+                margin-left:-70px ;
+            }
+            .pic{
+                width: 150px;
+            }
+          }

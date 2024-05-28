@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AppProvider } from './AppContext';
 import { DateProvider } from '../hooks/DateContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,7 +11,9 @@ root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="424099318507-k1gip7of08upv8jn9fn909vpivgd6bbq.apps.googleusercontent.com">
       <DateProvider>
-        <App />
+       <AppProvider>
+          <App />
+        </AppProvider>
       </DateProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>

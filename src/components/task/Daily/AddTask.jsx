@@ -50,6 +50,8 @@ const AddTask = ({ onTaskAdd }) => {
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         setShowCategory(false);
+        setSelectedCategory(category);
+        setShowCategory(false);
     };
 
     const handleTaskTimeChange = (event) => {
@@ -162,10 +164,10 @@ const AddTask = ({ onTaskAdd }) => {
                             </div>
                             <div className="rightIcons">
                                 <div className="select add-hover">
-                                    <input
-                                        type="time"
-                                        value={taskTime}
-                                        onChange={handleTaskTimeChange}
+                                    <input 
+                                        type="time" 
+                                        value={taskTime} 
+                                        onChange={handleTaskTimeChange} 
                                     />
                                 </div>
                                 <div>
