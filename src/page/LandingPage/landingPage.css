@@ -229,6 +229,12 @@
 
   #contact{
     background: #535f52;
+    height: fit-content;
+  }
+
+  #contact .title{
+    margin-top: -40px;
+    margin-bottom: -3%;
   }
 
 
@@ -298,6 +304,38 @@ body{
     overflow-x: hidden;
 }
 
+#about{
+  height: fit-content;
+  /* background-color: red; */
+  height: 700px;
+  margin-top: 1900px;
+  overflow-x: hidden;
+}
+
+
+/* .footer-container {
+  width: 100%;
+  /* margin: 0 auto; */
+  /* display: flex; */
+  /* justify-content: space-around; */
+  /* align-items: center; */
+  /* gap: 50px; */ 
+/* } */
+
+.slider img{
+  margin-top: 35%;
+  margin-left: -110.5%;
+  width: 320px !important;
+}
+
+.prev{
+  margin-right: 20px !important;
+}
+
+.next{
+  margin-left: 10px !important;
+}
+
 .ad-container{
     padding: 20px;
 }
@@ -353,17 +391,32 @@ body{
     margin-top: 150px;
     margin-right: -10%;
     }
-  }
-  
-  /* Responsive Spline */
-  /* @media screen and (max-width: 768px) {
-    .spline {
-      width: 40%;
-      margin-top: -100px;
-      margin-left: -100px;
+    .slide {
+      min-width: calc(100% / 1);
+      transition: opacity 1s ease-in-out;
     }
   }
-   */
+  
+  @media screen and (max-width: 400px) {
+
+.slider img{
+  margin-top: 35%;
+  margin-left: -110.5%;
+  width: 280px !important;
+}
+
+.prev{
+  margin-right: 20px !important;
+}
+
+.next{
+  margin-left: 10px !important;
+}
+#about{
+  margin-top: 2200px !important;
+}
+  }
+  
   
 
 

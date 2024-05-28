@@ -10,6 +10,7 @@ import calendar from '../../asstes/images/calendar.jpg'
 import confetti from '../../asstes/images/confetti.jpg';
 import ai from '../../asstes/images/ai.jpg'
 import Slider from './Slider';
+import Footer from './Footer';
 
 export default function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -73,8 +74,8 @@ export default function LandingPage() {
           <div className="advert">
             <h1>Control your time better</h1>
             <p>With our brand new task manager, gain control over your every minute. Plan your day and make each minute count</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae tenetur ipsa accusantium rerum laboriosam molestias dolorum voluptate molestiae consectetur recusandae.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia error magni, animi sint minima dignissimos dolorem fugiat necessitatibus harum non obcaecati voluptatibus reiciendis blanditiis earum fuga, illo rerum labore quis?</p>
+            <p>We help you plan your day, and manage your time effectively. With star tasks you get a super power; time control.</p>
+            <p>Stay organized and boost your productivity with our simple, no-fuss task manager. Easily track your to-do lists and deadlines. Prioritize tasks and never miss a beat. Get things done effortlessly, every day!</p>
             <button className='ad-button'>Sign up now!</button>
           </div>
           <div className="spline">
@@ -155,6 +156,7 @@ export default function LandingPage() {
         <h3>GET IN TOUCH</h3>
         <div className="divider"></div>
       </div>
+      < Footer />
       </div>
     </div>
   );
