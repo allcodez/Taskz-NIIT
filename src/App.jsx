@@ -28,7 +28,7 @@ function App() {
           </CategoryProvider>
           </TaskProvider>
       </WeatherProvider>
-      </GoogleOAuthProvider>;
+      </GoogleOAuthProvider>
     </BrowserRouter>
   );
 }
