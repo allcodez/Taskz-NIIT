@@ -7,6 +7,7 @@ import { DateProvider } from '../hooks/DateContext'; // Import the DateProvider
 import { WeatherProvider } from '../hooks/WeatherProvider';
 import Login from './page/Form/LogIn';
 import { CategoryProvider } from '../hooks/CategoryContext';
+import LandingPage from './page/LandingPage/LandingPage';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <DateProvider> {/* Wrap your routes with the DateProvider */}
           <Routes>
             <Route exact path="/" element={<SignUp />} />
-            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/login" element={<LandingPage />} />
             <Route path="/star-taskz" element={<Main />} />
           </Routes>
         </DateProvider>
