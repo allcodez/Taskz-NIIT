@@ -84,6 +84,10 @@ export default function LandingPage() {
         </div>
       </div>
       <div id="features" className="section">
+      <div className="title">
+        <h3>FEATURES</h3>
+        <div className="divider"></div>
+      </div>
         <AOSComponent
           text1="Guided daily planning"
           text2="Be intentional about how you spend your time. Plan your day using a step-by-step routine."
@@ -136,9 +140,22 @@ export default function LandingPage() {
         />
 </div>
       <div id="about" className="section about">
+      <div className="title">
+        <h3>MEET THE TEAM</h3>
+        <div className="divider"></div>
+      </div>
         <Slider />
       </div>
-      <div id="contact" className="section">Contact Section</div>
+      <div className="urging">
+        <h2>What are you waiting for? Sign up today!!</h2>
+        <button className='ad-button'>Sign up now!</button>
+      </div>
+      <div id="contact" className="section">
+      <div className="title">
+        <h3>GET IN TOUCH</h3>
+        <div className="divider"></div>
+      </div>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  background: rgba(71, 230, 71, 0.322);
+  /* background: rgba(71, 230, 71, 0.322); */
   transition: all 0.5s ease-in-out;
 }
 
