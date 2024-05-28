@@ -9,10 +9,12 @@ import Login from './page/Form/LogIn';
 import { CategoryProvider } from '../hooks/CategoryContext';
 import ProtectedRoute from '../hooks/ProtectedRoute';
 import { TaskProvider } from '../hooks/TaskContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   return (
     <BrowserRouter>
+      <GoogleOAuthProvider clientId="173173126639-9e95hlhq8mdfpcltu92klvo1bcas8amp.apps.googleusercontent.com">
       <WeatherProvider>
         <TaskProvider>
           <CategoryProvider>
@@ -26,6 +28,7 @@ function App() {
           </CategoryProvider>
           </TaskProvider>
       </WeatherProvider>
+      </GoogleOAuthProvider>;
     </BrowserRouter>
   );
 }

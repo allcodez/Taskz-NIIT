@@ -5,6 +5,8 @@ import { GoogleLogin } from '@react-oauth/google';
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
 import { BiShow, BiHide } from 'react-icons/bi'; // Importing eye icons from react-icons/bi
+import { useGoogleOneTapLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 export default function SignUp() {
     const [rightSlider, setRightSlider] = useState(false);
@@ -115,6 +117,40 @@ export default function SignUp() {
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
+    };
+
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        const decoded = jwtDecode(credentialResponse?.credential);
+        const { email, family_name: familyName, given_name: givenName } = decoded;
+
+        const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
+        const payload = {
+            email,
+            lastName: familyName,
+            firstName: givenName,
+            password: generatedPassword,
+            role: 'USER',
+        };
+
+        try {
+            const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                console.log('Google Signup successful');
+                navigate('/login');
+            } else {
+                const errorData = await response.json();
+                console.error('Google Signup error:', errorData);
+            }
+        } catch (error) {
+            console.error('Google Signup Error:', error);
+        }
     };
 
     const handleLoginHereClick = () => {
@@ -357,10 +393,7 @@ export default function SignUp() {
                             </div>
                             <div className='google-button'>
                                 <GoogleLogin
-                                    onSuccess={credentialResponse => {
-                                        const decoded = jwtDecode(credentialResponse?.credential);
-                                        console.log(decoded);
-                                    }}
+                                    onSuccess={handleGoogleLoginSuccess}
                                     onError={() => {
                                         console.log('Login Failed');
                                     }}

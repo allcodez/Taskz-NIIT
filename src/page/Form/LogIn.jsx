@@ -104,6 +104,52 @@ export default function Login() {
             }
         );
     };
+
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        const decoded = jwtDecode(credentialResponse?.credential);
+        const { email } = decoded;
+
+        const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
+        const payload = {
+            email, 
+            password: generatedPassword
+        };
+
+        try {
+            const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.statusCode === 200) {
+                    console.log('Google Login successful:', data);
+
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('refreshToken', data.refreshToken);
+                    sessionStorage.setItem('userId', data.userId);
+
+                    navigate('/star-taskz');
+                } else {
+                    console.error('Google Login error:', data);
+                    setLoginError(data.message || 'Google Login failed');
+                }
+            } else {
+                const errorData = await response.json();
+                console.error('Google Login error:', errorData);
+                setLoginError(errorData.message || 'Google Login failed');
+            }
+        } catch (error) {
+            console.error('Google Login Error:', error);
+            setLoginError('An error occurred during Google Login');
+        }
+    };
+
+
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
@@ -168,16 +214,13 @@ export default function Login() {
                                 {loginError && <div className="error">{loginError}</div>} {/* Display login error message */}
                                 <input type="submit" value="Sign In" onClick={handleLogin} />
                             </form>
-                            
+
                             <div className='option'>
                                 <hr /> <p>or login with</p> <hr />
                             </div>
                             <div className='google-button'>
                                 <GoogleLogin
-                                    onSuccess={credentialResponse => {
-                                        const decoded = jwtDecode(credentialResponse?.credential);
-                                        console.log(decoded);
-                                    }}
+                                    onSuccess={handleGoogleLoginSuccess}
                                     onError={() => {
                                         console.log('Login Failed');
                                     }}
