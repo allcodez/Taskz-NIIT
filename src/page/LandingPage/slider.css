@@ -13,6 +13,9 @@
 .image-container {
   display: flex;
   transition: transform 0.5s ease-in-out;
+  gap: 20px;
+  padding: 10%;
+  padding-right: 12%;
 }
 
 .slide {
@@ -21,8 +24,10 @@
 }
 
 .slide img {
-  width: 100%;
+  width: 355px;
+  height: 500px;
   border-radius: 10px;
+  box-shadow: 5px 5px 10px 5px rgb(53, 58, 53) ;
 }
 
 .caption {
@@ -49,15 +54,15 @@
   box-shadow: 2px 2px 5px 2px rgba(42, 48, 42, 0.795);
 }
 
-.prev {
-  margin-left: 10px;
-  border-radius: 0 23px 23px 0;
+.next {
+  margin-left: 130px;
+  border-radius:  23px 0 0 23px ;
   left: 0;
 }
 
-.next {
-  margin-right: 10px;
-  border-radius: 23px 0 0 23px;
+.prev {
+  margin-right: 170px;
+  border-radius: 0 23px 23px 0;
   right: 0;
 }
 

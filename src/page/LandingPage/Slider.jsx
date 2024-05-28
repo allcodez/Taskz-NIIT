@@ -9,12 +9,12 @@ import image5 from '../../asstes/images/Teni.jpg';
 import image6 from '../../asstes/images/Micheal.jpg';
 
 const images = [
-  { src: image1, caption: 'Micheal' },
-  { src: image2, caption: 'Ify' },
-  { src: image3, caption: 'Roni' },
-  { src: image4, caption: 'Amara' },
-  { src: image5, caption: 'Teni' },
-  { src: image6, caption: 'Micheal' }
+  { src: image1, caption: 'Backend Developer' },
+  { src: image2, caption: 'Mobile Developer' },
+  { src: image3, caption: 'React Developer' },
+  { src: image4, caption: 'React Developer' },
+  { src: image5, caption: 'Mobile Developer' },
+  { src: image6, caption: 'Network Engineer' }
 ];
 
 const Slider = () => {
