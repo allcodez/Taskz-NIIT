@@ -49,7 +49,7 @@ export default function LandingPage() {
   };
 
   const handleSignUp = () =>{
-    navigate('/')
+    navigate('/signup')
   }
 
   const handleLogin = () =>{

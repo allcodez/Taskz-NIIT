@@ -163,7 +163,7 @@ export default function Login() {
     }
 
     const SignupHereClick = () => {
-        navigate('/')
+        navigate('/signup')
     }
 
     // useEffect(() => {
