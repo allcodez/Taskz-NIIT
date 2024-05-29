@@ -87,7 +87,7 @@ export default function LandingPage() {
             <p>With our brand new task manager, gain control over your every minute. Plan your day and make each minute count</p>
             <p>We help you plan your day, and manage your time effectively. With star tasks you get a super power; time control.</p>
             <p>Stay organized and boost your productivity with our simple, no-fuss task manager. Easily track your to-do lists and deadlines. Prioritize tasks and never miss a beat. Get things done effortlessly, every day!</p>
-            <button className='ad-button'>Sign up now!</button>
+            <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
           </div>
           <div className="spline">
             <Spline className="actualSpline" scene="https://prod.spline.design/OyWDdiEZ26PUkid1/scene.splinecode" />

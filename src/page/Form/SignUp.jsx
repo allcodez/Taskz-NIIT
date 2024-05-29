@@ -120,37 +120,70 @@ export default function SignUp() {
     };
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
-        const decoded = jwtDecode(credentialResponse?.credential);
-        const { email, family_name: familyName, given_name: givenName } = decoded;
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
 
-        const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
-        const payload = {
-            email,
-            lastName: familyName,
-            firstName: givenName,
-            password: generatedPassword,
-            role: 'USER',
-        };
+                // Save latitude and longitude to local storage
+                localStorage.setItem('latitude', latitude.toString());
+                localStorage.setItem('longitude', longitude.toString());
 
-        try {
-            const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+                // Make a GET request to OpenWeatherMap API
+                const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
-            if (response.ok) {
-                console.log('Google Signup successful');
-                navigate('/login');
-            } else {
-                const errorData = await response.json();
-                console.error('Google Signup error:', errorData);
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const weatherData = await response.json();
+                        console.log('Weather data:', weatherData);
+                    } else {
+                        console.error('Error fetching weather data:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                }
+
+                // Prepare the request payload
+                const decoded = jwtDecode(credentialResponse?.credential);
+                const { email, family_name: familyName, given_name: givenName } = decoded;
+
+                const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
+                const payload = {
+                    email,
+                    lastName: familyName,
+                    firstName: givenName,
+                    password: generatedPassword,
+                    role: 'USER',
+                };
+
+                try {
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        console.log('Google Signup successful');
+                        navigate('/login');
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Google Signup error:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Google Signup Error:', error);
+                }
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                alert('Unable to get your location. Please allow location access for this feature.');
             }
-        } catch (error) {
-            console.error('Google Signup Error:', error);
-        }
+        );
     };
 
     const handleLoginHereClick = () => {

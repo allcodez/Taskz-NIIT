@@ -106,47 +106,78 @@ export default function Login() {
     };
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
-        const decoded = jwtDecode(credentialResponse?.credential);
-        const { email } = decoded;
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
-        const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
-        const payload = {
-            email, 
-            password: generatedPassword
-        };
+                localStorage.setItem('latitude', latitude.toString());
+                localStorage.setItem('longitude', longitude.toString());
 
-        try {
-            const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+                const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.statusCode === 200) {
-                    console.log('Google Login successful:', data);
-
-                    sessionStorage.setItem('token', data.token);
-                    sessionStorage.setItem('refreshToken', data.refreshToken);
-                    sessionStorage.setItem('userId', data.userId);
-
-                    navigate('/star-taskz');
-                } else {
-                    console.error('Google Login error:', data);
-                    setLoginError(data.message || 'Google Login failed');
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const weatherData = await response.json();
+                        console.log('Weather data:', weatherData);
+                    } else {
+                        console.error('Error fetching weather data:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
                 }
-            } else {
-                const errorData = await response.json();
-                console.error('Google Login error:', errorData);
-                setLoginError(errorData.message || 'Google Login failed');
+
+                const decoded = jwtDecode(credentialResponse?.credential);
+                const { email } = decoded;
+
+                const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
+                const payload = {
+                    email,
+                    password: generatedPassword
+                };
+
+                try {
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.statusCode === 200) {
+                            console.log('Google Login successful:', data);
+
+                            sessionStorage.setItem('token', data.token);
+                            sessionStorage.setItem('refreshToken', data.refreshToken);
+                            sessionStorage.setItem('userId', data.userId);
+
+                            navigate('/star-taskz');
+                        } else {
+                            console.error('Google Login error:', data);
+                            setLoginError(data.message || 'Google Login failed');
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Google Login error:', errorData);
+                        setLoginError(errorData.message || 'Google Login failed');
+                    }
+                } catch (error) {
+                    console.error('Google Login Error:', error);
+                    setLoginError('An error occurred during Google Login');
+                }
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                alert('Unable to get your location. Please allow location access for this feature.');
             }
-        } catch (error) {
-            console.error('Google Login Error:', error);
-            setLoginError('An error occurred during Google Login');
-        }
+        );
     };
 
 

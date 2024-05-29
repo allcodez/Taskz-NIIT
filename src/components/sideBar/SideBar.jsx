@@ -89,7 +89,7 @@ export default function SideBar() {
             <header>
                 <div className="image-text">
                     <span className="image">
-                        <img src={logo} alt=""/>
+                        <img src={logo} alt="" />
                     </span>
                     <div className="text logo-text">
                         <span className="name">Star Taskz</span>
@@ -125,9 +125,9 @@ export default function SideBar() {
                 <li className="mode sidebar-bottom" onClick={toggleDarkMode}>
                     <div className="sun-moon">
                         {isDarkMode ? (
-                            <i className='bx bx-moon icon moon'></i>
-                        ) : (
                             <i className='bx bx-sun icon sun'></i>
+                        ) : (
+                            <i className='bx bx-moon icon moon'></i>
                         )}
                     </div>
                     <span className="mode-text text">{isDarkMode ? 'Light mode' : 'Dark mode'}</span>

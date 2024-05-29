@@ -39,10 +39,16 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         const token = sessionStorage.getItem('token');
         const taskId = editedTask.id;
 
-        // Check if taskId is defined
         if (!taskId) {
             console.warn('Task ID is not defined, skipping update.');
             return;
+        }
+
+        // Add 1 hour to the startTime before sending to the backend
+        if (editedTask.startTime) {
+            const startTime = new Date(editedTask.startTime);
+            startTime.setHours(startTime.getHours() + 1);
+            editedTask.startTime = startTime.toISOString();
         }
 
         try {
