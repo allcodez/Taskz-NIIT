@@ -84,7 +84,7 @@ export default function LandingPage() {
           <Spline className="mobileSpline" scene="https://prod.spline.design/FJRMT1Aiylro4fDL/scene.splinecode" />
         </div>
       </div>
-      <div id="features" className="section">
+      <div id="features" className="section features">
       <div className="title">
         <h3>FEATURES</h3>
         <div className="divider"></div>

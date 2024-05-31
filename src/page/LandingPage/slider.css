@@ -1,3 +1,4 @@
+/* Base styles */
 .slider {
   position: relative;
   width: 100%;
@@ -6,7 +7,6 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  /* background: rgba(71, 230, 71, 0.322); */
   transition: all 0.5s ease-in-out;
 }
 
@@ -24,10 +24,11 @@
 }
 
 .slide img {
-  width: 355px;
-  height: 500px;
+  width: 100%;
+  max-width: 355px;
+  height: auto;
   border-radius: 10px;
-  box-shadow: 5px 5px 10px 5px rgb(53, 58, 53) ;
+  box-shadow: 5px 5px 10px 5px rgb(53, 58, 53);
 }
 
 .caption {
@@ -56,7 +57,7 @@
 
 .next {
   margin-left: 130px;
-  border-radius:  23px 0 0 23px ;
+  border-radius: 23px 0 0 23px;
   left: 0;
 }
 
@@ -68,4 +69,115 @@
 
 .prev:hover, .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .slide img {
+      width: 90%;
+      max-width: 300px;
+  }
+
+  .prev, .next {
+      font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide img {
+      width: 80%;
+      max-width: 250px;
+  }
+
+  .prev, .next {
+      font-size: 14px;
+  }
+
+  .next {
+      margin-left: 110px;
+  }
+
+  .prev {
+      margin-right: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-container {
+      padding: 5%;
+      padding-right: 7%;
+  }
+
+  .slide {
+      min-width: 100%;
+  }
+
+  .slide img {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 70%;
+      /* margin-left: 4%; */
+  }
+
+  .caption {
+      font-size: 14px;
+  }
+
+  .prev, .next {
+      font-size: 12px;
+      padding: 12px;
+  }
+
+  .next {
+      margin-left: 0% !important;
+  }
+
+  .prev {
+      margin-right: 9% !important;
+  }
+}
+
+/* Styles for larger screens (laptops, desktops, and larger) */
+@media (min-width: 1200px) {
+  .slider {
+      max-width: 1400px;
+  }
+
+  .slide img {
+      max-width: 400px;
+  }
+
+  .prev, .next {
+      font-size: 20px;
+  }
+
+  .next {
+      margin-left: 150px;
+  }
+
+  .prev {
+      margin-right: 200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .slider {
+      max-width: 1800px;
+  }
+
+  .slide img {
+      max-width: 450px;
+  }
+
+  .prev, .next {
+      font-size: 22px;
+  }
+
+  .next {
+      margin-left: 200px;
+  }
+
+  .prev {
+      margin-right: 250px;
+  }
 }

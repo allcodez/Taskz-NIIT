@@ -338,6 +338,11 @@ body{
 
 .ad-container{
     padding: 20px;
+    /* background-color: red; */
+}
+
+#features .title{
+  margin-top: 40% !important;
 }
 
     .nav-links-container {
@@ -414,6 +419,9 @@ body{
 }
 #about{
   margin-top: 2200px !important;
+}
+#features .title{
+  margin-top: 0% !important;
 }
   }
   

@@ -47,7 +47,7 @@ const Slider = () => {
 
   return (
     <div className="slider">
-      <button className="prev" onClick={goToPrevious}>
+      <button className="next" onClick={goToNext}>
         &#10094;
       </button>
       <div className="image-container">
@@ -58,7 +58,7 @@ const Slider = () => {
           </div>
         ))}
       </div>
-      <button className="next" onClick={goToNext}>
+      <button className="prev" onClick={goToPrevious}>
         &#10095;
       </button>
     </div>
