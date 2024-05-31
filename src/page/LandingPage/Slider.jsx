@@ -6,7 +6,7 @@ import image2 from '../../asstes/images/Ify.jpg';
 import image3 from '../../asstes/images/Roni.jpg';
 import image4 from '../../asstes/images/Amara.jpg';
 import image5 from '../../asstes/images/Teni.jpg';
-import image6 from '../../asstes/images/Micheal.jpg';
+import image6 from '../../asstes/images/alex.png';
 
 const images = [
   { src: image1, caption: 'Backend Developer' },
