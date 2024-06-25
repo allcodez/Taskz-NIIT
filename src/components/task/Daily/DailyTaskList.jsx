@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useMemo } from 'react';
+import React, { useEffect, useContext, useMemo, useState } from 'react';
 import DailyList from './DailyList';
 import './dailyList.css';
 import AddTask from './AddTask';
@@ -20,6 +20,8 @@ export default function DailyTaskList({
     const { setWeatherBarVisible, setSelectedDate, setSelectedWeatherData, setWeatherIcon, setLocation } =
         useContext(WeatherContext);
     const { selectedCategory } = useContext(CategoryContext);
+    
+    const [timeToNextTask, setTimeToNextTask] = useState('');
 
     const calculateOverallProgress = () => {
         if (tasks.length === 0) return 0;
@@ -30,7 +32,11 @@ export default function DailyTaskList({
     const progress = calculateOverallProgress();
 
     const sortedTasks = useMemo(() => {
-        return [...tasks].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        return [...tasks].sort((a, b) => {
+            const aStartTime = a.startTime ? new Date(a.startTime) : new Date();
+            const bStartTime = b.startTime ? new Date(b.startTime) : new Date();
+            return aStartTime - bStartTime;
+        });
     }, [tasks]);
 
     const handleWeatherInfoClick = () => {
@@ -69,6 +75,29 @@ export default function DailyTaskList({
         return sortedTasks;
     }, [sortedTasks, selectedCategory, filterStatus]);
 
+    useEffect(() => {
+        const calculateTimeToNextTask = () => {
+            const now = new Date();
+            const nextTask = sortedTasks.find(task => new Date(task.startTime) > now);
+
+            if (!nextTask) {
+                setTimeToNextTask('');
+                return;
+            }
+
+            const nextTaskTime = new Date(nextTask.startTime);
+            const timeDifference = nextTaskTime - now;
+            const minutesToNextTask = Math.floor(timeDifference / 60000);
+
+            setTimeToNextTask(`${minutesToNextTask} min to next task`);
+        };
+
+        calculateTimeToNextTask();
+        const intervalId = setInterval(calculateTimeToNextTask, 60000); // Update every minute
+
+        return () => clearInterval(intervalId); // Clear interval on component unmount
+    }, [sortedTasks]);
+
     return (
         <div className="dailyTaskList">
             <div className="dailyTaskList-date">
@@ -83,6 +112,11 @@ export default function DailyTaskList({
                 <p className="dailyList-date">{date}</p>
             </div>
             <ProgressBar progress={progress} className={tasks.length > 0 ? 'visible' : 'hidden'} />
+            {/* {timeToNextTask && (
+                <div className="next-task-timer">
+                    <p>{timeToNextTask}</p>
+                </div>
+            )} */}
             <AddTask onTaskAdd={onTaskAdd} />
             <DailyList tasks={filteredTasks} onTaskEdit={onTaskEdit} onTaskDelete={onTaskDelete} />
         </div>

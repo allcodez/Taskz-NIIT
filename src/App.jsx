@@ -16,20 +16,20 @@ function App() {
   return (
     <BrowserRouter>
       <GoogleOAuthProvider clientId="173173126639-9e95hlhq8mdfpcltu92klvo1bcas8amp.apps.googleusercontent.com">
-      <WeatherProvider>
-        <TaskProvider>
-          <CategoryProvider>
-            <DateProvider> {/* Wrap your routes with the DateProvider */}
-              <Routes>
-                <Route exact path="/" element={<LandingPage />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} />
-              </Routes>
-            </DateProvider>
-          </CategoryProvider>
+        <WeatherProvider>
+          <TaskProvider>
+            <CategoryProvider>
+              <DateProvider> {/* Wrap your routes with the DateProvider */}
+                <Routes>
+                  <Route exact path="/" element={<LandingPage />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} />
+                </Routes>
+              </DateProvider>
+            </CategoryProvider>
           </TaskProvider>
-      </WeatherProvider>
+        </WeatherProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>
   );

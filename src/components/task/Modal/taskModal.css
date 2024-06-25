@@ -53,12 +53,12 @@
     color: #109e1f !important;
 }
 
-.time {
+/* .time {
     font-size: smaller;
     padding: 2px;
     border-radius: 2px;
     background-color: var(--time-bg);
-}
+} */
 
 .lowerCont {
     margin-top: 5px;

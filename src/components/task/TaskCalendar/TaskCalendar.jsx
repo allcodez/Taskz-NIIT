@@ -4,9 +4,21 @@ function TaskCalendar() {
     const [weatherData, setWeatherData] = useState({});
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
 
-    const generateDatesForNextThreeMonths = () => {
+    const generateDatesForSixMonths = () => {
         const today = new Date();
         const datesArray = [];
+
+        // Generate dates for the past 3 months
+        for (let i = -90; i < 0; i++) {
+            const pastDate = new Date(today);
+            pastDate.setDate(today.getDate() + i);
+            datesArray.push({
+                date: new Date(pastDate),
+                day: pastDate.getDate(),
+                month: pastDate.getMonth(),
+                year: pastDate.getFullYear(),
+            });
+        }
 
         // Add the current date to the array
         datesArray.push({
@@ -32,52 +44,8 @@ function TaskCalendar() {
     };
 
     const renderCalendar = () => {
-        return generateDatesForNextThreeMonths();
+        return generateDatesForSixMonths();
     };
-
-    // useEffect(() => {
-    //     const fetchWeatherData = async () => {
-    //         try {
-    //             const datesArray = generateDatesForNextThreeMonths();
-    //             const weatherDataForDates = {};
-
-    //             for (const dateObj of datesArray) {
-    //                 const date = dateObj.date;
-
-    //                 // Retrieve latitude and longitude from local storage
-    //                 const latitude = parseFloat(localStorage.getItem('latitude'));
-    //                 const longitude = parseFloat(localStorage.getItem('longitude'));
-
-    //                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
-    //                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&dt=${Math.floor(date.getTime() / 1000)}`;
-
-    //                 const response = await fetch(apiUrl);
-    //                 if (response.ok) {
-    //                     const data = await response.json();
-    //                     weatherDataForDates[date.toDateString()] = data;
-    //                     // console.log('Calendar', data);
-    //                 } else {
-    //                     console.error('Error fetching weather data:', response.statusText);
-    //                 }
-    //             }
-
-    //             setWeatherData(weatherDataForDates);
-    //             setWeatherDataFetched(true);
-    //         } catch (error) {
-    //             console.error('Error fetching weather data:', error);
-    //         }
-    //     };
-
-    //     navigator.geolocation.getCurrentPosition(
-    //         (position) => {
-    //             fetchWeatherData();
-    //         },
-    //         (error) => {
-    //             console.error('Error getting location:', error);
-    //             alert('Unable to get your location. Please allow location access for this feature.');
-    //         }
-    //     );
-    // }, []);
 
     return renderCalendar();
 }

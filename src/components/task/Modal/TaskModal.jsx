@@ -9,29 +9,126 @@ import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
 import Lottie from 'react-lottie';
 import confettiAnimation from '../../../asstes/Lottie-confetii.json';
+import schedule from 'node-schedule';
 
 export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [editedTask, setEditedTask] = useState({});
     const [showConfetti, setShowConfetti] = useState(false);
+    const [alarmJobs, setAlarmJobs] = useState([]);
+    const [activeNotifications, setActiveNotifications] = useState([]);
 
     useEffect(() => {
         if (task) {
             setEditedTask({ ...task });
         } else {
             setEditedTask({});
+            cancelAlarms();
         }
+        requestNotificationPermission();
+
+        return () => {
+            cancelAlarms();
+        };
     }, [task]);
+
+    useEffect(() => {
+        scheduleAlarms();
+    }, [editedTask]);
+
+    const requestNotificationPermission = async () => {
+        if (!('Notification' in window)) {
+            console.error('This browser does not support desktop notifications');
+            return;
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                console.log('Notification permission granted');
+            } else {
+                console.error('Notification permission denied');
+            }
+        } catch (error) {
+            console.error('Error requesting notification permission:', error);
+        }
+    };
+
+    const scheduleAlarms = () => {
+        if (!editedTask.startTime) return;
+
+        const startTime = new Date(editedTask.startTime);
+        const fiveMinutesBefore = new Date(startTime.getTime() - 5 * 60000);
+        const oneMinuteBefore = new Date(startTime.getTime() - 60000);
+
+        // Cancel existing alarms before scheduling new ones
+        cancelAlarms();
+
+        const fiveMinutesJob = schedule.scheduleJob(fiveMinutesBefore, () => {
+            const taskName = editedTask.taskName;
+            if (taskName) {
+                showNotification(`Task "${taskName}" starts in 5 minutes!`);
+            }
+        });
+
+        const oneMinuteJob = schedule.scheduleJob(oneMinuteBefore, () => {
+            const taskName = editedTask.taskName;
+            if (taskName) {
+                showNotification(`Task "${taskName}" starts in 1 minute!`);
+            }
+        });
+
+        setAlarmJobs([fiveMinutesJob, oneMinuteJob]);
+    };
+
+    const cancelAlarms = () => {
+        alarmJobs.forEach(job => {
+            if (job && typeof job.cancel === 'function') {
+                job.cancel();
+            }
+        });
+        setAlarmJobs([]);
+    };
+
+    const showNotification = (message) => {
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                // Prevent duplicate notifications
+                const existingNotification = activeNotifications.find(
+                    (notification) => notification.message === message && notification.notification.data === 'active'
+                );
+
+                if (existingNotification) return;
+
+                const newNotification = new Notification(message, { data: 'active' });
+
+                setActiveNotifications(prevNotifications => [
+                    ...prevNotifications,
+                    { message, notification: newNotification },
+                ]);
+
+                newNotification.addEventListener('close', () => {
+                    setActiveNotifications(prevNotifications =>
+                        prevNotifications.filter(
+                            (notification) => notification.notification !== newNotification
+                        )
+                    );
+                });
+            } else {
+                console.error('Notification permission denied');
+            }
+        } else {
+            console.error('This browser does not support desktop notifications');
+        }
+    };
 
     const formatTime = (time) => {
         if (!time) return '';
         const date = new Date(time);
         const hours = date.getHours();
         const minutes = date.getMinutes();
-        const formattedHours = hours.toString().padStart(2, '0');
-        const formattedMinutes = minutes.toString().padStart(2, '0');
-        return `${formattedHours}:${formattedMinutes}`;
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     };
 
     const handleEditTask = useCallback(async () => {
@@ -44,7 +141,6 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             return;
         }
 
-        // Add 1 hour to the startTime before sending to the backend
         if (editedTask.startTime) {
             const startTime = new Date(editedTask.startTime);
             startTime.setHours(startTime.getHours() + 1);
@@ -67,6 +163,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 const taskDate = new Date(updatedTask.startDate);
                 const dateString = taskDate.toDateString();
                 onTaskEdit(updatedTask.id, dateString, updatedTask);
+                scheduleAlarms();
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -83,6 +180,9 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         const taskDate = new Date(task.startDate);
         const dateString = taskDate.toDateString();
 
+        // Cancel alarms immediately when delete is initiated
+        cancelAlarms();
+
         try {
             const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/delete-task/${userId}/${taskId}`, {
                 method: 'DELETE',
@@ -95,7 +195,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message);
-                onTaskDelete(taskId, dateString); // Pass the dateString instead of taskDate
+                onTaskDelete(taskId, dateString);
             } else {
                 const errorText = await response.text();
                 console.error('Error deleting task:', errorText);
@@ -109,7 +209,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             [name]: value,
         }));
@@ -130,7 +230,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         const updatedMinutes = parseInt(minutes, 10);
         date.setHours(updatedHours, updatedMinutes, 0, 0);
 
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             startTime: date.toISOString(),
         }));
@@ -161,22 +261,23 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 const result = await response.json();
                 if (result.taskStatus === 'completed') {
                     setShowConfetti(true);
-                    setTimeout(() => setShowConfetti(false), 1500); // Show confetti for 1.5 seconds
+                    setTimeout(() => setShowConfetti(false), 1500);
                 }
 
-                onTaskEdit(result.id, dateString, result); // Pass the dateString instead of taskDate
+                onTaskEdit(result.id, dateString, result);
                 setEditedTask(result);
+                scheduleAlarms();
 
-                // Update the tasks state using setTasks
-                setTasks((prevTasks) => {
+                setTasks(prevTasks => {
                     const updatedTasks = { ...prevTasks };
                     if (updatedTasks[dateString]) {
-                        updatedTasks[dateString] = updatedTasks[dateString].map((task) =>
-                            task.id === result.id ? result : task
+                        updatedTasks[dateString] = updatedTasks[dateString].map(task =>
+                            task.id === taskId ? result : task
                         );
                     }
                     return updatedTasks;
                 });
+
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -187,7 +288,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     };
 
     const handleDateSelect = (date) => {
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             startDate: date.toISOString(),
         }));
@@ -195,7 +296,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     };
 
     const handleCategoryChange = (taskCategory) => {
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             taskCategory,
         }));

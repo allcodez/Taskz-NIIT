@@ -16,11 +16,21 @@ main{
     height: 100vh;
     width: 100%;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
     /* background: red; */
 }
 
 .main-layout .control{
     display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.control-item{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .main-layout .control h3 b{
