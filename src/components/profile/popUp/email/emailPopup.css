@@ -1,0 +1,97 @@
+.email-popup-overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity 200ms ease;
+    z-index: 10;
+}
+
+.email-popup-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 15, 15, 0.8);
+}
+
+.email-popup-dialog {
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 5px 10px, rgba(15, 15, 15, 0.4) 0px 15px 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0;
+    background: var(--sidebar-color);
+    backdrop-filter: none;
+    transition: transform 200ms ease;
+}
+
+.email-popup-dialog-content {
+    width: 460px;
+    padding: 32px;
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--sidebar-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.email-popup-dialog-content p {
+    margin-top: 0;
+    /* margin-bottom: 14px; */
+}
+
+.email-popup-email {
+    font-weight: 700;
+}
+
+.email-popup-send-code-button {
+    user-select: none;
+    transition: background 20ms ease-in;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: rgba(15, 15, 15, 0.2) 0px 0px 0px 1px inset, rgba(15, 15, 15, 0.1) 0px 1px 2px;
+    background: var(--brand-color);
+    color: white;
+    fill: white;
+    line-height: 1.2;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+.email-popup-dialog-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.email-popup-dialog-form input{
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+    background: none;
+    width: 100%;
+    display: block;
+    resize: none;
+    padding: 0px;
+    color: var(--text-default);
+}
+
+.email-popup-dialog-form input:focus-visible{
+    border: none;
+    outline: none;
+}

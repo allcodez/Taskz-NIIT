@@ -11,6 +11,7 @@ import ProtectedRoute from '../hooks/ProtectedRoute';
 import { TaskProvider } from '../hooks/TaskContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LandingPage from './page/LandingPage/LandingPage';
+import Profile from './components/profile/Profile';
 
 function App() {
   return (
@@ -24,7 +25,10 @@ function App() {
                   <Route exact path="/" element={<LandingPage />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} />
+                  <Route path="/star-taskz" element={<Main />} />
+                  <Route path="/profile" element={<Profile />} />
+
+                  {/* <Route path="/star-taskz" element={<ProtectedRoute element={<Main />} />} /> */}
                 </Routes>
               </DateProvider>
             </CategoryProvider>

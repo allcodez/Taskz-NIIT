@@ -54,7 +54,9 @@ export default function LandingPage() {
   }
 
   const handleLogin = () =>{
-    navigate('/login')
+    // Server Down 
+    // navigate('/login') 
+    navigate('/star-taskz')
     console.log('login')
   }
 

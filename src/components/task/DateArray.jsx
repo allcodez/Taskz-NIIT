@@ -225,7 +225,7 @@ function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDa
                             className={`test ${isCurrentDate ? 'array-current-date' : ''} ${isFutureDate ? 'future-date' : ''}`}
                             key={index}
                             data-date={day.date.toISOString()}
-                            onClick={() => handleDateSelect(day.date)}
+                            // onClick={() => handleDateSelect(day.date)}
                             ref={el => dateRefs.current[dateString] = el}
                         >
                             <DailyTaskList

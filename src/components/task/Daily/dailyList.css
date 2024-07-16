@@ -7,7 +7,7 @@
 }
 
 .dailyTaskList{
-    width: 270px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -34,6 +34,7 @@
 }
 
 .dailyTaskList-date h2{
+    font-size: 1.25rem;
     color: var(--text-color)
 }
 
