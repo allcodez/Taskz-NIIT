@@ -110,12 +110,12 @@ main{
     top: 0;
     width: 270px;
     right: 3.4%;
-    transition: right 0.3s ease-in-out;
+    transition: right 0.4s ease-in-out;
     box-shadow: -1px 0px 10px #00000042;
 }
 
 .integration-board-position.open {
-    right: -16.5%;
+    right: -100%;
 }
 
 @media (max-width: 1000px){

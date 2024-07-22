@@ -81,13 +81,13 @@ export default function SignUp() {
                     dateOfBirth,
                     email,
                     password,
-                    role: 'USER', // Assuming you have a 'user' role
+                    // role: 'USER', // Assuming you have a 'user' role
                 };
                 console.log('Signup payload', payload);
 
                 try {
                     // Make a POST request to your signup endpoint
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/register', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -156,11 +156,13 @@ export default function SignUp() {
                     lastName: familyName,
                     firstName: givenName,
                     password: generatedPassword,
-                    role: 'USER',
+                    // role: 'USER',
                 };
 
+                console.log('payload', payload)
+
                 try {
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/register', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/register', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

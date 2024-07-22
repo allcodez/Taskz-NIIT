@@ -153,8 +153,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(editedTask),
+                },                body: JSON.stringify(editedTask),
             });
 
             if (response.ok) {
@@ -184,7 +183,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         cancelAlarms();
 
         try {
-            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/delete-task/${userId}/${taskId}`, {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/delete-task/${userId}/${taskId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

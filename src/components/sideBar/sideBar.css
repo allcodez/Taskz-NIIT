@@ -195,6 +195,15 @@ body.dark .sidebar li .category-content:hover .text {
 	color: var(--text-color);
 }
 
+.sidebar-bottom.active a {
+	background-color: var(--primary-color);
+}
+
+.sidebar-bottom.active a .icon,
+.sidebar-bottom.active a .text {
+	color: #fff;
+}
+
 .sidebar .menu-bar {
 	height: calc(100% - 211px);
 	display: flex;

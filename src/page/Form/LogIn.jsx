@@ -66,7 +66,7 @@ export default function Login() {
                 };
 
                 try {
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -79,8 +79,8 @@ export default function Login() {
                         if (data.statusCode === 200) {
                             console.log('Login successful:', data);
 
-                            sessionStorage.setItem('token', data.token);
-                            sessionStorage.setItem('refreshToken', data.refreshToken);
+                            // sessionStorage.setItem('token', data.token);
+                            // sessionStorage.setItem('refreshToken', data.refreshToken);
                             sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
 
                             navigate('/star-taskz');
@@ -141,7 +141,7 @@ export default function Login() {
                 };
 
                 try {
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

@@ -98,7 +98,7 @@ const AddTask = ({ onTaskAdd }) => {
             // Use newTask object as the payload
             const payload = { ...newTask };
             console.log('payload', payload);
-            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/create-task/${userId}`, {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/add/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

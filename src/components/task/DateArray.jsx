@@ -167,7 +167,7 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
         }
 
         try {
-            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/get-tasks/${userId}`, {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/all/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

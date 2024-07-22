@@ -1,4 +1,4 @@
-.integration-board-container{
+.integration-board-container {
     background: var(--sidebar-color);
     width: 100%;
     height: 100dvh;
@@ -6,13 +6,13 @@
     flex-direction: column;
 }
 
-.integration-board-head{
+.integration-board-head {
     padding: 1rem 1.3rem;
     border-bottom: 1px solid var(--layout-border);
     color: var(--text-color);
 }
 
-.integration-board-body{
+.integration-board-body {
     padding: 1rem 1.3rem;
     color: var(--text-color);
     display: flex;
@@ -20,12 +20,12 @@
     /* gap: 5px; */
 }
 
-.integration-board-body p:nth-child(1){
+.integration-board-body p:nth-child(1) {
     font-size: 1.2rem;
     font-weight: 600;
 }
 
-.integration-board-body button{
+.integration-board-body button {
     align-self: flex-start;
     background: var(--task-bg2);
     padding: 0.5rem 0.9rem;
@@ -38,39 +38,45 @@
     gap: 5px;
 }
 
-.integration-board-body button img{
+.integration-board-body button img {
     width: 15px;
 }
 
-.integration-board-body button p{
+.integration-board-body button.integration-board-body-signout {
+    padding: 0.3rem !important;
+    font-size: 0.4rem !important;
+    border-radius: 40px !important;
+}
+
+.integration-board-body button p {
     font-size: 0.8rem;
 }
 
-.integration-board-google-placeholder{
+.integration-board-google-placeholder {
     flex: 0.9;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.integration-board-google-placeholder img{
+.integration-board-google-placeholder img {
     width: 90%;
 }
 
-.integration-board-platforms{
+.integration-board-platforms {
     padding: 1rem 1.3rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.integration-board-platforms-content{
+.integration-board-platforms-content {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
 
-.integration-board-platforms-box{
+.integration-board-platforms-box {
     width: 60px;
     height: 60px;
     background: var(--task-bg2);
@@ -81,11 +87,11 @@
     align-items: center;
 }
 
-.integration-board-platforms-box img{
+.integration-board-platforms-box img {
     width: 30px;
 }
 
-.integration-board-platforms-content button{
+.integration-board-platforms-content button {
     padding: 0.3rem 0.7rem;
     box-shadow: 0 1px 2px #000000e6;
     background: transparent;
