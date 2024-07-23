@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import './taskModal.css';
 import { GrStatusGood } from "react-icons/gr";
 import { CiCalendarDate, CiClock2, CiPlay1 } from "react-icons/ci";
@@ -9,34 +9,191 @@ import Calendar from '../../calendar/Calendar';
 import CategoryOption from '../../categories/CategoryOption';
 import Lottie from 'react-lottie';
 import confettiAnimation from '../../../asstes/Lottie-confetii.json';
+import schedule from 'node-schedule';
+import { TaskContext } from '../../../../hooks/TaskContext';
 
-export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
+export default function TaskModal({ task, onTaskDelete, onTaskEdit, onTaskUpdate }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [editedTask, setEditedTask] = useState({});
     const [showConfetti, setShowConfetti] = useState(false);
+    const [alarmJobs, setAlarmJobs] = useState([]);
+    const [activeNotifications, setActiveNotifications] = useState([]);
+    const { setTasks, fetchTasks } = useContext(TaskContext);
 
     useEffect(() => {
         if (task) {
-            setEditedTask({ ...task });
+            const startedAt = new Date(task.startedAt);
+            const startDate = new Date(startedAt.getFullYear(), startedAt.getMonth(), startedAt.getDate());
+            setEditedTask({
+                ...task,
+                startDate: startDate.toISOString(),
+                startedAt: task.startedAt // Preserve the original startedAt
+            });
         } else {
             setEditedTask({});
+            cancelAlarms();
         }
+        requestNotificationPermission();
+
+        return () => {
+            cancelAlarms();
+        };
     }, [task]);
+
+    useEffect(() => {
+        scheduleAlarms();
+    }, [editedTask]);
+
+    const requestNotificationPermission = async () => {
+        if (!('Notification' in window)) {
+            console.error('This browser does not support desktop notifications');
+            return;
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                console.log('Notification permission granted');
+            } else {
+                console.error('Notification permission denied');
+            }
+        } catch (error) {
+            console.error('Error requesting notification permission:', error);
+        }
+    };
+
+    const scheduleAlarms = () => {
+        if (!editedTask.startTime) return;
+
+        const startTime = new Date(editedTask.startTime);
+        const fiveMinutesBefore = new Date(startTime.getTime() - 5 * 60000);
+        const oneMinuteBefore = new Date(startTime.getTime() - 60000);
+
+        // Cancel existing alarms before scheduling new ones
+        cancelAlarms();
+
+        const fiveMinutesJob = schedule.scheduleJob(fiveMinutesBefore, () => {
+            const taskName = editedTask.taskName;
+            if (taskName) {
+                showNotification(`Task "${taskName}" starts in 5 minutes!`);
+            }
+        });
+
+        const oneMinuteJob = schedule.scheduleJob(oneMinuteBefore, () => {
+            const taskName = editedTask.taskName;
+            if (taskName) {
+                showNotification(`Task "${taskName}" starts in 1 minute!`);
+            }
+        });
+
+        setAlarmJobs([fiveMinutesJob, oneMinuteJob]);
+    };
+
+    const cancelAlarms = () => {
+        alarmJobs.forEach(job => {
+            if (job && typeof job.cancel === 'function') {
+                job.cancel();
+            }
+        });
+        setAlarmJobs([]);
+    };
+
+    const showNotification = (message) => {
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                // Prevent duplicate notifications
+                const existingNotification = activeNotifications.find(
+                    (notification) => notification.message === message && notification.notification.data === 'active'
+                );
+
+                if (existingNotification) return;
+
+                const newNotification = new Notification(message, { data: 'active' });
+
+                setActiveNotifications(prevNotifications => [
+                    ...prevNotifications,
+                    { message, notification: newNotification },
+                ]);
+
+                newNotification.addEventListener('close', () => {
+                    setActiveNotifications(prevNotifications =>
+                        prevNotifications.filter(
+                            (notification) => notification.notification !== newNotification
+                        )
+                    );
+                });
+            } else {
+                console.error('Notification permission denied');
+            }
+        } else {
+            console.error('This browser does not support desktop notifications');
+        }
+    };
 
     const formatTime = (time) => {
         if (!time) return '';
         const date = new Date(time);
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        const formattedHours = hours.toString().padStart(2, '0');
-        const formattedMinutes = minutes.toString().padStart(2, '0');
-        return `${formattedHours}:${formattedMinutes}`;
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+    const formatTimeWithAMPM = (time) => {
+        if (!time) return '';
+        const date = new Date(time);
+        let hours = date.getHours();
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours.toString().padStart(2, '0') : '12';
+        return `${hours}:${minutes} ${ampm}`;
+    };
+
+    const handleTimeChange = (e) => {
+        const { value } = e.target;
+        const [hours, minutes] = value.split(':');
+
+        let date = new Date(editedTask.startedAt || new Date());
+        date.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+
+        const updatedStartedAt = date.toISOString();
+
+        setEditedTask(prevState => ({
+            ...prevState,
+            startedAt: updatedStartedAt,
+        }));
+    };
+
+    const updateTaskTime = async (newStartedAt) => {
+        const userId = sessionStorage.getItem('userId');
+        const taskId = editedTask.id;
+
+        try {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskDateTime/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ startedAt: newStartedAt }),
+            });
+
+            if (response.ok) {
+                const updatedTask = await response.json();
+                console.log('Task time updated successfully:', updatedTask);
+                onTaskEdit(updatedTask.id, new Date(updatedTask.startedAt).toDateString(), updatedTask);
+            } else {
+                const errorData = await response.json();
+                console.error('Error updating task time:', errorData);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
     };
 
     const handleEditTask = useCallback(async () => {
         const userId = sessionStorage.getItem('userId');
-        const token = sessionStorage.getItem('token');
+        // const token = sessionStorage.getItem('token');
         const taskId = editedTask.id;
 
         if (!taskId) {
@@ -44,7 +201,6 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             return;
         }
 
-        // Add 1 hour to the startTime before sending to the backend
         if (editedTask.startTime) {
             const startTime = new Date(editedTask.startTime);
             startTime.setHours(startTime.getHours() + 1);
@@ -55,10 +211,9 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/update-task/${userId}/${taskId}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    // 'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(editedTask),
+                }, body: JSON.stringify(editedTask),
             });
 
             if (response.ok) {
@@ -67,6 +222,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 const taskDate = new Date(updatedTask.startDate);
                 const dateString = taskDate.toDateString();
                 onTaskEdit(updatedTask.id, dateString, updatedTask);
+                scheduleAlarms();
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -76,18 +232,75 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
         }
     }, [editedTask, onTaskEdit]);
 
+    const handleSaveChanges = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const taskId = editedTask.id;
+
+        if (!taskId) {
+            console.warn('Task ID is not defined, skipping update.');
+            return;
+        }
+
+        const adjustedTime = new Date(editedTask.startedAt);
+        adjustedTime.setHours(adjustedTime.getHours() + 1);
+        const adjustedStartedAt = adjustedTime.toISOString();
+
+        try {
+            // Update task name
+            const nameResponse = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskName/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ taskName: editedTask.taskName }),
+            });
+
+            // Update task time with adjusted time
+            const timeResponse = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskDateTime/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ startedAt: adjustedStartedAt }),
+            });
+
+            if (nameResponse.ok && timeResponse.ok) {
+                const updatedTask = await timeResponse.json();
+                console.log('Task updated successfully:', updatedTask);
+                const taskDate = new Date(updatedTask.startDate);
+                const dateString = taskDate.toDateString();
+                onTaskEdit(updatedTask.id, dateString, updatedTask);
+                scheduleAlarms();
+                
+                // Update local state
+                setEditedTask(updatedTask);
+
+                // Notify parent component about the update
+                onTaskUpdate();
+            } else {
+                console.error('Error updating task');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    };
+
     const handleDeleteTask = async () => {
         const userId = sessionStorage.getItem('userId');
-        const token = sessionStorage.getItem('token');
+        // const token = sessionStorage.getItem('token');
         const taskId = task.id;
+        // console.log('taskId', taskId)
         const taskDate = new Date(task.startDate);
         const dateString = taskDate.toDateString();
 
+        // Cancel alarms immediately when delete is initiated
+        cancelAlarms();
+
         try {
-            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/delete-task/${userId}/${taskId}`, {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/delete-task/${userId}/${taskId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    // 'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -95,7 +308,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message);
-                onTaskDelete(taskId, dateString); // Pass the dateString instead of taskDate
+                onTaskDelete(taskId, dateString);
             } else {
                 const errorText = await response.text();
                 console.error('Error deleting task:', errorText);
@@ -109,49 +322,52 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             [name]: value,
         }));
     };
 
-    const handleTimeChange = (e) => {
-        const { value } = e.target;
-        const [hours, minutes] = value.split(':');
+    // const handleTimeChange = (e) => {
+    //     const { value } = e.target;
+    //     const [timeStr, ampm] = value.split(' ');
+    //     let [hours, minutes] = timeStr.split(':');
 
-        let date;
-        if (editedTask.startTime) {
-            date = new Date(editedTask.startTime);
-        } else {
-            date = new Date();
-        }
+    //     hours = parseInt(hours, 10);
+    //     minutes = parseInt(minutes, 10);
 
-        const updatedHours = parseInt(hours, 10);
-        const updatedMinutes = parseInt(minutes, 10);
-        date.setHours(updatedHours, updatedMinutes, 0, 0);
+    //     if (ampm === 'PM' && hours !== 12) {
+    //         hours += 12;
+    //     } else if (ampm === 'AM' && hours === 12) {
+    //         hours = 0;
+    //     }
 
-        setEditedTask((prevState) => ({
-            ...prevState,
-            startTime: date.toISOString(),
-        }));
-    };
+    //     let date = new Date(editedTask.startedAt || new Date());
+    //     date.setHours(hours, minutes, 0, 0);
+
+    //     setEditedTask(prevState => ({
+    //         ...prevState,
+    //         startedAt: date.toISOString().slice(0, 19), // Format: "2024-07-23T10:18:00"
+    //     }));
+    // };
 
     const handleCompletionToggle = async () => {
         const userId = sessionStorage.getItem('userId');
-        const token = sessionStorage.getItem('token');
         const taskId = editedTask.id;
-        const taskDate = new Date(editedTask.startDate);
-        const dateString = taskDate.toDateString();
+
+        const startedAt = new Date(task.startedAt);
+        const startDate = new Date(startedAt.getFullYear(), startedAt.getMonth(), startedAt.getDate());
+        const dateString = startDate.toDateString();
+
         const updatedTask = {
             ...editedTask,
-            taskStatus: editedTask.taskStatus === 'completed' ? 'incomplete' : 'completed',
+            status: editedTask.status === 'completed' ? 'pending' : 'completed',
         };
 
         try {
-            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/update-task/${userId}/${taskId}`, {
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-status/${userId}/${taskId}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(updatedTask),
@@ -159,24 +375,25 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
             if (response.ok) {
                 const result = await response.json();
-                if (result.taskStatus === 'completed') {
+                if (result.status === 'completed') {
                     setShowConfetti(true);
-                    setTimeout(() => setShowConfetti(false), 1500); // Show confetti for 1.5 seconds
+                    setTimeout(() => setShowConfetti(false), 1500);
                 }
 
-                onTaskEdit(result.id, dateString, result); // Pass the dateString instead of taskDate
+                onTaskEdit(result.id, dateString, result);
                 setEditedTask(result);
+                scheduleAlarms();
 
-                // Update the tasks state using setTasks
-                setTasks((prevTasks) => {
+                setTasks(prevTasks => {
                     const updatedTasks = { ...prevTasks };
                     if (updatedTasks[dateString]) {
-                        updatedTasks[dateString] = updatedTasks[dateString].map((task) =>
-                            task.id === result.id ? result : task
+                        updatedTasks[dateString] = updatedTasks[dateString].map(task =>
+                            task.id === taskId ? result : task
                         );
                     }
                     return updatedTasks;
                 });
+
             } else {
                 const errorData = await response.json();
                 console.error('Error updating task:', errorData);
@@ -187,7 +404,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     };
 
     const handleDateSelect = (date) => {
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             startDate: date.toISOString(),
         }));
@@ -195,7 +412,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
     };
 
     const handleCategoryChange = (taskCategory) => {
-        setEditedTask((prevState) => ({
+        setEditedTask(prevState => ({
             ...prevState,
             taskCategory,
         }));
@@ -219,7 +436,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                 </div>
             )}
             <div className="iconsCont">
-                {task?.taskStatus === 'completed' ? (
+                {task?.status === 'completed' ? (
                     <i className='bx bxs-check-circle' onClick={handleCompletionToggle}></i>
                 ) : (
                     <i className='bx bx-check-circle' onClick={handleCompletionToggle}></i>
@@ -228,10 +445,10 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
 
             <Popup
                 trigger={(
-                    <div className={`container ${task?.taskStatus === 'completed' ? 'completed' : ''}`}>
+                    <div className={`container ${task?.status === 'completed' ? 'completed' : ''}`}>
                         <div className="title">
                             <p>{task?.taskName}</p>
-                            <div className='time'>{task?.startTime ? formatTime(task.startTime) : ''}</div>
+                            <div className='time'>{task?.startedAt ? formatTimeWithAMPM(task.startedAt) : ''}</div>
                         </div>
                         <div>
                             <div className="lowerCont">
@@ -283,7 +500,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                                 </div>
                                 <div className="taskArea">
                                     <div className="taskInfo">
-                                        {task?.taskStatus === 'completed' ? (
+                                        {task?.status === 'completed' ? (
                                             <i className='bx bxs-check-circle' onClick={handleCompletionToggle}></i>
                                         ) : (
                                             <i className='bx bx-check-circle' onClick={handleCompletionToggle}></i>
@@ -300,14 +517,13 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit }) {
                                     <div className="taskDurations add-hover">
                                         <input
                                             type="time"
-                                            name="startTime"
-                                            value={editedTask.startTime ? formatTime(editedTask.startTime) : ''}
+                                            name="startedAt"
+                                            value={editedTask.startedAt ? formatTime(editedTask.startedAt) : ''}
                                             onChange={handleTimeChange}
                                         />
                                     </div>
                                 </div>
-                                <button className="save-task-btn" onClick={() => { handleEditTask(); close(); }}>Save Changes</button>
-                            </div>
+                                <button className="save-task-btn" onClick={() => { handleSaveChanges(); close(); }}>Save Changes</button>                            </div>
                         </div>
                     </div>
                 )}

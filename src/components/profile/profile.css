@@ -1,0 +1,255 @@
+.profile-container{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    opacity: 1;
+    color: var(--text-default);
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+.profile-background {
+    position: absolute;
+    inset: 0px;
+    background: rgba(15, 15, 15, 0.8);
+}
+
+.profile-main {
+    position: relative;
+    z-index: 1;
+    /* box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 5px 10px, rgba(15, 15, 15, 0.4) 0px 15px 40px; */
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    width: 1150px;
+    max-width: calc(-100px + 100vw);
+    height: calc(-100px + 100vh);
+    max-height: 715px;
+    background: var(--sidebar-color);
+    backdrop-filter: none;
+    transition-property: transform;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+.profile-content{
+    z-index: 1;
+    flex-grow: 1;
+    transform: translateZ(0px);
+    padding: 36px 60px;
+    overflow: auto;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+.profile-content-head{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--text-light);
+    margin-bottom: 35px;
+    margin-top: 0px;
+    padding-bottom: 12px;
+    width: auto;
+    gap: 1rem;
+}
+
+.profile-content-head i{
+    font-size: 1.2rem;
+}
+
+.profile-content h3{
+    color: var(--text-color);
+}
+
+.profile-name-section{
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name-section-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-img{
+    user-select: none;
+    /* transition: background 20ms ease-in 0s; */
+    cursor: pointer;
+    position: relative;
+    padding: 0px;
+    border: 0px;
+    background: none;
+    border-radius: 50%;
+}
+
+.profile-img-conatiner{
+    background: var(--text-light);
+    border-radius: 100%;
+    box-shadow: none;
+}
+
+.profile-img-content{
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    opacity: 1;
+}
+
+.profile-img-placeholder{
+    box-sizing: content-box;
+    border: none;
+    border-radius: 100%;
+    width: 58px;
+    height: 58px;
+    line-height: 58px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 26.25px;
+    user-select: none;
+    color: rgba(255, 255, 255, 0.81);
+    opacity: 1;
+
+}
+
+.profile-name{
+    margin-left: 30px;
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.profile-name label{
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-default);
+}
+
+.profile-focusable-within{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    position: relative;
+    border-radius: 4px;
+    box-shadow: var(--text-light) 0px 0px 0px 1px inset; 
+    background: var(--body-color);
+    cursor: text; padding: 4px 10px;
+}
+
+.profile-name input{
+    font-size:inherit;
+    line-height: inherit;
+    border: none;
+    background: none;
+    width: 100%;
+    display: block;
+    resize: none;
+    padding: 0px;
+    color: var(--text-default);
+}
+
+.profile-main input:focus-visible{
+    border: none;
+    outline: none;
+}
+
+.profile-img-title{
+    color: var(--text-default);
+    font-size: 14px; 
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+/* src/components/account/AccountSecurity.css */
+.account-security {
+    border-bottom: 1px solid var(--text-light);
+    margin-bottom: 16px;
+    margin-top: 0px;
+    padding-bottom: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    width: auto;
+    color: var(--text-color);
+    margin-top: 3rem;
+}
+
+/* src/components/email/EmailSection.css */
+.email-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: default;
+    margin-bottom: 1rem;
+}
+
+.email-details {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10%;
+    width: 60%;
+}
+
+.email-label {
+    border-bottom: 0px;
+    margin-bottom: 2px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    width: auto;
+    color: var(--text-default);
+    display: flex;
+    flex-direction: row;
+}
+
+.email-address p{
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-light2);
+}
+
+.change-email-button {
+    user-select: none;
+    transition: background 20ms ease-in 0s;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    border: 1px solid var(--text-light);
+}
+
+/* ===Delete Component=== */
+
+.profile-delete-head{
+    color: red;
+}
+
+.profile-delete-button{
+    color: red !important;
+}

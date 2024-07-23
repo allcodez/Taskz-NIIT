@@ -1,0 +1,171 @@
+.delete-popup-overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity 200ms ease;
+    z-index: 10;
+}
+
+.delete-popup-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 15, 15, 0.8);
+}
+
+.delete-popup-dialog {
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 5px 10px, rgba(15, 15, 15, 0.4) 0px 15px 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0;
+    display: flex;
+    background: va(---colorside-bar);
+    backdrop-filter: none;
+    transition: transform 200ms ease;
+}
+
+.delete-popup-dialog-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: clip auto;
+    width: 420px;
+    padding: 32px;
+    background: var(--sidebar-color);
+    transition: width 0.25s ease, height 0.25s ease;
+}
+
+.delete-popup-dialog-content {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.delete-popup-dialog-header {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.delete-popup-dialog-body {
+    color: rgb(127, 127, 127);
+    text-align: center;
+    font-size: 14px;
+}
+
+.delete-popup-dialog-actions {
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.delete-popup-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+.delete-popup-exclamationMarkCircle {
+    width: 36px;
+    height: 36px;
+    display: block;
+    fill: rgb(222, 85, 80);
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.delete-popup-input-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    position: relative;
+    border-radius: 6px;
+    background: var(--sidebar-color);
+    cursor: text;
+    padding: 4px 10px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.delete-popup-input-wrapper input {
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+    background: none;
+    width: 100%;
+    display: block;
+    resize: none;
+    padding: 0;
+}
+
+.delete-popup-delete-button {
+    user-select: none;
+    transition: background 20ms ease-in;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 4px;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 500;
+    height: 32px;
+    justify-content: center;
+    line-height: 1.2;
+    padding-left: 12px;
+    padding-right: 12px;
+    white-space: nowrap;
+    background: rgb(180, 65, 60);
+    color: white;
+    fill: rgba(55, 53, 47, 0.4);
+}
+
+.delete-popup-cancel-button {
+    user-select: none;
+    transition: background 20ms ease-in;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 4px;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 500;
+    height: 28px;
+    justify-content: center;
+    line-height: 1.2;
+    padding-left: 12px;
+    padding-right: 12px;
+    white-space: nowrap;
+    background: var(--brand-color);
+    color: white;
+    width: fit-content;
+    align-self: center;
+}
+
+.delete-popup-dialog-actions input{
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+    background: none;
+    width: 100%;
+    display: block;
+    resize: none;
+    padding: 0px;
+    /* color: var(--text-default) */
+}
+
+.delete-popup-dialog-actions input:focus-visible{
+    outline: none;
+    border: none;
+}

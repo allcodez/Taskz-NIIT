@@ -1,13 +1,56 @@
-.dayList{
-    display: flex;
-    padding: 1rem;
-    overflow-x: scroll;
-    height: 91vh;
-    gap: 1.5rem;
-    background-color: var(--body-color);
+.dateArray {
+    overflow-x: auto;
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    white-space: nowrap;
+    padding-bottom: 20px;
+    width: 100%; /* Ensure it takes full width of its container */
+    position: relative; /* Contain the scrolling to this element */
+    flex: 1;
+    padding-left: 16px;
 }
 
+.dayList {
+    display: inline-flex;
+    padding: 10px 0;
+}
 
-.dayList p, .dayList h2{
-    
+.test {
+    min-width: 200px; /* Adjust as needed */
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    opacity: 0.4; /* Default opacity for past dates */
+}
+
+.array-current-date {
+    opacity: 1;
+}
+
+.future-date {
+    opacity: 1; /* Full opacity for future dates */
+}
+
+/* Style the scrollbar track */
+.dateArray::-webkit-scrollbar-track {
+	background-color: var(--scroll-bg);
+}
+
+/* Style the scrollbar itself */
+.dateArray::-webkit-scrollbar {
+	width: 3px;
+    height: 10px;
+	background-color: var(--scroll-bg);
+	border-radius: 100px;
+}
+
+/* Style the scrollbar thumb */
+.dateArray::-webkit-scrollbar-thumb {
+	background-color: var(--scroll-bar);
+	/* border-radius: 100px; */
+}
+
+/* Style the scrollbar thumb on hover */
+.dateArray::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
 }

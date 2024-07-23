@@ -66,7 +66,7 @@ export default function Login() {
                 };
 
                 try {
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -76,18 +76,12 @@ export default function Login() {
 
                     if (response.ok) {
                         const data = await response.json();
-                        if (data.statusCode === 200) {
-                            console.log('Login successful:', data);
+                        console.log('Login successful:', data);
 
-                            sessionStorage.setItem('token', data.token);
-                            sessionStorage.setItem('refreshToken', data.refreshToken);
-                            sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
-
-                            navigate('/star-taskz');
-                        } else {
-                            console.error('Login error:', data);
-                            setLoginError(data.message || 'Login failed');
-                        }
+                        // sessionStorage.setItem('token', data.token);
+                        // sessionStorage.setItem('refreshToken', data.refreshToken);
+                        sessionStorage.setItem('userId', data.id);  // Store user ID in session storage
+                        navigate('/star-taskz');
                     } else {
                         const errorData = await response.json();
                         console.error('Login error:', errorData);
@@ -141,7 +135,7 @@ export default function Login() {
                 };
 
                 try {
-                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                    const response = await fetch('https://star-taskz-backend.onrender.com/star-taskz/api/user/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -156,7 +150,7 @@ export default function Login() {
 
                             sessionStorage.setItem('token', data.token);
                             sessionStorage.setItem('refreshToken', data.refreshToken);
-                            sessionStorage.setItem('userId', data.userId);
+                            sessionStorage.setItem('userId', data.id);
 
                             navigate('/star-taskz');
                         } else {

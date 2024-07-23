@@ -1,4 +1,3 @@
-/* weatherBar.css */
 .weather-bar-container {
     background:
         /* linear-gradient(to bottom, white, white), */
@@ -13,6 +12,7 @@
     top: 0;
     right: 0;
     width: 25%;
+    z-index: 10;
     box-shadow: -1px -1px 11px #00000066;
     height: 100vh;
     transform: translateX(110%);
@@ -25,6 +25,7 @@
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 10;
     width: 25%;
     box-shadow: -1px -1px 11px #00000066;
     border-left: 1px solid var(--layout-border);

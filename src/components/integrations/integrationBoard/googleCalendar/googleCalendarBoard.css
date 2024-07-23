@@ -1,0 +1,43 @@
+.integration-board-google-events{
+    padding: 1rem 1.3rem;
+}
+
+.integration-board-google-events ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.integration-board-google-events ul li{
+    padding: 0.5rem;
+    background: #8dff8da8;
+    border-radius: 7px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.integration-board-google-events ul button{
+    align-self: flex-start;
+    background: var(--brand-color);
+    border: none;
+    border-radius: 4px;
+    opacity: .9;
+    padding: 0.2rem;
+    box-shadow: 0 1px 2px #000000e6;
+
+}
+
+.integration-board-google-events ul button i{
+    color: white !important;
+}
+
+.integration-board-google-events-head{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.integration-board-google-events-head img{
+    width: 18px;
+}

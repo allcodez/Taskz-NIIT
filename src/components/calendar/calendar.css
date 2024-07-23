@@ -6,6 +6,21 @@
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
+.day {
+    position: relative;
+}
+
+.task-dot {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--brand-color);
+}
+
 .navigation {
     display: flex;
     justify-content: space-between;
@@ -76,4 +91,10 @@
 
 .other-month {
     color: var(--text-light);
+}
+
+.calendar .day.selected-date {
+    background-color: #8dff8da8;
+    color: white;
+    border-radius: 50%;
 }

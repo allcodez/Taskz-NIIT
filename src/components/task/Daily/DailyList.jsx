@@ -2,7 +2,7 @@ import React from 'react';
 import TaskModal from '../Modal/TaskModal';
 import './dailyList.css';
 
-export default function DailyList({ tasks, onTaskEdit, onTaskDelete }) {
+export default function DailyList({ tasks, onTaskEdit, onTaskDelete, onTaskUpdate }) {
     return (
         <div className="dailyList-task">
             {tasks.map((task, index) => (
@@ -11,6 +11,7 @@ export default function DailyList({ tasks, onTaskEdit, onTaskDelete }) {
                     task={{ ...task }}
                     onTaskEdit={onTaskEdit}
                     onTaskDelete={onTaskDelete}
+                    onTaskUpdate={onTaskUpdate}
                 />
             ))}
         </div>

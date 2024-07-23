@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="424099318507-k1gip7of08upv8jn9fn909vpivgd6bbq.apps.googleusercontent.com">
       <DateProvider>
-       <AppProvider>
+        <AppProvider>
           <App />
         </AppProvider>
       </DateProvider>

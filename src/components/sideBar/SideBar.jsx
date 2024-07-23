@@ -6,7 +6,7 @@ import Dropdown from '../dropdown/Dropdown';
 import { Navigate, useNavigate } from 'react-router-dom';
 import logo from '../../asstes/images/logo.jpg'
 
-export default function SideBar() {
+export default function SideBar({ onWorkspaceClick, isWorkspaceActive }) {
     const [isSidebarClosed, setIsSidebarClosed] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('darkMode');
@@ -84,6 +84,10 @@ export default function SideBar() {
         );
     }, [isDarkMode]);
 
+    const handleWorkspaceClick = () => {
+        onWorkspaceClick();
+    };
+
     return (
         <nav className={isSidebarClosed ? "sidebar close" : "sidebar"}>
             <header>
@@ -116,10 +120,13 @@ export default function SideBar() {
             </div>
 
             <div className="bottom-content">
-                <li className="sidebar-bottom" onClick={handleLogot}>
-                    <a onClick={handleLogot}>
-                        <i className='bx bx-log-out icon'></i>
-                        <span className="text nav-text">Logout</span>
+                <li
+                    className={`sidebar-bottom ${isWorkspaceActive ? 'active' : ''}`}
+                    onClick={handleWorkspaceClick}
+                >
+                    <a>
+                    <i className='bx bx-buildings icon'></i>
+                        <span className="text nav-text">Workspace</span>
                     </a>
                 </li>
                 <li className="mode sidebar-bottom" onClick={toggleDarkMode}>
