@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './slider.css';
 
 import image1 from '../../asstes/images/Micheal.jpg';
@@ -9,58 +9,34 @@ import image5 from '../../asstes/images/Teni.jpg';
 import image6 from '../../asstes/images/Micheal.jpg';
 
 const images = [
-  { src: image1, caption: 'Backend Developer' },
-  { src: image2, caption: 'Mobile Developer' },
-  { src: image3, caption: 'React Developer' },
-  { src: image4, caption: 'React Developer' },
-  { src: image5, caption: 'Mobile Developer' },
-  { src: image6, caption: 'Network Engineer' }
+  { src: image1, name: 'Micheal', caption: 'Backend Developer', description: 'As a Backend Developer, I am passionate about creating robust and scalable server-side applications.' },
+  { src: image2, name: 'Ify', caption: 'Mobile Developer', description: 'As a Mobile Developer, I strive to build seamless and user-friendly mobile applications.' },
+  { src: image3, name: 'Fahd', caption: 'React Developer', description: 'As a React Developer, I am dedicated to delivering clean and efficient UIs using the latest technologies.' },
+  { src: image4, name: 'Amara', caption: 'React Developer', description: 'As a React Developer, I focus on crafting responsive and dynamic user interfaces.' },
+  { src: image5, name: 'Teni', caption: 'Mobile Developer', description: 'As a Mobile Developer, my passion lies in creating intuitive and engaging mobile experiences.' },
+  { src: image6, name: 'Alex', caption: 'Network Engineer', description: 'As a Network Engineer, I ensure our network infrastructure is reliable, secure, and efficient.' }
 ];
 
 const Slider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const totalImages = images.length;
-  const imagesPerPage = 3;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === totalImages - imagesPerPage ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [totalImages]);
-
-  const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? totalImages - imagesPerPage : currentIndex - 1);
-  };
-
-  const goToNext = () => {
-    setCurrentIndex(currentIndex === totalImages - imagesPerPage ? 0 : currentIndex + 1);
-  };
-
-  const currentImages = [
-    ...images.slice(currentIndex, currentIndex + imagesPerPage),
-    ...(currentIndex + imagesPerPage > totalImages ? images.slice(0, (currentIndex + imagesPerPage) % totalImages) : [])
-  ];
-
   return (
     <div className="slider">
-      <button className="next" onClick={goToNext}>
-        &#10094;
-      </button>
-      <div className="image-container">
-        {currentImages.map((image, index) => (
-          <div key={index} className="slide">
-            <img src={image.src} alt={`slide ${index}`} />
-            <div className="caption">{image.caption}</div>
+
+      <div className="demo">
+        {images.map((image, index) => (
+          <div key={index} className="demo__div people">
+            <div className="people__div people__div--img">
+              <img src={image.src} alt={image.name} className="people__img" />
+            </div>
+            <div className="people__div people__div--info">
+              <h2 className="people__name">{image.name}</h2>
+              <p className="people__desc">{image.description}</p>
+            </div>
+            <div className="people__div people__div--name">
+              <h2 className="people-name">{image.caption}</h2>
+            </div>
           </div>
         ))}
       </div>
-      <button className="prev" onClick={goToPrevious}>
-        &#10095;
-      </button>
     </div>
   );
 };

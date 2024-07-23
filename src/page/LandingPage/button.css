@@ -1,0 +1,57 @@
+.fill-button {
+    position: relative;
+    padding: 5% 18%;
+    border: 1px solid #015a0a;
+    background: none;
+    color: #333;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: color 0.4s ease;
+    margin: 30px;
+  }
+  
+  .fill-button .button-text::before,
+  .fill-button .button-text::after {
+    content: attr(data-hover);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.5s ease-out;
+  }
+  
+  .fill-button .button-text::after {
+    background-color: #015a0a;
+    transform: translateY(100%);
+    z-index: -1;
+    border-radius: 20%;
+    width: 100%;
+    height: 200%;
+    top: -50%;
+    transition: all 0.4s ease-out;
+  }
+  
+  .fill-button .button-text::before {
+    background-color: transparent;
+    color: #015a0a;
+  }
+  
+  .fill-button:hover .button-text::after{
+    transform: translateY(0);
+  }
+  
+  .fill-button:hover .button-text::before {
+    transform: translateY(-20%);
+  }
+  
+  .fill-button:hover {
+    color: #fff;
+  }
+  

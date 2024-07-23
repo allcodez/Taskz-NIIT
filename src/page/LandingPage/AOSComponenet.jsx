@@ -8,21 +8,18 @@ function AOSComponent({
   text2,
   image,
   altText,
-  aosAnimationType1,
-  aosAnimationType2,
-  aosDuration1,
   aosDuration2,
 }) {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 1700,
       easing: 'ease-in-out',
       once: true,
     });
   }, []);
 
   const firstElement = (
-    <div data-aos={aosAnimationType1} data-aos-duration={aosDuration1} className='one'>
+    <div className='one'>
       <div className="text-container">
         <h2>{text1}</h2>
         <p>{text2}</p>
@@ -31,7 +28,7 @@ function AOSComponent({
   );
 
   const secondElement = (
-    <div data-aos={aosAnimationType2} data-aos-duration={aosDuration2} className='two'>
+    <div data-aos={'fade-up'} data-aos-duration={'1000'} className='three two'>
       <img src={image} alt={altText} />
     </div>
   );
@@ -47,3 +44,9 @@ function AOSComponent({
 }
 
 export default AOSComponent;
+
+
+
+
+
+

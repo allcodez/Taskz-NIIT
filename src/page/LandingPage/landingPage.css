@@ -1,3 +1,4 @@
+@import 'aos/dist/aos.css';
 /* src/LandingPage/landingPage.css */
 * {
     margin: 0;
@@ -6,12 +7,12 @@
     scroll-behavior: smooth;
   }
 
-  @import 'aos/dist/aos.css';
   
   body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+    background-color: #eaf8f2;
   }
   
   .navbar {
@@ -24,11 +25,25 @@
     width: 100%;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for a bit of depth */
+    background: rgba(255, 255, 255, 0.19);
+    backdrop-filter: blur(7.5px);
+    -webkit-backdrop-filter: blur(7.5px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .logo{
+    margin-left: 55px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .logo img{
+    height: 30px;
+    width: 30px;
   }
   
   .logo h1 {
-    color: #109e1f;
+    color: #077c12;
     margin: 0;
   }
   
@@ -105,11 +120,6 @@
     border-radius: 5px;
     transition: all 0.5s ease-in-out;
   }
-
-  .section {
-    height: 100vh;
-    padding-top: 70px; /* Offset for fixed navbar */
-  }
   
   .nav-button:hover, .ad-button:hover {
     color: #109e1f;
@@ -117,44 +127,68 @@
   }
 
   .ad-container{
-    display: flex;
     width: 100%;
     padding: 5%;
-    background: #3E4C3D;
-    /* height: 100%; */
-    /* justify-content: space-between; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .advert{
-    width: 60%;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    padding-top: 10%;
+    text-align: center;
+    margin-bottom: 2%;
+    
   }
 
   .advert h1{
-    color: var(--primary-color);
-    font-size: 80px;
-    line-height: 82%;
+    color: rgb(0, 20, 1);
+    font-size: 85px;
+    line-height: 102%;
   }
 
   .advert p{
-    margin-top: -10px;
-    width: 550px;
-    color: white;
-  }
-
-  .ad-button{
-    width: 25%;
+    font-size: 120%;
+    font-weight: 500;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 3%;
+    color: rgb(49, 58, 52);
   }
 
   .spline{
-    z-index: 0;
-    margin-top: -90px;
-    width: 30%;
-    margin-left: -190px;
-    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #3A4d3c;
+    padding-left: 25%;
+  }
+
+  .landingPage{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  /* Hide scrollbar for WebKit browsers (like Chrome, Safari) */
+.landingPage::-webkit-scrollbar {
+  height: 0px !important;
+  width: 0px !important;
+  background: transparent;
+  display: none; /* This might not be necessary, but it doesn't hurt to include it */
+}
+
+/* Hide scrollbar for Firefox */
+.landingPage {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+  .review{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
   }
   
   .mobileSpline{
@@ -181,17 +215,17 @@
   }
 
   .about{
-    margin-top: 3000px;
-    /* z-index: 0; */
+    margin-top: 300px;
     background: rgba(71, 230, 71, 0.322);
     box-shadow: 5px 5px 10px 5px  rgba(88, 133, 88, 0.541);
-    padding-top: 0;
+    padding: 30px 0;
+    padding-bottom: 120px;
     height: fit-content;
+    width: 100%;
   }
 
   .about .title{
-    margin-bottom: -150px !important;
-    /* z-index: 1; */
+    margin-bottom: -50px !important;
   }
 
   .section .title{
@@ -220,11 +254,18 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    text-align: center;
   }
 
   .urging h2{
     font-size: 2.5rem;
     /* text-align: center; */
+  }
+
+  .urging button{
+    margin: 20px;
+    padding: 20px 40px;
+    border-radius: 30px;
   }
 
   #contact{
@@ -237,18 +278,16 @@
     margin-bottom: -3%;
   }
 
+  @media screen and (max-width: 1200px) {
+    .spliner{
+      display: none;
+    }
+    .logo{
+      margin-left: 0;
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 868px) {
     body{
         width: 100%;
     }
@@ -256,18 +295,26 @@
     .nav-links-container {
       display: none;
     }
+
+    .featureTitle{
+      margin-top: 100px;
+      margin-bottom: -400px !important;
+    }
+
+    .logo{
+      margin-left: 0px !important;
+    }
   
     .nav-links-mobile {
       display: flex;
-      flex-direction: column;
+      flex-direction: row !important;
       align-items: center;
+      justify-content: space-around !important;
       position: absolute;
       top: 70px;
       left: 0;
       width: 80%;
-      background: white;
       padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Same shadow as the navbar */
     }
   
     .nav-links-mobile li {
@@ -275,7 +322,7 @@
     }
   
     .nav-buttons {
-      flex-direction: column;
+      /* flex-direction: column; */
       margin-left: 0;
     }
   
@@ -295,6 +342,9 @@
         text-align: center;
         font-size: 80px;
     }
+    .urging{
+      margin-bottom: 70px;
+    }
   }
 
   /* src/LandingPage/landingPage.css */
@@ -303,141 +353,38 @@ body{
     width: 100%;
     overflow-x: hidden;
 }
-
-#about{
-  height: fit-content;
-  /* background-color: red; */
-  height: 700px;
-  margin-top: 1900px;
-  overflow-x: hidden;
-}
-
-
-/* .footer-container {
-  width: 100%;
-  /* margin: 0 auto; */
-  /* display: flex; */
-  /* justify-content: space-around; */
-  /* align-items: center; */
-  /* gap: 50px; */ 
-/* } */
-
-.slider img{
-  margin-top: 35%;
-  margin-left: -110.5%;
-  width: 320px !important;
-}
-
-.prev{
-  margin-right: 20px !important;
-}
-
-.next{
-  margin-left: 10px !important;
-}
-
-.ad-container{
-    padding: 20px;
-    /* background-color: red; */
-}
-
-#features .title{
-  margin-top: 40% !important;
-}
-
-    .nav-links-container {
-      display: none;
-    }
-    .nav-links-mobile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      top: 70px;
-      left: 0;
-      width: 100%;
-      background: white;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      justify-content: space-between;
-    }
-    .nav-links-mobile li {
-      margin-bottom: 1rem;
-    }
-    .nav-buttons {
-      flex-direction: column;
-      margin-left: 0;
-    }
-    .mobile-menu-icon {
-      display: block;
-      /* margin-left: -90px; */
-    }
-    .advert{
-        position: relative;
-    }
-    .advert p{
-        width: 100%;
-    }
-    .advert h1{
-        font-size: 55px;
-        line-height: 55px;
-        font-weight: 600;
-    }
-    .spline .actualSpline{
-        display: none;
-    }
-    .mobileSpline{
-    display: block;
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    margin: 0;
-    right: 0;
-    margin-top: 150px;
-    margin-right: -10%;
-    }
-    .slide {
-      min-width: calc(100% / 1);
-      transition: opacity 1s ease-in-out;
-    }
+  .about .title{
+    margin-bottom: 50px !important;
   }
+  .featureTitle{
+    margin-top: 250px !important;
+    margin-bottom: -90px !important;
+  }
+  .nav-links-mobile {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: space-around !important;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 80%;
+    padding: 1rem;
+  }
+  .advert p{
+    text-align: center;
+    margin-left: 0px !important;
+  }
+  .advert h1{
+    font-size: 55px;
+  }
+}
   
   @media screen and (max-width: 400px) {
-
-.slider img{
-  margin-top: 35%;
-  margin-left: -110.5%;
-  width: 280px !important;
+.advert p{
+  text-align: center;
+  margin-left: 0px !important;
 }
 
-.prev{
-  margin-right: 20px !important;
-}
-
-.next{
-  margin-left: 10px !important;
-}
-#about{
-  margin-top: 2200px !important;
-}
-#features .title{
-  margin-top: 0% !important;
-}
   }
   
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

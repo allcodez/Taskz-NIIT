@@ -3,15 +3,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './aos.css';
 
-function AOSComponent({
+function ReverseAos({
   text1,
   text2,
   image,
-  altText,
-  aosAnimationType1,
-  aosAnimationType2,
-  aosDuration1,
-  aosDuration2,
+  altText
 }) {
   useEffect(() => {
     AOS.init({
@@ -22,7 +18,7 @@ function AOSComponent({
   }, []);
 
   const firstElement = (
-    <div data-aos={aosAnimationType1} data-aos-duration={aosDuration1} className='text' >
+    <div className='two' >
       <div className="text-container">
         <h2>{text1}</h2>
         <p>{text2}</p>
@@ -31,19 +27,31 @@ function AOSComponent({
   );
 
   const secondElement = (
-    <div data-aos={aosAnimationType2} data-aos-duration={aosDuration2} >
-      <img src={image} alt={altText} className='pic' />
+    <div data-aos={'fade-up'} data-aos-duration={1000} className='three one'>
+      <img src={image} alt={altText} />
     </div>
   );
 
 //   console.log('Order:', order); // Debugging line to check the value of order
 
   return (
-    <div className="aos-component reverse">
+    <div className="reverse aos-component">
           {secondElement}
           {firstElement}
     </div>
   );
 }
 
-export default AOSComponent;
+export default ReverseAos;
+
+
+
+
+
+
+
+
+
+
+
+
