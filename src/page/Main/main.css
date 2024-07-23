@@ -60,3 +60,21 @@ main{
     height: 100vh;
     transform: translateX(110%);
 }
+
+.status-filter{
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+}
+
+@media (max-width: 1000px){
+    .weather-bar-container{
+        display: none !important;
+    }
+}
+
+@media (max-width: 800px){
+    .status-filter{
+        display: none !important;
+    }
+}

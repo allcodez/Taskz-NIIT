@@ -5,38 +5,46 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import Slider from '../../components/slider/Slider';
 import { useNavigate } from 'react-router-dom';
+import { BiShow, BiHide } from 'react-icons/bi'; // Importing eye icons from react-icons/bi
 
 export default function Login() {
     const [rigthSlider, setRightSlider] = useState(false);
-    const [animeSlider, setAnimeSlider] = useState(false);
-    const [showData1, setShowData1] = useState(true);
-    const [showData2, setShowData2] = useState(false);
-    const [showData3, setShowData3] = useState(false);
-    const [showHeading, setShowHeading] = useState(true);
-    const [showSignupForm, setShowSignupForm] = useState(true);
-    const [showLoginForm, setShowLoginForm] = useState(window.innerWidth > 1000);
-    const [hideSlider, setHideSlider] = useState(false)
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
+    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+    const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [loginError, setLoginError] = useState(""); // State for login error message
 
-    const handleSignup = async () => {
-        // Get user location before creating account
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        // Reset errors
+        setEmailError("");
+        setPasswordError("");
+
+        // Check if fields are empty
+        if (!email) {
+            setEmailError("Email is required");
+        }
+        if (!password) {
+            setPasswordError("Password is required");
+        }
+        if (!email || !password) {
+            return;
+        }
+
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
-                alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
-                // Save latitude and longitude to local storage
                 localStorage.setItem('latitude', latitude.toString());
                 localStorage.setItem('longitude', longitude.toString());
 
-                // Make a GET request to OpenWeatherMap API
                 const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
@@ -45,224 +53,220 @@ export default function Login() {
                     if (response.ok) {
                         const weatherData = await response.json();
                         console.log('Weather data:', weatherData);
-                        // You can now use the weather data as needed, such as displaying it on the UI
                     } else {
                         console.error('Error fetching weather data:', response.statusText);
-                        // Handle error fetching weather data
                     }
                 } catch (error) {
                     console.error('Error fetching weather data:', error);
-                    // Handle error fetching weather data
                 }
 
-                // Rest of your signup logic (creating account with form data)
-                // ...
+                const payload = {
+                    email,
+                    password,
+                };
+
+                try {
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.statusCode === 200) {
+                            console.log('Login successful:', data);
+
+                            sessionStorage.setItem('token', data.token);
+                            sessionStorage.setItem('refreshToken', data.refreshToken);
+                            sessionStorage.setItem('userId', data.userId);  // Store user ID in session storage
+
+                            navigate('/star-taskz');
+                        } else {
+                            console.error('Login error:', data);
+                            setLoginError(data.message || 'Login failed');
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Login error:', errorData);
+                        setLoginError(errorData.message || 'Login failed');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    setLoginError('An error occurred during login');
+                }
             },
             (error) => {
                 console.error('Error getting location:', error);
                 alert('Unable to get your location. Please allow location access for this feature.');
             }
         );
-
-        navigate('/star-taskz');
-
-        // Create an object with form data
-        // const formData = {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     dateOfBirth: dateOfBirth,
-        //     email: email,
-        //     password: password
-        // };
-
-        // try {
-        //     // Make an API call to your backend server
-        //     const response = await fetch('your_api_endpoint', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formData)
-        //     });
-
-        //     if (response.ok) {
-        //         // If the API call is successful, navigate to the main page
-        //         history.push('/main-page'); // Replace '/main-page' with your desired route
-        //     } else {
-        //         // Handle error if API call fails
-        //         console.error('Error:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     };
 
-    const handleLoginHereClick = () => {
-        setAnimeSlider(true)
-        setHideSlider(true)
-        setTimeout(() => {
-            setRightSlider(true);
-            console.log('login');
-        }, 700);
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log(`Your location: Latitude - ${latitude}, Longitude - ${longitude}`);
+                // alert(`Your location is: Latitude - ${latitude}, Longitude - ${longitude}`);
 
-        setTimeout(() => {
-            setHideSlider(false)
-        }, 1000);
+                localStorage.setItem('latitude', latitude.toString());
+                localStorage.setItem('longitude', longitude.toString());
 
-        if (window.innerWidth < 1000) {
-            setShowSignupForm(false)
-            setShowLoginForm(true)
-        }
+                const apiKey = 'e5883bae80f6bb5683f7e4a084f547fe';
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const weatherData = await response.json();
+                        console.log('Weather data:', weatherData);
+                    } else {
+                        console.error('Error fetching weather data:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                }
+
+                const decoded = jwtDecode(credentialResponse?.credential);
+                const { email } = decoded;
+
+                const generatedPassword = `sTaR_TaSkZ@30_May@${email}`;
+                const payload = {
+                    email,
+                    password: generatedPassword
+                };
+
+                try {
+                    const response = await fetch('https://startaskzbackend-production.up.railway.app/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.statusCode === 200) {
+                            console.log('Google Login successful:', data);
+
+                            sessionStorage.setItem('token', data.token);
+                            sessionStorage.setItem('refreshToken', data.refreshToken);
+                            sessionStorage.setItem('userId', data.userId);
+
+                            navigate('/star-taskz');
+                        } else {
+                            console.error('Google Login error:', data);
+                            setLoginError(data.message || 'Google Login failed');
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Google Login error:', errorData);
+                        setLoginError(errorData.message || 'Google Login failed');
+                    }
+                } catch (error) {
+                    console.error('Google Login Error:', error);
+                    setLoginError('An error occurred during Google Login');
+                }
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                alert('Unable to get your location. Please allow location access for this feature.');
+            }
+        );
     };
+
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    function togglePasswordVisibility() {
+        setShowPassword(!showPassword);
+    }
 
     const SignupHereClick = () => {
-        navigate('/star-taskz')
-        setAnimeSlider(false)
-        setHideSlider(true)
-        setTimeout(() => {
-            setRightSlider(false);
-        }, 700)
-        console.log('signup')
-
-        setTimeout(() => {
-            setHideSlider(false)
-        }, 1000);
-
-        if (window.innerWidth < 1000) {
-            setShowSignupForm(true)
-            setShowLoginForm(false)
-        }
+        navigate('/signup')
     }
 
-    const handleNext = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-    }
-
-    const handleNext2 = () => {
-        setShowHeading(false)
-        setShowData1(false)
-        setShowData2(false)
-        setShowData3(true)
-    }
-
-    const handleBack = () => {
-        setShowData1(true)
-        setShowData2(false)
-        setShowHeading(true)
-    }
-
-    const handleBack2 = () => {
-        setShowData1(false)
-        setShowData2(true)
-        setShowData3(false)
-        setShowHeading(false)
-    }
-
-    const handleResize = () => {
-        if (window.innerWidth <= 1000) {
-            setShowLoginForm(false);
-        } else {
-            setShowLoginForm(true);
-        }
-    };
-
-    function handleFirstNameChange(event) {
-        setFirstName(event.target.value);
-    }
-
-    function handleLastNameChange(event) {
-        setLastName(event.target.value);
-    }
-
-    function handleEmailChange(event) {
-        setEmail(event.target.value);
-    }
-
-    function handleDateOfBirthChange(event) {
-        setDateOfBirth(event.target.value);
-    }
-
-    function handlePasswordChange(event) {
-        setPassword(event.target.value);
-        // setIsPasswordTooShort(event.target.value.length >= 1 && event.target.value.length < 8);
-    }
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('resize', handleResize);
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, []);
 
     return (
         <>
             <div className='form-container login'>
-                {/* SignUp Form */}
-                {/* {showSignupForm && ( */}
                 <div className={`slider-container ${rigthSlider ? 'left' : 'right'}`}>
-                    <Slider
-                    />
+                    <Slider />
                 </div>
-                
-                {/* )} */}
 
-                {/* Login Form */}
-    
-                    <div className='login-form form'>
-                        <div className='form-content'>
-                            <div>
-                                <h2>Login to Star Taskz</h2>
-                                <p>Don't you have some pending taskz?</p>
-                            </div>
-                            <div className='main-form'>
-                                <form action="" className='input-fields'>
-                                    <div className='input'>
-                                        <p>Email</p>
-                                        <input type="email" placeholder='Email' />
-                                    </div>
-                                    <div className='input'>
-                                        <p>Password</p>
-                                        <input type="password" placeholder='Password' />
-                                    </div>
-                                    <input type="submit" value="Sign In" onClick={SignupHereClick}/>
-                                </form>
-                                <div className='option'>
-                                    <hr /> <p>or login with</p> <hr />
-                                </div>
-                                <div className='google-button'>
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            const decoded = jwtDecode(credentialResponse?.credential);
-                                            console.log(decoded);
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
+                <div className='login-form form'>
+                    <div className='form-content'>
+                        <div>
+                            <h2>Login to Star Taskz</h2>
+                            <p>Don't you have some pending taskz?</p>
+                        </div>
+                        <div className='main-form'>
+                            <form action="" className='input-fields'>
+                                <div className='input'>
+                                    <p>Email</p>
+                                    <input
+                                        type="email"
+                                        placeholder='Email'
+                                        value={email}
+                                        onChange={handleEmailChange}
                                     />
+                                    {emailError && <span className="error">{emailError}</span>}
                                 </div>
+                                <div className='input'>
+                                    <p>Password</p>
+                                    <div className='password-input'>
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder='Password'
+                                            value={password}
+                                            onChange={handlePasswordChange}
+                                        />
+                                        <span onClick={togglePasswordVisibility}>
+                                            {showPassword ? <BiHide /> : <BiShow />}
+                                        </span>
+                                    </div>
+                                    {passwordError && <span className="error">{passwordError}</span>}
+                                </div>
+                                {loginError && <div className="error">{loginError}</div>} {/* Display login error message */}
+                                <input type="submit" value="Sign In" onClick={handleLogin} />
+                            </form>
+
+                            <div className='option'>
+                                <hr /> <p>or login with</p> <hr />
                             </div>
-                            <div className='have-acct'>
-                                <p>Are you new?</p>
-                                <button onClick={SignupHereClick}>
-                                    <p>Create Account</p>
-                                </button>
+                            <div className='google-button'>
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLoginSuccess}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
                             </div>
                         </div>
+                        <div className='have-acct'>
+                            <p>Are you new?</p>
+                            <button onClick={SignupHereClick}>
+                                <p>Create Account</p>
+                            </button>
+                        </div>
                     </div>
-
-                {/* <div className={`anime-slider ${animeSlider ? 'anime-left' : 'anime-right'}`}>
-                </div> */}
-
-            </div>
-
-            {/* 1000PX Screen size */}
-
-            <div className=''>
-
+                </div>
             </div>
         </>
     );
 }
-
-

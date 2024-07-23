@@ -4,10 +4,11 @@ import DailyTaskList from './Daily/DailyTaskList';
 import TaskCalendar from '../task/TaskCalendar/TaskCalendar';
 import { DateContext } from '../../../hooks/DateContext';
 import { WeatherContext } from '../../../hooks/WeatherProvider';
+import { TaskContext } from '../../../hooks/TaskContext';
 
-export default function DateArray() {
+export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate }) {
     const dates = TaskCalendar();
-    const [tasks, setTasks] = useState({});
+    // const [tasks, setTasks] = useState({});
     const { selectedDate, setSelectedDate } = useContext(DateContext);
     const scrollContainerRef = useRef(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -17,43 +18,53 @@ export default function DateArray() {
     const [hoveredDate, setHoveredDate] = useState(null);
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [mounted, setMounted] = useState(false);
+    // const [filterStatus, setFilterStatus] = useState('All');
+    const [needsRefetch, setNeedsRefetch] = useState(false);
+    const { tasks, setTasks } = useContext(TaskContext);
 
-    const handleTaskAdd = (newTask) => {
-        const dateString = newTask.date.toDateString();
-        setTasks((prevTasks) => ({
-            ...prevTasks,
-            [dateString]: [...(prevTasks[dateString] || []), newTask],
-        }));
+    const handleTaskAdd = (selectedDate, newTask) => {
+        setNeedsRefetch(true);
+        // if (selectedDate instanceof Date && !isNaN(selectedDate)) {
+        //     const dateString = selectedDate.toDateString();
+        //     setTasks((prevTasks) => ({
+        //         ...prevTasks,
+        //         [dateString]: [...(prevTasks[dateString] || []), newTask],
+        //     }));
+        // } else {
+        //     console.error('selectedDate is not a valid Date:', selectedDate);
+        // }
     };
 
-    const handleTaskEdit = (taskId, taskDate, editedTask) => {
-        const dateString = taskDate.toDateString();
-        setTasks((prevTasks) => ({
-            ...prevTasks,
-            [dateString]: prevTasks[dateString].map((task) =>
-                task.id === taskId ? editedTask : task
-            ),
-        }));
+    const handleTaskDelete = (taskId, dateString) => {
+        setTasks((prevTasks) => {
+            const updatedTasks = { ...prevTasks };
+            updatedTasks[dateString] = prevTasks[dateString].filter((task) => task.id !== taskId);
+            return updatedTasks;
+        });
     };
 
-    const handleTaskDelete = (taskId, taskDate) => {
-        const dateString = taskDate.toDateString();
-        setTasks((prevTasks) => ({
-            ...prevTasks,
-            [dateString]: prevTasks[dateString].filter((task) => task.id !== taskId),
-        }));
+    const handleTaskEdit = (taskId, dateString, updatedTask) => {
+        setTasks((prevTasks) => {
+            const updatedTasks = { ...prevTasks };
+            const tasksForDate = prevTasks[dateString] || [];
+            const updatedTasksForDate = tasksForDate.map((task) =>
+                task.id === taskId ? updatedTask : task
+            );
+            updatedTasks[dateString] = updatedTasksForDate;
+            return updatedTasks;
+        });
     };
 
     const prevMonth = () => {
         setCurrentMonth(prevMonth => (prevMonth === 0 ? 11 : prevMonth - 1));
         setCurrentYear(prevYear => (currentMonth === 0 ? prevYear - 1 : prevYear));
-        setCurrentDate(new Date().getDate()); // Reset current date when changing month
+        setCurrentDate(new Date().getDate());
     };
 
     const nextMonth = () => {
         setCurrentMonth(nextMonth => (nextMonth === 11 ? 0 : nextMonth + 1));
         setCurrentYear(nextYear => (currentMonth === 11 ? nextYear + 1 : nextYear));
-        setCurrentDate(new Date().getDate()); // Reset current date when changing month
+        setCurrentDate(new Date().getDate());
     };
 
     const daysInMonth = (month, year) => {
@@ -74,7 +85,6 @@ export default function DateArray() {
         if (!mounted) {
             const fetchWeatherData = async () => {
                 try {
-                    // Retrieve latitude and longitude from local storage
                     const latitude = parseFloat(localStorage.getItem('latitude'));
                     const longitude = parseFloat(localStorage.getItem('longitude'));
 
@@ -86,7 +96,6 @@ export default function DateArray() {
                         const data = await response.json();
                         const forecastData = {};
 
-                        // Process the forecast data and store it in the forecastData object
                         data.list.forEach((forecast) => {
                             const date = new Date(forecast.dt * 1000);
                             const dateString = date.toDateString();
@@ -94,7 +103,6 @@ export default function DateArray() {
                         });
 
                         setWeatherData(forecastData);
-                        console.log('date array', forecastData)
                         setWeatherDataFetched(true);
                         setMounted(true);
                     } else {
@@ -105,35 +113,92 @@ export default function DateArray() {
                 }
             };
 
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    fetchWeatherData();
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                    alert('Unable to get your location. Please allow location access for this feature.');
+            const fetchTaskData = async () => {
+                const tasks = await fetchTasks();
+                if (tasks) {
+                    const tasksByDate = tasks.reduce((acc, task) => {
+                        const dateString = new Date(task.startDate).toDateString();
+                        if (!acc[dateString]) {
+                            acc[dateString] = [];
+                        }
+                        acc[dateString].push(task);
+                        return acc;
+                    }, {});
+                    setTasks(tasksByDate);
+                    setNeedsRefetch(false);
                 }
-            );
+            };
+
+            if (needsRefetch) {
+                fetchTaskData();
+            } else {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        fetchWeatherData();
+                        fetchTaskData(); // Call fetchTaskData on initial render
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        // alert('Unable to get your location. Please allow location access for this feature.');
+                    }
+                );
+            }
+
+            setMounted(true);
         }
-    }, [mounted, weatherData]);
+    }, [needsRefetch, mounted, weatherData]);
+
+    const fetchTasks = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const token = sessionStorage.getItem('token');
+
+        if (!userId || !token) {
+            console.error('User ID or token not found in session storage');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://startaskzbackend-production.up.railway.app/user/get-tasks/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const tasks = await response.json();
+                console.log('Tasks retrieved successfully:', tasks);
+                return tasks;
+            } else {
+                const errorData = await response.json();
+                console.error('Error fetching tasks:', errorData);
+                return null;
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            return null;
+        }
+    };
 
     return (
         <div className="dateArray" ref={scrollContainerRef}>
             <DayList
                 days={dates}
                 tasks={tasks}
-                onTaskAdd={handleTaskAdd}
                 onTaskEdit={handleTaskEdit}
                 onTaskDelete={handleTaskDelete}
                 weatherData={weatherData}
                 weatherDataFetched={weatherDataFetched}
                 handleDateSelect={handleDateSelect}
+                filterStatus={filterStatus}
             />
         </div>
     );
 }
 
-function DayList({ days, tasks, onTaskAdd, onTaskEdit, onTaskDelete, weatherData, weatherDataFetched, handleDateSelect }) {
+// DayList component
+function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDataFetched, handleDateSelect, onTaskAdd, filterStatus }) {
     return (
         <div className="dayList">
             {days && days.length > 0 ? (
@@ -143,11 +208,12 @@ function DayList({ days, tasks, onTaskAdd, onTaskEdit, onTaskDelete, weatherData
                             day={day.date.toLocaleDateString(undefined, { weekday: 'long' })}
                             date={day.date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}
                             tasks={tasks[day.date.toDateString()] || []}
-                            onTaskAdd={onTaskAdd}
                             onTaskEdit={onTaskEdit}
                             onTaskDelete={onTaskDelete}
                             weatherData={weatherDataFetched ? weatherData[day.date.toDateString()] : null}
                             key={index}
+                            onTaskAdd={onTaskAdd}
+                            filterStatus={filterStatus} // Pass filterStatus as a prop
                         />
                     </div>
                 ))

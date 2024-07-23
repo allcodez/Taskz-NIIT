@@ -50,6 +50,7 @@ export default function Calendar({ onDateSelect }) {
     const handleDateSelect = (date) => {
         onDateSelect(date);
         setSelectedDate(date);
+        console.log(date)
     };
 
     const renderCalendar = () => {

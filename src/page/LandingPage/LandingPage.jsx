@@ -10,11 +10,13 @@ import calendar from '../../asstes/images/calendar.jpg'
 import confetti from '../../asstes/images/confetti.jpg';
 import ai from '../../asstes/images/ai.jpg'
 import Slider from './Slider';
+import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 
 export default function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [activeLink, setActiveLink] = useState('#home');
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsMobile(!isMobile);
@@ -47,6 +49,15 @@ export default function LandingPage() {
     }
   };
 
+  const handleSignUp = () =>{
+    navigate('/signup')
+  }
+
+  const handleLogin = () =>{
+    navigate('/login')
+    console.log('login')
+  }
+
   return (
     <div>
       <nav className="navbar">
@@ -61,8 +72,8 @@ export default function LandingPage() {
             <li><a href="#contact" className={activeLink === '#contact' ? 'active' : ''} onClick={() => scrollToSection('contact')}>Contact</a></li>
           </ul>
           <div className="nav-buttons">
-            <button className="nav-button login">Login</button>
-            <button className="nav-button signup">Sign Up</button>
+            <button className="nav-button login" onClick={handleLogin}>Login</button>
+            <button className="nav-button signup" onClick={handleSignUp}>Sign Up</button>
           </div>
         </div>
         <button className="mobile-menu-icon" onClick={handleToggle}>
@@ -76,19 +87,19 @@ export default function LandingPage() {
             <p>With our brand new task manager, gain control over your every minute. Plan your day and make each minute count</p>
             <p>We help you plan your day, and manage your time effectively. With star tasks you get a super power; time control.</p>
             <p>Stay organized and boost your productivity with our simple, no-fuss task manager. Easily track your to-do lists and deadlines. Prioritize tasks and never miss a beat. Get things done effortlessly, every day!</p>
-            <button className='ad-button'>Sign up now!</button>
+            <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
           </div>
           <div className="spline">
-          <Spline className="actualSpline" scene="https://prod.spline.design/OyWDdiEZ26PUkid1/scene.splinecode" />
+            <Spline className="actualSpline" scene="https://prod.spline.design/OyWDdiEZ26PUkid1/scene.splinecode" />
           </div>
           <Spline className="mobileSpline" scene="https://prod.spline.design/FJRMT1Aiylro4fDL/scene.splinecode" />
         </div>
       </div>
-      <div id="features" className="section features">
-      <div className="title">
-        <h3>FEATURES</h3>
-        <div className="divider"></div>
-      </div>
+      <div id="features" className="section">
+        <div className="title">
+          <h3>FEATURES</h3>
+          <div className="divider"></div>
+        </div>
         <AOSComponent
           text1="Guided daily planning"
           text2="Be intentional about how you spend your time. Plan your day using a step-by-step routine."
@@ -99,7 +110,7 @@ export default function LandingPage() {
           aosDuration1={1000}
           aosDuration2={1000}
         />
-                <ReverseAos
+        <ReverseAos
           text1="Outdoor plans??"
           text2="We've got your back. With our weather feature optimize your outdoor plans and maximize your time."
           image={weather}
@@ -109,7 +120,7 @@ export default function LandingPage() {
           aosDuration1={1000}
           aosDuration2={1000}
         />
-                <AOSComponent
+        <AOSComponent
           text1="Celebrate your wins with us"
           text2="A win a day is exactly what the doctor recommends. Celebrate your wins with us everyday, every tasks completed is a reason to celebrate. You're one step closer to your goal."
           image={confetti}
@@ -119,7 +130,7 @@ export default function LandingPage() {
           aosDuration1={1000}
           aosDuration2={1000}
         />
-                        <ReverseAos
+        <ReverseAos
           text1="Need some help with planning??"
           text2="We've got your back. Our AI Star is always available to help you plan your tasks, and help you keep track of them."
           image={ai}
@@ -139,23 +150,23 @@ export default function LandingPage() {
           aosDuration1={1000}
           aosDuration2={1000}
         />
-</div>
-      <div id="about" className="section about">
-      <div className="title">
-        <h3>MEET THE TEAM</h3>
-        <div className="divider"></div>
       </div>
+      <div id="about" className="section about">
+        <div className="title">
+          <h3>MEET THE TEAM</h3>
+          <div className="divider"></div>
+        </div>
         <Slider />
       </div>
       <div className="urging">
         <h2>What are you waiting for? Sign up today!!</h2>
-        <button className='ad-button'>Sign up now!</button>
+        <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
       </div>
       <div id="contact" className="section">
-      <div className="title">
-        <h3>GET IN TOUCH</h3>
-        <div className="divider"></div>
-      </div>
+        <div className="title">
+          <h3>GET IN TOUCH</h3>
+          <div className="divider"></div>
+        </div>
       < Footer />
       </div>
     </div>

@@ -50,7 +50,7 @@
 
 .iconsCont i{
     font-size: 1.1rem;
-    color: var(--icon-color);
+    color: #109e1f !important;
 }
 
 .time {
@@ -80,7 +80,7 @@
     color: #2d6a4f;
 }
 
-.darkBg{
+.darkBg {
     background-color: rgba(216, 213, 213, 0.651);
     width: 100vw;
     z-index: 0;
@@ -98,7 +98,7 @@
     display: flex;
     justify-content: center;
     background-color: var(--sidebar-color);
-    width: 90%;
+    width: 610px;
     margin-top: 40px;
     margin-bottom: 40px;
     border-radius: 10px;
@@ -107,7 +107,7 @@
 }
 
 .modalI{
-    width: 100%;
+    width: 550px;
     padding: 20px;
     color: var(--text-default);
     display: flex;
@@ -332,89 +332,16 @@
 
 
 
-@media screen and (max-width: 800px) {
-    body{
-        /* background-color: red; */
-    }
-    .darkBg{
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        height: 0;
-        width: 73%;
-        margin-top: -30%;
-        margin-left: -20%;
-    }
-    .centered{
-        /* height: 500px; */
-        width: 70%;
-    }
-    .edit-task-modal .taskArea{
-        margin-top: 1.5rem;
-        display: block;
-    }
-    .taskDurations{
-        margin-left: 85%;
-    }
-    .modalI{
-        font-size: smaller;
+
+
+
+
+
+
+@media screen and (max-width: 700px) {
+    .centered {
+        margin-top: 0;
+        border-radius: 0;
+        height: 100vh;
     }
 }
-
-
-@media screen and (max-width: 500px) {
-    body{
-        /* background-color: red; */
-    }
-    .darkBg{
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        height: 0;
-        width: 83%;
-        margin-top: -60%;
-        margin-left: -12%;
-    }
-    .centered{
-        /* height: 500px; */
-        width: 77%;
-    }
-    .edit-task-modal .taskArea{
-        margin-top: 1.5rem;
-        display: block;
-    }
-    .taskDurations{
-        margin-left: 82%;
-    }
-    .modalI{
-        font-size: smaller;
-    }
-}
-
-
-@media screen and (max-width: 400px) {
-    body{
-        /* background-color: red; */
-    }
-    .darkBg{
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        height: 0;
-        width: 70%;
-        margin-top: -43%;
-        margin-left: -21.5%;
-    }
-    .centered{
-        /* height: 500px; */
-        width: 75%;
-    }
-    .modalI{
-        font-size: smaller;
-    }
-    .taskDurations{
-        margin-left: 75%;
-    }
-}
-
-
