@@ -75,9 +75,9 @@ const AddTask = ({ onTaskAdd }) => {
         const newTask = {
             taskName: taskName || null,
             taskDescription: taskName || null,
-            startTime: taskTime ? `${formatDateString(selectedDate)}T${taskTime}:00` : null,
-            endTime: endTime ? `${startDate ? formatDateString(startDate) : formatDateString(selectedDate)}T${endTime}:00` : null,
-            taskStatus: "PENDING",
+            startedAt: taskTime ? `${formatDateString(selectedDate)}T${taskTime}:00` : null,
+            endedAt: endTime ? `${startDate ? formatDateString(startDate) : formatDateString(selectedDate)}T${endTime}:00` : null,
+            status: "pending",
             taskCategory: selectedCategory || "Uncategorised",
             startDate: selectedDate ? formatDateString(selectedDate) : null  // Use selectedDate as startDate
         };
@@ -85,10 +85,10 @@ const AddTask = ({ onTaskAdd }) => {
         // Pass selectedDate directly to onTaskAdd
 
 
-        const token = sessionStorage.getItem('token');
+        // const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('userId');
 
-        if (!token || !userId) {
+        if (!userId) {
             console.error('No token or user ID found in session storage');
             // alert('You must be logged in to create a task.');
             return;
@@ -102,7 +102,7 @@ const AddTask = ({ onTaskAdd }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    // 'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(payload),
             });
@@ -117,7 +117,13 @@ const AddTask = ({ onTaskAdd }) => {
                 const tasks = await fetchTasks();
                 if (tasks) {
                     const tasksByDate = tasks.reduce((acc, task) => {
-                        const dateString = new Date(task.startDate).toDateString();
+                        // const dateString = new Date(task.startDate).toDateString();
+                        
+                        const startedAt = new Date(task.startedAt);
+                        
+                        // Extract just the date part and create a new startDate
+                        const startDate = new Date(startedAt.getFullYear(), startedAt.getMonth(), startedAt.getDate());
+                        const dateString = startDate.toDateString()
                         if (!acc[dateString]) {
                             acc[dateString] = [];
                         }

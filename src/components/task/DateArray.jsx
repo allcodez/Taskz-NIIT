@@ -127,11 +127,24 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
                 const tasks = await fetchTasks();
                 if (tasks) {
                     const tasksByDate = tasks.reduce((acc, task) => {
-                        const dateString = new Date(task.startDate).toDateString();
+                        // Parse the startedAt string into a Date object
+                        const startedAt = new Date(task.startedAt);
+                        
+                        // Extract just the date part and create a new startDate
+                        const startDate = new Date(startedAt.getFullYear(), startedAt.getMonth(), startedAt.getDate());
+                        const dateString = startDate.toDateString(); // or toLocaleDateString() if you prefer
+                        
                         if (!acc[dateString]) {
                             acc[dateString] = [];
                         }
-                        acc[dateString].push(task);
+                        
+                        // Add the task to the array with both startedAt and startDate
+                        acc[dateString].push({
+                            ...task,
+                            startedAt: startedAt,
+                            startDate: startDate
+                        });
+                        
                         return acc;
                     }, {});
                     setTasks(tasksByDate);
@@ -159,9 +172,9 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
 
     const fetchTasks = async () => {
         const userId = sessionStorage.getItem('userId');
-        const token = sessionStorage.getItem('token');
+        // const token = sessionStorage.getItem('token');
 
-        if (!userId || !token) {
+        if (!userId) {
             console.error('User ID or token not found in session storage');
             return;
         }
@@ -170,12 +183,12 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
             const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/all/${userId}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    // 'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (response.ok) {
+            if (response.status === 302) {
                 const tasks = await response.json();
                 console.log('Tasks retrieved successfully:', tasks);
                 return tasks;
@@ -190,6 +203,10 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
         }
     };
 
+    const handleTaskUpdate = () => {
+        setNeedsRefetch(true);
+    };
+
     return (
         <div className="dateArray" ref={scrollContainerRef}>
             <DayList
@@ -197,6 +214,7 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
                 tasks={tasks}
                 onTaskEdit={handleTaskEdit}
                 onTaskDelete={handleTaskDelete}
+                onTaskUpdate={handleTaskUpdate}
                 weatherData={weatherData}
                 weatherDataFetched={weatherDataFetched}
                 handleDateSelect={handleDateSelect}
@@ -208,7 +226,7 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
     );
 }
 
-function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDataFetched, handleDateSelect, filterStatus, dateRefs, currentDate }) {
+function DayList({ days, tasks, onTaskEdit, onTaskDelete, onTaskUpdate, weatherData, weatherDataFetched, handleDateSelect, filterStatus, dateRefs, currentDate }) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
 
@@ -234,6 +252,7 @@ function DayList({ days, tasks, onTaskEdit, onTaskDelete, weatherData, weatherDa
                                 tasks={tasks[dateString] || []}
                                 onTaskEdit={onTaskEdit}
                                 onTaskDelete={onTaskDelete}
+                                onTaskUpdate={onTaskUpdate}
                                 weatherData={weatherDataFetched ? weatherData[dateString] : null}
                                 key={index}
                                 filterStatus={filterStatus}

@@ -26,9 +26,9 @@ export const TaskProvider = ({ children }) => {
 
     const fetchTasks = async () => {
         const userId = sessionStorage.getItem('userId');
-        const token = sessionStorage.getItem('token');
+        // const token = sessionStorage.getItem('token');
 
-        if (!userId || !token) {
+        if (!userId) {
             console.error('User ID or token not found in session storage');
             return;
         }
@@ -37,12 +37,12 @@ export const TaskProvider = ({ children }) => {
             const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/all/${userId}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    // 'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (response.ok) {
+            if (response.status === 302) {
                 const tasks = await response.json();
                 console.log('Tasks retrieved successfully:', tasks);
                 return tasks;

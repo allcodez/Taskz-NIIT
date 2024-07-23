@@ -125,7 +125,7 @@ export default function SideBar({ onWorkspaceClick, isWorkspaceActive }) {
                     onClick={handleWorkspaceClick}
                 >
                     <a>
-                    <i class='bx bx-buildings icon'></i>
+                    <i className='bx bx-buildings icon'></i>
                         <span className="text nav-text">Workspace</span>
                     </a>
                 </li>

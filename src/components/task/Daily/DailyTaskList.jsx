@@ -15,6 +15,7 @@ export default function DailyTaskList({
     onTaskEdit,
     onTaskDelete,
     weatherData,
+    onTaskUpdate,
     filterStatus, // Receive filterStatus as a prop
 }) {
     const { setWeatherBarVisible, setSelectedDate, setSelectedWeatherData, setWeatherIcon, setLocation } =
@@ -25,7 +26,7 @@ export default function DailyTaskList({
 
     const calculateOverallProgress = () => {
         if (tasks.length === 0) return 0;
-        const completedTasks = tasks.filter(task => task.taskStatus === 'completed');
+        const completedTasks = tasks.filter(task => task.status === 'completed');
         return (completedTasks.length / tasks.length) * 100;
     };
 
@@ -118,7 +119,7 @@ export default function DailyTaskList({
                 </div>
             )} */}
             <AddTask onTaskAdd={onTaskAdd} />
-            <DailyList tasks={filteredTasks} onTaskEdit={onTaskEdit} onTaskDelete={onTaskDelete} />
+            <DailyList tasks={filteredTasks} onTaskUpdate={onTaskUpdate} onTaskEdit={onTaskEdit} onTaskDelete={onTaskDelete} />
         </div>
     );
 }
