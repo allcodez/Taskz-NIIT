@@ -77,14 +77,21 @@ export default function Login() {
                     if (response.ok) {
                         const data = await response.json();
                         console.log('Login successful:', data);
+                        console.log('Login payload:', payload);
 
                         // sessionStorage.setItem('token', data.token);
                         // sessionStorage.setItem('refreshToken', data.refreshToken);
                         sessionStorage.setItem('userId', data.id);  // Store user ID in session storage
+                        sessionStorage.setItem('userName', data.firstName);
+                        sessionStorage.setItem('lastName', data.lastName);
+                        sessionStorage.setItem('email', data.email);
+                        // sessionStorage.setItem('token', data.token);
+                        // sessionStorage.setItem('refreshToken', data.refreshToken);
                         navigate('/star-taskz');
                     } else {
                         const errorData = await response.json();
                         console.error('Login error:', errorData);
+                        console.error('Login payload:', payload);
                         setLoginError(errorData.message || 'Login failed');
                     }
                 } catch (error) {
@@ -143,22 +150,16 @@ export default function Login() {
                         body: JSON.stringify(payload),
                     });
 
-                    if (response.ok) {
+                    if (response.status === 200) {
                         const data = await response.json();
-                        if (data.statusCode === 200) {
-                            console.log('Google Login successful:', data);
+                        console.log('Google Login successful:', data);
+                        sessionStorage.setItem('userId', data.id);
 
-                            sessionStorage.setItem('token', data.token);
-                            sessionStorage.setItem('refreshToken', data.refreshToken);
-                            sessionStorage.setItem('userId', data.id);
+                        navigate('/star-taskz');
 
-                            navigate('/star-taskz');
-                        } else {
-                            console.error('Google Login error:', data);
-                            setLoginError(data.message || 'Google Login failed');
-                        }
                     } else {
                         const errorData = await response.json();
+                        console.log('Google payload', payload);
                         console.error('Google Login error:', errorData);
                         setLoginError(errorData.message || 'Google Login failed');
                     }

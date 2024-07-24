@@ -12,7 +12,6 @@ const ENV = {
     REACT_APP_SCOPES: 'https://www.googleapis.com/auth/calendar.readonly'
 };
 
-// Use the ENV object to access your variables
 const CLIENT_ID = ENV.REACT_APP_CLIENT_ID;
 const API_KEY = ENV.REACT_APP_API_KEY;
 const DISCOVERY_DOC = ENV.REACT_APP_DISCOVERY_DOC;
@@ -156,6 +155,59 @@ export default function GoogleCalendarBoard() {
         return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     };
 
+    const handleAddEvent = async (event) => {
+        // Retrieve the user ID from session storage
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+            console.error('User ID not found in session storage.');
+            return;
+        }
+    
+        // Function to format the date to match the format used in the AddTask component
+        const formatDateString = (date) => {
+            if (!date) return null;
+            const offset = date.getTimezoneOffset();
+            const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+            return adjustedDate.toISOString().split('T')[0];
+        };
+    
+        // Construct the task data payload
+        const taskData = {
+            taskName: event.summary, // Task name from the event summary
+            // taskDescription: event.description || event.summary, // Task description from the event description or summary
+            startedAt: event.start.dateTime ? event.start.dateTime : `${formatDateString(new Date(event.start.date))}T00:00:00`, // Start time of the event
+            // endedAt: event.end.dateTime ? event.end.dateTime : `${formatDateString(new Date(event.end.date))}T23:59:59`, // End time of the event
+            status: "pending", // Default status set to "pending"
+            // taskCategory: "Google Calendar Event", // Default category set to "Google Calendar Event"
+            // startDate: formatDateString(new Date(event.start.dateTime || event.start.date)) // Start date of the event
+        };
+    
+        console.log('taskData', taskData); // Log the task data for debugging
+    
+        try {
+            // Send the task data to the API endpoint
+            const response = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/add/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(taskData), // Convert task data to JSON string for the request body
+            });
+    
+            if (response.ok) {
+                // Handle the response if the request was successful
+                console.log('Event added successfully');
+            } else {
+                // Handle the response if the request failed
+                console.error('Failed to add event:', response.statusText);
+            }
+        } catch (error) {
+            // Catch and log any errors that occur during the fetch request
+            console.error('Error adding event:', error);
+        }
+    };
+    
+
     return (
         <>
             {!isSignedIn && (
@@ -195,7 +247,7 @@ export default function GoogleCalendarBoard() {
                                             <p>{event.summary}</p>
                                             <p>{formatEventTime(event.start.dateTime || event.start.date)}</p>
                                         </div>
-                                        <button>
+                                        <button onClick={() => handleAddEvent(event)}>
                                             <i className='bx bx-plus'></i>
                                         </button>
                                     </li>

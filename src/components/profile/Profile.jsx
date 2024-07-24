@@ -5,12 +5,15 @@ import Password from './changePassword/Password'
 import DeleteAccount from './delateAcct/DeleteAccount'
 import EmailPopup from './popUp/email/EmailPopup'
 import DeletePopup from './popUp/deleteAccount/DeletePopup'
+import { useNavigate } from 'react-router-dom';
 import PasswordPopup from './popUp/password/PasswordPopup'
 
 export default function Profile({ onClose }) {
     const [showEmailPopup, setShowEmailPopup] = useState(false)
     const [showDeletePopup, setShowDeletePopup] = useState(false)
     const [showPasswordPopup, setShowPasswordPopup] = useState(false)
+    const navigate = useNavigate(); // Initialize useHistory hook for navigation
+
 
     const handleChnageEmail = () => {
         setShowEmailPopup(true)
@@ -35,6 +38,13 @@ export default function Profile({ onClose }) {
     const handlePasswordChange = () =>{
         setShowPasswordPopup(true)
     }
+
+    const handleLogot = (e) => {
+        e.preventDefault();
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate('/login');
+    };
 
 
     return (
@@ -92,7 +102,10 @@ export default function Profile({ onClose }) {
                     <Email handleChnageEmail={handleChnageEmail} />
                     <Password handlePasswordChange={handlePasswordChange}/>
                     <DeleteAccount handleDeleteAccount={handleDeleteAccount}/>
-
+                    <button className='user-logout' onClick={handleLogot}>
+                        <i className='bx bx-log-out'></i>
+                        <span>Logout</span>
+                    </button>
                 </div>
 
             </div>

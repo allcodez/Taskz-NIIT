@@ -3,10 +3,10 @@ import React from 'react';
 export default function CategoryOption({ category, handleChange }) {
 
     const categoryOptions = [
-        { name: 'Personal' },
-        { name: 'Work' },
-        { name: 'Study' },
-        { name: 'Uncategorised' },
+        { name: 'personal' },
+        { name: 'work' },
+        { name: 'study' },
+        { name: 'uncategorised' },
     ];
 
     // Define an object to map category names to icon classes

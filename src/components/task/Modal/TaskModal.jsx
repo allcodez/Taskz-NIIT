@@ -12,14 +12,20 @@ import confettiAnimation from '../../../asstes/Lottie-confetii.json';
 import schedule from 'node-schedule';
 import { TaskContext } from '../../../../hooks/TaskContext';
 
+
 export default function TaskModal({ task, onTaskDelete, onTaskEdit, onTaskUpdate }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
-    const [editedTask, setEditedTask] = useState({});
+    // const [editedTask, setEditedTask] = useState({});
     const [showConfetti, setShowConfetti] = useState(false);
     const [alarmJobs, setAlarmJobs] = useState([]);
     const [activeNotifications, setActiveNotifications] = useState([]);
     const { setTasks, fetchTasks } = useContext(TaskContext);
+    // const { updateTask } = useContext(TaskContext);
+    // const [editedTask, setEditedTask] = useState(task);
+
+    const { updateTask, fetchTaskData } = useContext(TaskContext);
+    const [editedTask, setEditedTask] = useState(task)
 
     useEffect(() => {
         if (task) {
@@ -235,16 +241,16 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit, onTaskUpdate
     const handleSaveChanges = async () => {
         const userId = sessionStorage.getItem('userId');
         const taskId = editedTask.id;
-
+    
         if (!taskId) {
             console.warn('Task ID is not defined, skipping update.');
             return;
         }
-
+    
         const adjustedTime = new Date(editedTask.startedAt);
         adjustedTime.setHours(adjustedTime.getHours() + 1);
         const adjustedStartedAt = adjustedTime.toISOString();
-
+    
         try {
             // Update task name
             const nameResponse = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskName/${userId}/${taskId}`, {
@@ -254,7 +260,7 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit, onTaskUpdate
                 },
                 body: JSON.stringify({ taskName: editedTask.taskName }),
             });
-
+    
             // Update task time with adjusted time
             const timeResponse = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskDateTime/${userId}/${taskId}`, {
                 method: 'PUT',
@@ -263,27 +269,38 @@ export default function TaskModal({ task, onTaskDelete, onTaskEdit, onTaskUpdate
                 },
                 body: JSON.stringify({ startedAt: adjustedStartedAt }),
             });
-
-            if (nameResponse.ok && timeResponse.ok) {
-                const updatedTask = await timeResponse.json();
+    
+            // Update task category
+            const categoryResponse = await fetch(`https://star-taskz-backend.onrender.com/star-taskz/api/task/update-taskCategory/${userId}/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ taskCategory: editedTask.taskCategory }),
+            });
+    
+            if (nameResponse.ok && timeResponse.ok && categoryResponse.ok) {
+                const updatedTask = await categoryResponse.json();
                 console.log('Task updated successfully:', updatedTask);
-                const taskDate = new Date(updatedTask.startDate);
-                const dateString = taskDate.toDateString();
-                onTaskEdit(updatedTask.id, dateString, updatedTask);
-                scheduleAlarms();
-                
-                // Update local state
-                setEditedTask(updatedTask);
-
-                // Notify parent component about the update
-                onTaskUpdate();
+    
+                // Update the task in the context
+                updateTask(updatedTask);
+    
+                // Fetch the updated tasks
+                fetchTaskData();
+    
+                // Close the modal
+                close();
             } else {
                 console.error('Error updating task');
+                console.log('payload',      )
             }
         } catch (error) {
             console.error('Network error:', error);
         }
     };
+    
+    
 
     const handleDeleteTask = async () => {
         const userId = sessionStorage.getItem('userId');

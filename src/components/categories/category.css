@@ -83,3 +83,11 @@
     background-color: var(--primary-color);
     color: #fff;
 }
+
+.category-content p{
+    text-transform: capitalize;
+}
+
+.category-option-list span{
+    text-transform: capitalize;
+}

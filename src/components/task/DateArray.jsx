@@ -13,10 +13,15 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
     const [weatherDataFetched, setWeatherDataFetched] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [needsRefetch, setNeedsRefetch] = useState(false);
-    const { tasks, setTasks } = useContext(TaskContext);
+    const { setTasks } = useContext(TaskContext);
     const { selectedDate, setSelectedDate } = useContext(DateContext);
     const scrollContainerRef = useRef(null);
     const dateRefs = useRef({});
+    const { tasks, fetchTaskData } = useContext(TaskContext);
+
+    useEffect(() => {
+        fetchTaskData();
+    }, []);
 
     const handleTaskAdd = (selectedDate, newTask) => {
         setNeedsRefetch(true);
@@ -188,7 +193,7 @@ export default function DateArray({ filterStatus, setFilterStatus, onTasksUpdate
                 },
             });
 
-            if (response.status === 302) {
+            if (response.ok) {
                 const tasks = await response.json();
                 console.log('Tasks retrieved successfully:', tasks);
                 return tasks;

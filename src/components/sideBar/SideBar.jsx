@@ -18,9 +18,9 @@ export default function SideBar({ onWorkspaceClick, isWorkspaceActive }) {
 
     const categoriesData = [
         { name: 'All' },
-        { name: 'Work' },
-        { name: 'Personal' },
-        { name: 'Study' }
+        { name: 'work' },
+        { name: 'personal' },
+        { name: 'study' }
     ];
 
     const toggleSidebar = () => {

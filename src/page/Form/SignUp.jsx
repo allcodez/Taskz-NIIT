@@ -171,6 +171,8 @@ export default function SignUp() {
                     });
 
                     if (response.ok) {
+                        const data = await response.json();
+                        console.log('data', data)
                         console.log('Google Signup successful');
                         navigate('/login');
                     } else {

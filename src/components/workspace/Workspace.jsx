@@ -12,18 +12,18 @@ export default function Workspace({ workspaces, onCreateWorkspace }) {
         <div className="workspace-container">
             <h2>Welcome to Your Workspace</h2>
 
-            <>
+            {/* <>
                 <CreatedWorkSpace onCreateWorkspace={onCreateWorkspace}/>
                 <InvitedWorkSpace />
-            </>
-            {/* <div className="workspace-header">
+            </> */}
+            <div className="workspace-header">
                 <button onClick={onCreateWorkspace}>
                     <i className='bx bx-plus'></i>
                     <p>Create Workspace</p>
                 </button>
-            </div> */}
+            </div>
 
-            {/* {workspaces.length === 0 ? (
+            {workspaces.length === 0 ? (
                 <div className="workspace-content">
                     <img src={Placeholder} alt="" />
                     <p>No workspace created</p>
@@ -36,7 +36,7 @@ export default function Workspace({ workspaces, onCreateWorkspace }) {
                         </div>
                     ))}
                 </div>
-            )} */}
+            )}
         </div>
     );
 };
