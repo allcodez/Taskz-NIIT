@@ -4,9 +4,11 @@
     padding-left: 10%;
     padding-right: 10%;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     gap: 250px;
     margin-bottom: -100px;
+    overflow: hidden;
 }
 
 .text-container{
@@ -33,35 +35,42 @@
     transform: rotate(-10deg);   
 }
 
-.two img{
+.three img{
     height: fit-content;
     width: 300px;
     box-shadow: 5px 5px 10px 5px rgb(104, 114, 104);
 }
 
-.two img:hover{
+.three img:hover{
     transform: rotate(10deg);
 }
 
-@media screen and (max-width:786px){
-    .actualSpline{
-        display: none;
-    }
-
-    .ad-button{
+@media screen and (max-width:1000px){
+    .aos-component{
+        display: flex;
+        margin-top: 400px;
+        align-items: center;
         width: 100%;
+        padding: 80px;
     }
-
-    .advert{
-        position: relative;
-        height: 600px;
+    .text-container h2{
+        font-size: 60px;
+        line-height: 60px;
+        margin-top: -20%;
     }
-
-    .advert h1{
-        line-height: 80px;
-        font-size: 70px;
+    .three img{
+        width: 200px;
+        margin-top: -80px;
     }
+   .one{
+        width: 60%;
+    }
+    .two{
+        width: 40%;
+    } 
+}
 
+@media screen and (max-width: 830px){
     #features{
         margin-top: -300px;
     }
@@ -92,195 +101,153 @@
     }
 
     .aos-component{
-        /* flex-direction: column; */
-        margin-top: 400px;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        gap: 25px;
-        padding: 10px;
+        display: flex;
+        justify-content: space-between !important;
+        /* padding-l: 20px !important; */
     }
-    .two img{
-        width: 200px;
-        margin-top: -180px;
-    }
+    
     .text-container h2{
         font-weight: 100 !important;
-        /* color: red; */
-        margin-top: -200px !important;
+        margin-top: 0px !important;
         font-size: 50px !important;
     }
     .one{
-        width: 60%;
+        width: 40%;
     }
     .two{
-        width: 40%;
+        width: 60%;
     }
 }
 
-@media screen and (max-width: 500px) {
-    body{
+@media screen and (max-width: 780px) {
+   .aos-component{
+        display: flex;
+        padding: 5%;
+        padding-left: 10%;
+        padding-right: 10%;
+        align-items: center;
         width: 100%;
-        overflow-x: hidden;
-    }
-    
-    .ad-container{
-        padding: 20px;
-    }
+        gap: 40%;
+        margin-bottom: -100px;
+        overflow: hidden;
+        /* justify-content: space-between !important; */
 
-        .navbar{
-            padding-right: 120px;
-        }
+    }
     
-        .nav-links-container {
-          display: none;
-        }
-        .nav-links-mobile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: absolute;
-          top: 70px;
-          left: 0;
-          width: 100%;
-          background: white;
-          padding: 1rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          justify-content: space-between;
-        }
-        .nav-links-mobile li {
-          margin-bottom: 1rem;
-        }
-        .nav-buttons {
-          flex-direction: column;
-          margin-left: 0;
-        }
-        #features{
-            margin-top: -450px !important;
-        }
-        .mobile-menu-icon {
-          display: block;
-          /* margin-left: -90px; */
-        }
-        .advert{
-            position: relative;
-        }
-        .advert p{
-            width: 100%;
-        }
-        .advert h1{
-            font-size: 55px;
-            line-height: 55px;
-            font-weight: 600;
-        }
-        .spline .actualSpline{
-            display: none;
-        }
-        .mobileSpline{
-        display: block;
-        z-index: 0;
-        position: absolute;
-        top: 0;
-        margin: 0;
-        right: 0;
-        margin-top: 150px;
-        margin-right: -10%;
-        }
+}
+
+@media screen and (max-width: 765px) {
+    .aos-component{
+        display: flex;
+        padding: 5%;
+        padding-left: 10%;
+        padding-right: 10%;
+        align-items: center;
+        width: 100%;
+        gap: 30%;
+        margin-bottom: -100px;
+        overflow: hidden;
+        /* justify-content: space-between !important; */
+    }
+    .featureTitle{
+        margin-bottom: -390px !important;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    .aos-component{
+        display: flex;
+        padding: 5%;
+        padding-left: 10%;
+        padding-right: 10%;
+        align-items: center;
+        width: 100%;
+        gap: 20%;
+        margin-bottom: -100px;
+        overflow: hidden;
+        /* justify-content: space-between !important; */
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .aos-component{
+        display: flex;
+        padding: 5%;
+        padding-left: 10%;
+        padding-right: 10%;
+        align-items: center;
+        width: 100%;
+        gap: 20%;
+        margin-bottom: -100px;
+        overflow: hidden;
+    }
+    .text-container h2{
+        font-weight: 500 !important;
+        line-height: 40px;
+        font-size: 40px !important;
+    }
+}
+
+@media screen and (max-width: 510px) {
         .aos-component{
-            /* flex-direction: column; */
-            margin-top: 350px;
-            justify-content: center;
+            display: flex;
+            padding: 5%;
+            padding-left: 2%;
+            padding-right: 2%;
             align-items: center;
-            width: 100% !important;
-            /* gap: px; */
-            padding: 10px;
-        }
-        .two img{
-            width: 150px;
-            margin-top: -180px;
-        }
-        .one .pic{
-                /* width: 150px;
-                margin-top: -90px !important; */
+            width: 100%;
+            gap: 25%;
+            margin-bottom: -100px;
+            overflow: hidden;
         }
         .text-container h2{
-            font-weight: 100;
-            /* color: red; */
-            margin-top: -200px !important;
-            font-size: 40px !important;
-            line-height: 38px !important;
-            width: 60%;
+            font-weight: 500 !important;
+            line-height: 35px;
+            font-size: 27px !important;
         }
         .text-container p{
-            width: 160px;
+            font-size: 15px !important;
+            margin-top: 30px;
         }
-        .one{
-            width: 60%;
+        .advert p{
+            text-align: center;
+            margin-left: 70px !important;
         }
-        .two{
-            width: 40%;
-            margin-left:-70px ;
-        }
-        .pic{
-            width: 150px;
-            width: 150px;
-                margin-top: -180px !important;
-        }
-      }
+    }
     
 
-      @media screen and (max-width: 400px) {
-        body{
-            width: 100%;
-            overflow-x: hidden;
-        }
+@media screen and (max-width: 400px) {
+    .aos-component{
+        display: flex;
+        /* padding: 5%; */
+        padding-right: 2%;
+        padding-left: .5% !important;
+        align-items: center;
+        width: 100%;
+        gap: 80px;
+        margin-bottom: -100px;
+        overflow: hidden;
+    }
+    .text-container h2{
+        font-weight: 500 !important;
+        line-height: 35px;
+        font-size: 27px !important;
+    }
+    .text-container p{
+        font-size: 15px !important;
+        margin-top: 30px;
+    }
+    .advert p{
+        text-align: center;
+        margin-left: 70px !important;
+    }
+    .aos-component img{
+        width: 140px;
+    }      
+}
 
-        .navbar{
-            padding-right: 70px;
-        }
-        
-            #features{
-                margin-top: -220px !important;
-                /* background-color: red; */
-            }
-           
-            .advert h1{
-                font-size: 40px;
-                line-height: 38px;
-            }
 
-            .aos-component{
-                /* flex-direction: column; */
-                margin-top: 350px;
-                justify-content: center;
-                align-items: center;
-                width: 100% !important;
-                /* gap: px; */
-                padding: 10px;
-            }
-            img{
-                width: 150px;
-                margin-top: -180px;
-            }
-            .text-container h2{
-                font-weight: 100;
-                /* color: red; */
-                margin-top: -200px !important;
-                font-size: 35px !important;
-                line-height: 38px !important;
-                width: 50%;
-            }
-            .text-container p{
-                width: 160px;
-            }
-            .one{
-                width: 60%;
-            }
-            .two{
-                width: 40%;
-                margin-left:-70px ;
-            }
-            .pic{
-                width: 150px;
-            }
-          }
+
+
+
+

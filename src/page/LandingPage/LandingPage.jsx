@@ -9,9 +9,13 @@ import weather from '../../asstes/images/Screenshot (22).png'
 import calendar from '../../asstes/images/calendar.jpg'
 import confetti from '../../asstes/images/confetti.jpg';
 import ai from '../../asstes/images/ai.jpg'
+import logo from '../../asstes/images/logo.jpg'
 import Slider from './Slider';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
+import Button from './Button';
+import Reviews from './Reviews';
+import qr from '../../asstes/images/qr1.jpg'
 
 export default function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -61,9 +65,10 @@ export default function LandingPage() {
   }
 
   return (
-    <div>
+    <div className="landingPage">
       <nav className="navbar">
         <div className="logo">
+          <img src={logo} alt="logo" />
           <h1>STAR TASKS</h1>
         </div>
         <div className={isMobile ? 'nav-links-mobile' : 'nav-links-container'}>
@@ -85,20 +90,24 @@ export default function LandingPage() {
       <div id="home" className="section">
         <div className="ad-container">
           <div className="advert">
-            <h1>Control your time better</h1>
+            <h1>Make work-life</h1>
+            <h1> balance a reality</h1>
             <p>With our brand new task manager, gain control over your every minute. Plan your day and make each minute count</p>
-            <p>We help you plan your day, and manage your time effectively. With star tasks you get a super power; time control.</p>
-            <p>Stay organized and boost your productivity with our simple, no-fuss task manager. Easily track your to-do lists and deadlines. Prioritize tasks and never miss a beat. Get things done effortlessly, every day!</p>
-            <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
+            {/* <p>We help you plan your day, and manage your time effectively. With star tasks you get a super power; time control.</p>
+            <p>Stay organized and boost your productivity with our simple, no-fuss task manager. Easily track your to-do lists and deadlines. Prioritize tasks and never miss a beat. Get things done effortlessly, every day!</p> */}
+            {/* <button className='ad-button' onClick={handleSignUp}>Sign up now!</button> */}
+            <Button onClick={handleSignUp} hoverText={"Sign up now"}/>
           </div>
-          <div className="spline">
-            <Spline className="actualSpline" scene="https://prod.spline.design/OyWDdiEZ26PUkid1/scene.splinecode" />
-          </div>
-          <Spline className="mobileSpline" scene="https://prod.spline.design/FJRMT1Aiylro4fDL/scene.splinecode" />
+        </div>
+        <div className="spliner">
+          <Spline scene="https://prod.spline.design/Z9xmmOJEs0c9P-Eu/scene.splinecode" />
+        </div>
+        <div className="review">
+          <Reviews />
         </div>
       </div>
-      <div id="features" className="section">
-        <div className="title">
+      <div id="features" className="section feat">
+        <div className="title featureTitle">
           <h3>FEATURES</h3>
           <div className="divider"></div>
         </div>
@@ -107,50 +116,30 @@ export default function LandingPage() {
           text2="Be intentional about how you spend your time. Plan your day using a step-by-step routine."
           image={tasks}
           altText="Tasks"
-          aosAnimationType1="slide-left"
-          aosAnimationType2="slide-right"
-          aosDuration1={1000}
-          aosDuration2={1000}
         />
         <ReverseAos
           text1="Outdoor plans??"
           text2="We've got your back. With our weather feature optimize your outdoor plans and maximize your time."
           image={weather}
-          altText="Tasks"
-          aosAnimationType1="fade-in"
-          aosAnimationType2="slide-right"
-          aosDuration1={1000}
-          aosDuration2={1000}
+          altText="Tasks"  
         />
         <AOSComponent
           text1="Celebrate your wins with us"
           text2="A win a day is exactly what the doctor recommends. Celebrate your wins with us everyday, every tasks completed is a reason to celebrate. You're one step closer to your goal."
           image={confetti}
           altText="Tasks"
-          aosAnimationType1="fade-right"
-          aosAnimationType2="fade-out"
-          aosDuration1={1000}
-          aosDuration2={1000}
         />
         <ReverseAos
           text1="Need some help with planning??"
           text2="We've got your back. Our AI Star is always available to help you plan your tasks, and help you keep track of them."
           image={ai}
           altText="Tasks"
-          aosAnimationType1="flip-left"
-          aosAnimationType2="zoom-in"
-          aosDuration1={1000}
-          aosDuration2={1000}
-        />
+               />
         <AOSComponent
           text1="Time boxing"
           text2="Schedule your tasks to your calendar. Complete your plan for the day."
           image={calendar}
           altText="Tasks"
-          aosAnimationType1="flip-up"
-          aosAnimationType2="fade-out-right"
-          aosDuration1={1000}
-          aosDuration2={1000}
         />
       </div>
       <div id="about" className="section about">
@@ -161,6 +150,12 @@ export default function LandingPage() {
         <Slider />
       </div>
       <div className="urging">
+      <AOSComponent
+          text1="Download our mobile app"
+          // text2="Be intentional about how you spend your time. Plan your day using a step-by-step routine."
+          image={qr}
+          altText="Tasks"
+        />
         <h2>What are you waiting for? Sign up today!!</h2>
         <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
       </div>
@@ -174,3 +169,6 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
