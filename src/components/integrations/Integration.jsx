@@ -25,7 +25,7 @@ export default function Integration({ onToggle, onSelectPlatform, isIntegrationB
                 }}>
                     <img src={GoogleCalendar} alt="Google Calendar" />
                 </div>
-                <div className='integration-box' onClick={(e) => {
+                {/* <div className='integration-box' onClick={(e) => {
                     e.stopPropagation();
                     handlePlatformSelect('github');
                 }}>
@@ -36,7 +36,7 @@ export default function Integration({ onToggle, onSelectPlatform, isIntegrationB
                     handlePlatformSelect('notion');
                 }}>
                     <img src={Notion} alt="Notion" />
-                </div>
+                </div> */}
             </div>
         </div>
     );

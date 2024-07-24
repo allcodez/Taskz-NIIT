@@ -16,18 +16,18 @@ export default function IntegrationBoard({ selectedPlatform }) {
                         <GoogleCalendarBoard />
                     </>
                 );
-            case 'github':
-                return (
-                    <>
-                        <GithubBoard/>
-                    </>
-                );
-            case 'notion':
-                return (
-                    <>
-                        <NotionBoard/>
-                    </>
-                );
+            // case 'github':
+            //     return (
+            //         <>
+            //             <GithubBoard/>
+            //         </>
+            //     );
+            // case 'notion':
+            //     return (
+            //         <>
+            //             <NotionBoard/>
+            //         </>
+            //     );
             default:
                 return (
                     <>
@@ -44,7 +44,7 @@ export default function IntegrationBoard({ selectedPlatform }) {
                                 </div>
                                 <button>Add Calendar</button>
                             </div>
-
+{/* 
                             <div className='integration-board-platforms-content'>
                                 <div className="integration-board-platforms-box">
                                     <img src={GitHub} alt="" />
@@ -57,7 +57,7 @@ export default function IntegrationBoard({ selectedPlatform }) {
                                     <img src={Notion} alt="" />
                                 </div>
                                 <button>Add Notion</button>
-                            </div>
+                            </div> */}
 
                         </div>
                     </>
