@@ -150,7 +150,7 @@ export default function Login() {
                         body: JSON.stringify(payload),
                     });
 
-                    if (response.status === 200) {
+                    if (response.ok) {
                         const data = await response.json();
                         console.log('Google Login successful:', data);
                         sessionStorage.setItem('userId', data.id);
