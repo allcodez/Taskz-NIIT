@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Button from './Button';
 import Reviews from './Reviews';
+import qr from '../../asstes/images/qr1.jpg'
 
 export default function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -149,6 +150,12 @@ export default function LandingPage() {
         <Slider />
       </div>
       <div className="urging">
+      <AOSComponent
+          text1="Download our mobile app"
+          // text2="Be intentional about how you spend your time. Plan your day using a step-by-step routine."
+          image={qr}
+          altText="Tasks"
+        />
         <h2>What are you waiting for? Sign up today!!</h2>
         <button className='ad-button' onClick={handleSignUp}>Sign up now!</button>
       </div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 import '../LandingPage/reviews.css';
-import ReviewExp from "../../asstes/images/reviewExp.webp"
+import ReviewExp from "../../asstes/images/reviewExp.webp";
+import clara from "../../asstes/images/clara.jpg";
+import alero from "../../asstes/images/alero.jpg";
 
 const MAX_VISIBILITY = 3;
 const AUTO_SLIDE_INTERVAL = 5000; // 5 seconds
@@ -60,18 +62,26 @@ const Carousel = ({ children }) => {
 
 const cardData = [
   {
+    review: "Star Tasks' ",
+    coloredText: "neat project layout and automated reminders ",
+    reviewResumes: "have made juggling multiple deadlines a breeze, it's a game-changer for busy professionals.",
+    imageSrc: clara,
+    name: "Favour Momodu",
+    position: "Intern at NIIT"
+  },
+  {
     review: "Star-Tasks helps me make ",
     coloredText: "better decisions and stay focused ",
     reviewResumes: "on my priorities rather than just reacting to my schedule.",
     imageSrc: ReviewExp,
-    name: "Chinyere Surname",
-    position: "Counselor at NIIT"
+    name: "John Madu",
+    position: "Counselor"
   },
   {
     review: "The tool that has had the ",
     coloredText: "greatest impact on my life and my productivity is unquestionably ",
     reviewResumes: "Star Tasks.",
-    imageSrc: ReviewExp,
+    imageSrc: alero,
     name: "Alero Surname",
     position: "Manager at NIIT"
   },
@@ -79,7 +89,7 @@ const cardData = [
     review: "I use Star Tasks to help me ",
     coloredText: "keep track of everything ",
     reviewResumes: "and make sure the most important things get  done.",
-    imageSrc: ReviewExp,
+    imageSrc: clara,
     name: "Chinanu Nwachukwu",
     position: "Project Manger "
   },
@@ -98,15 +108,8 @@ const cardData = [
     imageSrc: ReviewExp,
     name: "Timothy Surname",
     position: "Youth Corper"
-  },
-  {
-    review: "Star Tasks' ",
-    coloredText: "neat project layout and automated reminders ",
-    reviewResumes: "have made juggling multiple deadlines a breeze, it's a game-changer for busy professionals.",
-    imageSrc: ReviewExp,
-    name: "Favour Momodu",
-    position: "Intern at NIIT"
   }
+
 ];
 
 const Reviews = () => (
